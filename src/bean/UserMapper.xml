@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="dao.UserMapper">
+	<select id="loginUser" parameterType="bean.User"
+		resultType="bean.User">
+			select * from FOUR_USER_TB where USER_NAME =#{user_name} and  USER_PSW=#{user_psw}
+		
+		</select>
+</mapper>
