@@ -40,6 +40,9 @@
 			</ul>
       
       <ul class="nav navbar-nav navbar-right">
+     	<!-- 	停车场入口开始 -->
+      	<li><a href=<%=basepath+"/park/entrance.action" %>>停车入口</a></li>
+      	<!-- 	停车场入口结束 -->
        	<li><a href=<%=basepath+"/pageShift.action?req=login" %>>用户登录</a></li>
        	<li><a href=<%=basepath+"/pageShift.action?req=admin_login" %>>管理登录</a></li>
         <li><a href="#">帮助</a></li>

@@ -20,16 +20,16 @@
 		<property name="password" value="JX170901" />
 	</bean>
 	
-	<bean id="seesionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="myDataSource"></property>
-		<property name="mapperLocations" value="classpath:bean/*.xml" />
-	</bean>
+<!-- 	<bean id="seesionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> -->
+<!-- 		<property name="dataSource" ref="myDataSource"></property> -->
+<!-- 		<property name="mapperLocations" value="classpath:bean/*.xml" /> -->
+<!-- 	</bean> -->
 
 	<!--扫描 -->
-	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="sqlSessionFactory" ref="seesionFactory"></property>
-		<property name="basePackage" value="dao" />
-	</bean>
+<!-- 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"> -->
+<!-- 		<property name="sqlSessionFactory" ref="seesionFactory"></property> -->
+<!-- 		<property name="basePackage" value="dao" /> -->
+<!-- 	</bean> -->
  
 	<!-- 开启组件扫描 -->
 	<context:component-scan base-package="org.gzhz.*" />

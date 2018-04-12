@@ -15,7 +15,7 @@
 		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd ">
 		
 		
-        <context:component-scan base-package="com.example.web"></context:component-scan>
+        <context:component-scan base-package="org.gzhz.*"></context:component-scan>
 		
 		<!-- mvc的注解驱动，通过它可以省去上面的两行bean的配置 -->
 		<mvc:annotation-driven></mvc:annotation-driven>
