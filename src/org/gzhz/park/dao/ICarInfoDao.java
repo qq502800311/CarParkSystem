@@ -14,6 +14,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ICarInfoDao {
 	
-	public CarInfo partAddCar(CarInfo car);
+	public int partAddCar(CarInfo car);
 
 }

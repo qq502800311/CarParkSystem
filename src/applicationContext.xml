@@ -22,7 +22,7 @@
 	
 	<bean id="seesionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="myDataSource"></property>
-		<property name="mapperLocations" value="classpath:org/gzhz/park/bean/*.xml" />
+		<property name="mapperLocations" value="classpath:org/gzhz/*/*/*.xml" />
 	</bean>
 
 	<!--扫描 -->
@@ -31,11 +31,6 @@
 		<property name="basePackage" value="org.gzhz.park.dao" />
 	</bean>
 	
-	<!--黄彪华扫描 -->
-	<bean id="seesionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="myDataSource"></property>
-		<property name="mapperLocations" value="classpath:org/gzhz/charge/bean/*.xml" />
-	</bean>	
 	<!--黄彪华扫描 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="sqlSessionFactory" ref="seesionFactory"></property>

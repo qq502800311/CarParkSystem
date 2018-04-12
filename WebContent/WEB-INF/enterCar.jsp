@@ -5,7 +5,6 @@
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-	String basepath = application.getContextPath();
 %>
 
 <html>
@@ -14,63 +13,23 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>停车场入口页面</title>
 
-<script type="text/javascript" charset="UTF-8" src="js/jquery-3.3.1.js" ></script>
-
 <link rel="stylesheet" type="text/css" href="css/bootstrap.css" > </link>  
+<script type="text/javascript" charset="UTF-8" src="js/jquery-3.3.1.js" ></script>
 <script type="text/javascript" charset="UTF-8" src= "js/bootstrap.js"></script>
-
-<!-- LED显示效果JS开始 -->
-<script language="javascript">
-	function getCurDate() {
-		var d = new Date();
-		var week;
-		switch (d.getDay()) {
-		case 1:
-			week = "星期一";
-			break;
-		case 2:
-			week = "星期二";
-			break;
-		case 3:
-			week = "星期三";
-			break;
-		case 4:
-			week = "星期四";
-			break;
-		case 5:
-			week = "星期五";
-			break;
-		case 6:
-			week = "星期六";
-			break;
-		default:
-			week = "星期天";
-		}
-		var years = d.getFullYear();
-		var month = add_zero(d.getMonth() + 1);
-		var days = add_zero(d.getDate());
-		var hours = add_zero(d.getHours());
-		var minutes = add_zero(d.getMinutes());
-		var seconds = add_zero(d.getSeconds());
-		var ndate = years + "年" + month + "月" + days + "日 " + hours + ":"
-				+ minutes + ":" + seconds + " " + week;
-		var divT = document.getElementById("systimeshow");
-		divT.innerHTML = ndate;
-	}
-
-	function add_zero(temp) {
-		if (temp < 10)
-			return "0" + temp;
-		else
-			return temp;
-	}
-	setInterval("getCurDate()", 100);
-</script>
-<!-- LED显示效果JS结束 -->
+<script type="text/javascript" charset="UTF-8" src= "js/my/enterCar.js"></script>
 
 <script type="text/javascript" language="javascript">
-
-	
+var clickBtn = function(){
+		$.ajax({
+			url: "park/userinfo3.action",
+			type: "POST",
+			data:{"username":"zhangsan", "password" : "123"},
+			success : function(res){
+				console.log(res);
+				alert(res.user_name);
+			}
+		});
+	};
 </script>
 
 </head>
@@ -137,20 +96,23 @@
 		</div>
 		<font color="white">
 		<div class="col-md-8 column">
-			<form class="form-horizontal" role="form" action="park/entranceDisplay.action" method="post">
+			<form class="form-horizontal" role="form"  method="post">
 				<div class="form-group">
 					 <label for="inputEmail3" class="col-sm-4 control-label">请输入车牌</label>
 					<div class="col-sm-4">
-						<input class="form-control" type="text" name="carLisence"/>
+						<input class="form-control" type="text" id="carLisence" name="carLisence"/>
 					</div>
    				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-4 col-sm-4">
-						 <button type="submit" class="btn btn-default">提交车牌</button>
+						 <button onclick="clickBtn()" class="btn btn-default">提交车牌</button>
 					</div>
 				</div>
 			</form>
-			
+			<form action="park/fileact.action" method="post" enctype="multipart/form-data">
+     			请选择文件:<input type="file" name="fileact">
+     			<input type="submit" value="提交">
+     		</form>
 		</div>
 		</font>
 		<div class="col-md-2 column">

@@ -18,3 +18,8 @@ junit 4
 * @version 1.0.001
 * @description 添加了原来的实例代码
 */
+/** 
+* @date 更新时间：2018年4月12日 下午21:50:09 
+* @version 1.0.001
+* @description 实现车牌图片上传到webapp文件夹的image处，且和黄彪华版本合并成功
+*/

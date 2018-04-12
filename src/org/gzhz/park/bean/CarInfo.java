@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class CarInfo {
 	
 	private Integer car_park_id;		//停车信息ID
-	private String	car_park_license;	//车辆牌照
+	private String 	car_park_license;	//车辆牌照
 	private String 	car_in_time;		//车辆进入时间
 	private Integer car_park_type;		//车辆类型
 	private Integer carport_id;			//车辆停放车位编号
