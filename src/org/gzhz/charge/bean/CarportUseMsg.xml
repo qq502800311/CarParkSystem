@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="org.gzhz.charge.dao.CarportUserMsgMapper">
+
+	<!-- 查找车位使用情况信息 -->
+ 	<select id="findAllMsg" resultType="org.gzhz.charge.bean.CarportUserMsg">
+		select * from carport_msg_tb
+	</select>	 
+</mapper>
