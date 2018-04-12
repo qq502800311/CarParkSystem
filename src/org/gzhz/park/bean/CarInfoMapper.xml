@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>  
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
-<mapper namespace="dao.UserMapper">
-		
+<mapper namespace="org.gzhz.park.dao.ICarInfoDao">
 <!-- 	文档上传界面的数据库插入数据部分开始 -->
 	<insert id="partAddCar" parameterType="org.gzhz.park.bean.CarInfo" >
-		<selectKey keyProperty="d_id" order="BEFORE" resultType="java.lang.Integer">
+		<selectKey keyProperty="car_park_id" order="BEFORE" resultType="java.lang.Integer">
 			select CAR_PARK_INFO_TB.nextval from dual
 		</selectKey>
 		insert into CAR_PARK_INFO_TB values(
@@ -17,10 +16,4 @@
 		#{car_park_status,jdbcType=VARCHAR}
 		)
 	</insert>
-<!-- 	文档上传界面的数据库插入数据部分结束 -->	
-	<select id="666" parameterType="org.gzhz.park.bean.CarInfo"
-		resultType="bean.User">
-			select * from FOUR_USER_TB where USER_NAME =#{user_name} and  USER_PSW=#{user_psw}
-		
-		</select>
 </mapper>

@@ -45,9 +45,8 @@ public class ParkHandler {
 	* @description 根据入口得到的车牌向车场表中添加车辆信息  
 	* @return  true/false
 	*/
-	@RequestMapping("/entranceDisplay.action")
-	public boolean pageToEntranceDisplay(HttpServletRequest request, 
-			@RequestParam(value="carLisence", required=true, defaultValue="empty")String carLisence){
+	@RequestMapping(value="/entranceDisplay.action")
+	public boolean pageToEntranceDisplay(HttpServletRequest request, String carLisence){
 		boolean flag = false;
 		System.out.println("得到的车牌号是："+carLisence);
 //		iCarInfoDao

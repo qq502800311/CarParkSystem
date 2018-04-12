@@ -5,6 +5,7 @@
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+	String basepath = application.getContextPath();
 %>
 
 <html>
@@ -134,30 +135,24 @@
 	<div class="row clearfix">
 		<div class="col-md-2 column">
 		</div>
+		<font color="white">
 		<div class="col-md-8 column">
-			<font color="white">
 			<form class="form-horizontal" role="form" action="park/entranceDisplay.action" method="post">
 				<div class="form-group">
 					 <label for="inputEmail3" class="col-sm-4 control-label">请输入车牌</label>
 					<div class="col-sm-4">
-						<input class="form-control"  id="user_name" name="user_name" onblur="check_username()"/>
+						<input class="form-control" type="text" name="carLisence"/>
 					</div>
-   
-				<div class="form-group">
-					<div class="col-sm-offset-2 col-sm-10">
-						<div class="checkbox">
-<!-- 							 <label><input type="checkbox" name="autologin" value="ok"/>记住我</label> -->
-						</div>
-					</div>
-				</div>
+   				</div>
 				<div class="form-group">
 					<div class="col-sm-offset-4 col-sm-4">
 						 <button type="submit" class="btn btn-default">提交车牌</button>
 					</div>
 				</div>
 			</form>
-			</font>
+			
 		</div>
+		</font>
 		<div class="col-md-2 column">
 		</div>
 	</div>
