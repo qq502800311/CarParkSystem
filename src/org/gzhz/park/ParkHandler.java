@@ -9,7 +9,10 @@ import javax.servlet.http.HttpSession;
 
 import org.gzhz.park.bean.CarInfo;
 import org.gzhz.park.dao.ICarInfoDao;
+import org.gzhz.tool.MyDateUnitl;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +34,10 @@ import bean.User;
 public class ParkHandler {
 	@Resource
 	private ICarInfoDao iCarInfoDao;
+	@Resource
+	private MyDateUnitl myDateUnitl;
+	
+	
 	/** 
 	* @author  作者 E-mail: 郭智雄
 	* @date 创建时间：2018年4月12日 下午08:21:49 
@@ -74,7 +81,8 @@ public class ParkHandler {
 	public @ResponseBody CarInfo pageToEntranceDisplay(String carLisence){
 		String flag = "false";
 		System.out.println("得到的车牌号是："+carLisence);
-		String date = "2018-04-13 13:52:56";
+		String date = myDateUnitl.getNowDate();
+		System.out.println("当前日期是："+date);
 		CarInfo car = new CarInfo(carLisence,date);
 		int i  = iCarInfoDao.partAddCar(car);
 		if(i!=1){
@@ -100,7 +108,8 @@ public class ParkHandler {
 	public @ResponseBody CarInfo pageToExportDisplay(String carLisence){
 		String flag = "false";
 		System.out.println("得到的车牌号是："+carLisence);
-		String date = "2018-04-13 13:52:56";
+		String date = myDateUnitl.getNowDate();
+		System.out.println("当前日期是："+date);
 		CarInfo car = new CarInfo(carLisence,date);
 		int i  = iCarInfoDao.partDeleteCar(car);
 		if(i!=1){
