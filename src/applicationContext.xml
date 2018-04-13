@@ -44,6 +44,13 @@
 	</bean>
 	<!--詹良斌 扫描结束 -->
 	
+	<!--郑伟豪 扫描开始 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="sqlSessionFactory" ref="seesionFactory"></property>
+		<property name="basePackage" value="org.gzhz.manage.dao" />
+	</bean>
+	<!--郑伟豪 扫描结束 -->
+	
 	<!-- 开启组件扫描 -->
 	<context:component-scan base-package="org.gzhz.*" />
 
