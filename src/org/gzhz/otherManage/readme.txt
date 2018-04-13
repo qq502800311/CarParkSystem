@@ -18,3 +18,13 @@ junit 4
 * @version 1.0.001
 * @description 添加了原来的实例代码
 */
+/** 
+* @date 更新时间：2018年4月13日 10:30:45 
+* @version 1.0.001
+* @description 添加了原来的实例代码 （增加vip车牌）
+*/
+/** 
+* @date 更新时间：2018年4月13日 10:30:45 
+* @version 1.0.001
+* @description 与黄
+*/

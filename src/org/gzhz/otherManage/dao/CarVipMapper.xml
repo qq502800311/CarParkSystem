@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="org.gzhz.otherManage.dao.CarVipMapper">
+	<!-- //查询VIP车牌 -->
+	<select id="findCarVipByName" parameterType="java.lang.String"
+		resultMap="findcarvipmap">
+		select * from Car_Vip_Tb
+		<where>
+			CAR_PARK_TYPE = ${4}
+			<if test="value!='' and value!=null">
+				and car_park_license like #{car_park_license}
+			</if>
+		</where>
+	</select>
+
+	<select id="findvipBytype" resultType="org.gzhz.otherManage.bean.Parameter_Tb">
+		select * from PARAMETER_TB
+		where parameter_id= ${4}
+	</select>
+
+	<resultMap type="org.gzhz.otherManage.bean.CarVipTb" id="findcarvipmap">
+		<association property="parameter_tb" column="car_park_type"
+			javaType="org.gzhz.otherManage.bean.Parameter_Tb" select="findvipBytype">
+		</association>
+	</resultMap>
+
+	<!-- 修改操作vip车牌 -->
+	<update id="changevipcarbrand" parameterType="java.util.HashMap">
+		update CAR_VIP_TB
+		set
+		CAR_PARK_LICENSE=#{modifiercarparkchangeCarparklicense}
+		where
+		CAR_PARK_LICENSE=#{currentcarparklicense}
+	</update>
+
+	<!-- 添加车牌 -->
+	<insert id="addvip" parameterType="org.gzhz.otherManage.bean.CarVipTb">
+		<selectKey keyProperty="vip_id" order="BEFORE" resultType="java.lang.Integer">
+			select SEQUENCE_VIP_TB.nextval from dual
+		</selectKey>
+		insert into CAR_VIP_TB(VIP_ID,CAR_PARK_LICENSE,CAR_PARK_TYPE)
+		values(#{vip_id},#{newvip_Name},${4})
+	</insert>
+
+	<!-- 删除车牌车牌 -->
+	<delete id="deletevip" parameterType="String">
+		delete FROM CAR_VIP_TB WHERE CAR_PARK_LICENSE=#{currentcarparklicense}
+	</delete>
+
+
+</mapper>
