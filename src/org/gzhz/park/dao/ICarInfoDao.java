@@ -13,7 +13,9 @@ import org.springframework.stereotype.Repository;
 */
 @Repository
 public interface ICarInfoDao {
-	
+	//停车场数据表加入车辆
 	public int partAddCar(CarInfo car);
+	//停车场数据表删除车辆
+	public int partDeleteCar(CarInfo car);
 
 }

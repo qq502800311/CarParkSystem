@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 <mapper namespace="org.gzhz.park.dao.ICarInfoDao">
-<!-- 	文档上传界面的数据库插入数据部分开始 -->
+<!-- 	停车场数据表加入车辆 -->
 	<insert id="partAddCar" parameterType="org.gzhz.park.bean.CarInfo" >
 		<selectKey keyProperty="car_park_id" order="BEFORE" resultType="java.lang.Integer">
 			select SEQUENCE_CAR_PARK_INFO_TB.nextval from dual
@@ -16,4 +16,9 @@
 		#{car_park_status,jdbcType=VARCHAR}
 		)
 	</insert>
+<!-- 	停车场数据表删除车辆 -->
+	<delete id="partDeleteCar"  parameterType="org.gzhz.park.bean.CarInfo" >
+		delete from CAR_PARK_INFO_TB where
+		CAR_PARK_LICENSE=#{car_park_license}
+	</delete>
 </mapper>

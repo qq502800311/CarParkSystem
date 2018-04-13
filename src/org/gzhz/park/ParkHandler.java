@@ -48,12 +48,27 @@ public class ParkHandler {
 	
 	/** 
 	* @author  作者 E-mail: 郭智雄
+	* @date 创建时间：2018年4月13日 下午14:50:49 
+	* @version 1.0 
+	* @parameter  无
+	* @return  跳转到停车出口页面
+	*/
+	@RequestMapping("/export.action")
+	public ModelAndView pageToExport(){
+		System.out.println("显示停车场入口页面");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("outCar");
+		return mav;
+	}
+	
+	/** 
+	* @author  作者 E-mail: 郭智雄
 	* @date 创建时间：2018年4月12日 下午08:45:49 
 	* @version 1.0 
 	* @parameter  HttpServletRequest request
 	* @parameter  Stirng carLisence
 	* @description 根据入口得到的车牌向车场表中添加车辆信息  
-	* @return  true/false
+	* @return  CarInfo car 
 	*/
 	@RequestMapping(value="/entranceDisplay.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
 	public @ResponseBody CarInfo pageToEntranceDisplay(String carLisence){
@@ -71,13 +86,32 @@ public class ParkHandler {
 		System.out.println("i:"+i);
 		return car;
 	}
-	//localhost:8080/2018-04-08-mySpringMVC/index.jsp
-		@RequestMapping(value="/userinfo3.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
-		public @ResponseBody User userinfo3(String username, String password){
-			System.out.println(username + ":" + password);
-			System.out.println("userinfo3方法被调用了...");
-			return new User(username, password);
+	
+	/** 
+	* @author  作者 E-mail: 郭智雄
+	* @date 创建时间：2018年4月12日 下午08:45:49 
+	* @version 1.0 
+	* @parameter  HttpServletRequest request
+	* @parameter  Stirng carLisence
+	* @description 根据出口得到的车牌信息进行处理
+	* @return  CarInfo car 
+	*/
+	@RequestMapping(value="/exportDisplay.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
+	public @ResponseBody CarInfo pageToExportDisplay(String carLisence){
+		String flag = "false";
+		System.out.println("得到的车牌号是："+carLisence);
+		String date = "2018-04-13 13:52:56";
+		CarInfo car = new CarInfo(carLisence,date);
+		int i  = iCarInfoDao.partDeleteCar(car);
+		if(i!=1){
+			car = null;
+		}else{
+			flag = "true";
 		}
+		System.out.println("flag:"+flag);
+		System.out.println("i:"+i);
+		return car;
+	}
 	
 	/** 
 	* @author  作者 E-mail: 郭智雄

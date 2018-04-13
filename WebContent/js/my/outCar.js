@@ -6,7 +6,7 @@ function clickBtn2() {
 	var carLisence = $(" input[ name='carLisence' ] ").val();
 	alert("获取到的车牌:" + carLisence);
 	$.ajax({
-		url : "park/entranceDisplay.action",
+		url : "park/exportDisplay.action",
 		type : "POST",
 		data : {
 			"carLisence" : carLisence
