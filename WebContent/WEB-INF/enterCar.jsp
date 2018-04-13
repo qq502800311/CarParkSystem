@@ -19,17 +19,7 @@
 <script type="text/javascript" charset="UTF-8" src= "js/my/enterCar.js"></script>
 
 <script type="text/javascript" language="javascript">
-var clickBtn = function(){
-		$.ajax({
-			url: "park/userinfo3.action",
-			type: "POST",
-			data:{"username":"zhangsan", "password" : "123"},
-			success : function(res){
-				console.log(res);
-				alert(res.user_name);
-			}
-		});
-	};
+
 </script>
 
 </head>
@@ -96,23 +86,31 @@ var clickBtn = function(){
 		</div>
 		<font color="white">
 		<div class="col-md-8 column">
-			<form class="form-horizontal" role="form"  method="post">
+<!-- 		手工输入车牌部分开始 -->
 				<div class="form-group">
-					 <label for="inputEmail3" class="col-sm-4 control-label">请输入车牌</label>
+					 <label for="inputEmail3" class="col-sm-4 control-label">请输入车牌：</label>
 					<div class="col-sm-4">
 						<input class="form-control" type="text" id="carLisence" name="carLisence"/>
 					</div>
-   				</div>
-				<div class="form-group">
-					<div class="col-sm-offset-4 col-sm-4">
-						 <button onclick="clickBtn()" class="btn btn-default">提交车牌</button>
+					<div class="col-sm-2">
+						 <button onclick="clickBtn2()" class="btn btn-default">提交车牌</button>
 					</div>
-				</div>
-			</form>
-			<form action="park/fileact.action" method="post" enctype="multipart/form-data">
-     			请选择文件:<input type="file" name="fileact">
-     			<input type="submit" value="提交">
-     		</form>
+   				</div>
+<!-- 		手工输入车牌部分开始 -->
+<!-- 		上传车牌照片部分开始 -->			
+				<div class="form-group">
+					<label for="inputEmail3" class="col-sm-5 control-label">上传车牌照片：</label>
+					<form action="park/fileact.action" method="post" enctype="multipart/form-data">
+					<div class="col-sm-3">
+						<input type="file" name="fileact">
+					</div>
+					<div class="col-sm-2">
+						<input type="submit" value="提交"  class="btn btn-default">
+					</div>
+					</form>
+   				</div>
+<!-- 		上传车牌照片部分结束 -->     			
+     		
 		</div>
 		</font>
 		<div class="col-md-2 column">

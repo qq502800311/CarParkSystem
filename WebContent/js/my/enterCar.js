@@ -12,7 +12,7 @@ function clickBtn2() {
 			"carLisence" : carLisence
 		},
 		success : function(res) {
-			alert(res.car_park_license);
+			alert("识别成功！车牌号是:"+res.car_park_license);
 		}
 	});
 }

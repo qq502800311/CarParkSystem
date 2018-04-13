@@ -59,11 +59,13 @@ public class ParkHandler {
 	public @ResponseBody CarInfo pageToEntranceDisplay(String carLisence){
 		String flag = "false";
 		System.out.println("得到的车牌号是："+carLisence);
-		String date = "2018-04-11 10:17:56";
+		String date = "2018-04-13 13:52:56";
 		CarInfo car = new CarInfo(carLisence,date);
 		int i  = iCarInfoDao.partAddCar(car);
 		if(i!=1){
 			car = null;
+		}else{
+			flag = "true";
 		}
 		System.out.println("flag:"+flag);
 		System.out.println("i:"+i);

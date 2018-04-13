@@ -5,7 +5,7 @@
 <!-- 	文档上传界面的数据库插入数据部分开始 -->
 	<insert id="partAddCar" parameterType="org.gzhz.park.bean.CarInfo" >
 		<selectKey keyProperty="car_park_id" order="BEFORE" resultType="java.lang.Integer">
-			select CAR_PARK_INFO_TB.nextval from dual
+			select SEQUENCE_CAR_PARK_INFO_TB.nextval from dual
 		</selectKey>
 		insert into CAR_PARK_INFO_TB values(
 		#{car_park_id},
