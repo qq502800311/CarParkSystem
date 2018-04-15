@@ -2,13 +2,16 @@ package org.gzhz.park;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.gzhz.park.bean.CarInfo;
+import org.gzhz.park.bean.CarPort;
 import org.gzhz.park.bean.SearchPort;
 import org.gzhz.park.dao.ICarInfoDao;
 import org.gzhz.tool.MyDateUnitl;
@@ -40,7 +43,6 @@ public class ParkHandler {
 	private ICarInfoDao iCarInfoDao;
 	@Resource
 	private MyDateUnitl myDateUnitl;
-	
 	
 	/** 
 	* @author  作者 E-mail: 郭智雄
@@ -172,7 +174,7 @@ public class ParkHandler {
 	//http://localhost:9090/CarParkSystem/park/pageToSearchCarInfo.action
 	@RequestMapping("/pageToSearchCarInfo.action")
 	public ModelAndView pageToSearchCarInfo(){
-		System.out.println("显示停车场入口页面");
+		System.out.println("显示停车场查询页面");
 		ModelAndView mav = new ModelAndView();
 //		mav.setViewName("/zwhJsp/empLogin");
 		mav.setViewName("/carParkJsp/carPark_search");
@@ -209,6 +211,54 @@ public class ParkHandler {
 		}
 		//对提交的数据进行处理结束
 		List<CarInfo> resultList = iCarInfoDao.searchCar(sp);
+		Gson gson = new Gson();
+		String data = gson.toJson(resultList);
+		System.out.println(data);
+		return data;
+	}
+	
+	/** 
+	* @author  作者 E-mail: 郭智雄
+	* @date 创建时间：2018年4月12日 下午08:21:49 
+	* @version 1.0 
+	* @parameter  无
+	* @return  跳转到车位查询页面
+	*/
+	//http://localhost:9090/CarParkSystem/park/pageToSearchCarPort.action
+	@RequestMapping("/pageToSearchCarPort.action")
+	public ModelAndView pageToSearchCarPort(){
+		System.out.println("显示停车场查询页面");
+		ModelAndView mav = new ModelAndView();
+//		mav.setViewName("/zwhJsp/empLogin");
+		mav.setViewName("/carParkJsp/carPort_search");
+		return mav;
+	}
+	
+	/** 
+	* @author  作者 E-mail: 郭智雄
+	* @date 创建时间：2018年4月12日 下午08:45:49 
+	* @version 1.0 
+	* @parameter  HttpServletRequest request
+	* @parameter  Stirng carLisence
+	* @description 查询车场的车位信息
+	* @return  CarPort carport
+	*/
+	@RequestMapping(value="/searchCarPort.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
+	public @ResponseBody String searchCarPort(String carPortID, String carPortArea){
+		System.out.println("要搜索的车位编号是：" + carPortID);
+		System.out.println("要搜索的车位区域是：" + carPortArea);
+		//对提交的数据进行处理开始
+		if(carPortID.length()==0){
+			carPortID = null;
+		}
+		if(carPortArea.length()==0){
+			carPortArea = null;
+		}
+		Map<String,String> map = new HashMap<String,String>();
+		map.put("carPortID", carPortID);
+		map.put("carPortArea", carPortArea);
+		//对提交的数据进行处理结束
+		List<CarPort> resultList = iCarInfoDao.searchAllCarPort(map);
 		Gson gson = new Gson();
 		String data = gson.toJson(resultList);
 		System.out.println(data);

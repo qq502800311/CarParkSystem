@@ -1,8 +1,10 @@
 package org.gzhz.park.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.gzhz.park.bean.CarInfo;
+import org.gzhz.park.bean.CarPort;
 import org.gzhz.park.bean.SearchPort;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +22,9 @@ public interface ICarInfoDao {
 	public int partAddCar(CarInfo car);
 	//停车场数据表删除车辆
 	public int partDeleteCar(CarInfo car);
-	//根据车牌或车位寻找车辆
+	//根据条件查询车场车辆
 	public List<CarInfo> searchCar(SearchPort sp);
+	//根据条件查询车位情况
+	public List<CarPort> searchAllCarPort(Map<String,String> map);
 
 }

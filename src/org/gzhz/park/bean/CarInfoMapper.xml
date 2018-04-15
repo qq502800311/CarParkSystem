@@ -25,17 +25,13 @@
 	<select id="searchCar1" resultType="org.gzhz.park.bean.CarInfo">
 		select * from CAR_PARK_INFO_TB 
 	</select>
-<!-- 使用嵌套查询，当查出一条文档数据时，也关联查询出对应的用户信息 -->
+<!-- 使用嵌套查询，查询当前车场车辆信息 -->
 	<select id="searchCar" parameterType="org.gzhz.park.bean.SearchPort"
 		resultMap="carPortMap">
 		select * from CAR_PARK_INFO_TB 
 		<trim prefix="where" prefixOverrides="and">
 			<if test="search_license!=null"> and CAR_PARK_LICENSE like '%${search_license}%'</if>
 		   	<if test="search_carType!=null"> and CAR_PARK_TYPE = #{search_carType}</if>
-<!-- 			<if test="d_type!=null"> and D_TYPE = #{d_type}</if> -->
-<!-- 					<if test="d_name!=null"> and D_NAME like '%${d_name}%'</if> -->
-<!-- 			<if test="d_name!=null"> and D_NAME like #{d_name}</if> -->
-<!-- 			<if test="d_user!=null"> and D_UP_USERID = #{d_user}</if> -->
 			<if test="(search_date1!=null)and(search_date2!=null)"> and CAR_IN_TIME between  #{search_date1} and  #{search_date2}</if>
 		</trim>  
 	</select>
@@ -55,6 +51,24 @@
 		</association>
 		<association property="cartype" column="PARAMETER_ID"
 			javaType="org.gzhz.park.bean.CarType" select="selectCarType">
+		</association>
+	</resultMap>
+<!-- 	车位数据表查询车位且关联参数表查询 -->	
+	<select id="searchAllCarPort" parameterType="java.util.Map" resultType="org.gzhz.park.bean.CarPort"
+	resultMap="carPortStatusMap">
+		select * from CARPORT_TB 
+		<trim prefix="where" prefixOverrides="and">
+			<if test="carPortID!=null"> and CARPORT_NUM like '%${carPortID}%'</if>
+			<if test="carPortArea!=null"> and CARPORT_AREA = #{carPortArea}</if>
+		</trim>  
+	</select>
+	<select id="selectCarPortType" parameterType="java.lang.Integer"
+		resultType="java.lang.String">
+		select PARAMETER_NAME from PARAMETER_TB where PARAMETER_ID =#{id}
+	</select>
+	<resultMap type="org.gzhz.park.bean.CarPort" id="carPortStatusMap">
+		<association property="carport_statusName" column="CARPORT_STATUS"
+			javaType="java.lang.String" select="selectCarPortType">
 		</association>
 	</resultMap>
 </mapper>

@@ -13,6 +13,8 @@ public class CarPort {
 	private Integer carport_status;	//停车位状态
 	private String  picture_url;	//停车位照片
 	
+	private String carport_statusName;	//停车位状态名称
+	
 	public CarPort() {
 		super();
 	}
@@ -55,6 +57,14 @@ public class CarPort {
 
 	public void setPicture_url(String picture_url) {
 		this.picture_url = picture_url;
+	}
+
+	public String getCarport_statusName() {
+		return carport_statusName;
+	}
+
+	public void setCarport_statusName(String carport_statusName) {
+		this.carport_statusName = carport_statusName;
 	}
 	
 	
