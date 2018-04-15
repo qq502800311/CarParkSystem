@@ -15,9 +15,9 @@ function search() {
 	//页面查询部分参数
 	var carLisence = document.getElementById("carLisence").value;
 	var carType = document.getElementById("carType").value;
-//	var import_Date1 = document.getElementById("import_Date1").value;
-//	var import_Date2 = document.getElementById("import_Date2").value;
-//	var doc_point = document.getElementById("doc_point").value;
+	var import_Date1 = document.getElementById("import_Date1").value;
+	var import_Date2 = document.getElementById("import_Date2").value;
+	var carArea = document.getElementById("carArea").value;
 	
 //	alert('获得日期'+testDate);
 //	alert('起始卡ID为：'+cardStart_ID+','+'起始卡ID为：'+cardStart_ID+','+'目标卡状态：'+cardState);
@@ -25,7 +25,9 @@ function search() {
 	$.ajax({
 		type:"POST",
 		url:"searchCarInfo.action",
-		data:"carLisence=" + carLisence + "&carType=" + carType,
+		data:"search_license=" + carLisence + "&search_carType=" + carType
+		 + "&search_date1=" + import_Date1 + "&search_date2=" + import_Date2
+		 + "&search_area=" + carArea,
 		dataType:"json",
 		async:true,	
 		success: function(resultList){
@@ -38,21 +40,21 @@ function search() {
 			var a = 1;
 			for(var i=0;i<resultList.length;i++){
 				var trNode = tabNode.insertRow();
-				for(var j=0;j<7;j++){
+				for(var j=0;j<6;j++){
 					var tdNode = trNode.insertCell();
 
 					if(j==0){
 						tdNode.innerHTML = a++;
 					}else if(j==1){
-						tdNode.innerHTML = resultList[i].car_park_license;	//用户名称
+						tdNode.innerHTML = resultList[i].car_park_license;	//车牌
 					}else if(j==2){
-						tdNode.innerHTML = resultList[i].car_in_time;		//用户注册时间
+						tdNode.innerHTML = resultList[i].car_in_time;		//车辆入场时间
 					}else if(j==3){
-						tdNode.innerHTML = resultList[i].car_park_type;		//用户积分
+						tdNode.innerHTML = resultList[i].car_park_type;		//车辆类型
 					}else if(j==4){
-						tdNode.innerHTML = resultList[i].carport_id;//用户上传文档数
+						tdNode.innerHTML = resultList[i].carport.carport_num;		//车辆车位ID
 					}else if(j==5){
-						tdNode.innerHTML = resultList[i].car_park_status;//用户下载文档数
+						tdNode.innerHTML = resultList[i].car_park_status;	//车辆缴费状态
 					}
 //					else if(j==7){
 //						var btnb = document.createElement("input");

@@ -18,6 +18,9 @@ public class CarInfo {
 	private Integer carport_id;			//车辆停放车位编号
 	private String 	car_park_status;	//车辆缴费状态
 	
+	private CarPort carport; 			//车辆停放的车位类
+	private CarType cartype; 			//车辆类型信息类
+	
 	
 	public CarInfo() {
 		super();
@@ -78,6 +81,26 @@ public class CarInfo {
 
 	public void setCar_park_status(String car_park_status) {
 		this.car_park_status = car_park_status;
+	}
+
+
+	public CarPort getCarport() {
+		return carport;
+	}
+
+
+	public void setCarport(CarPort carport) {
+		this.carport = carport;
+	}
+
+
+	public CarType getCartype() {
+		return cartype;
+	}
+
+
+	public void setCartype(CarType cartype) {
+		this.cartype = cartype;
 	}
 	
 	

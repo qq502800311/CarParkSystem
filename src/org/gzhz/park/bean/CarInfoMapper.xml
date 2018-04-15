@@ -22,7 +22,39 @@
 		CAR_PARK_LICENSE=#{car_park_license}
 	</delete>
 <!-- 	停车场数据表用车牌或车位查询车辆 -->	
-	<select id="searchCar" resultType="org.gzhz.park.bean.CarInfo">
+	<select id="searchCar1" resultType="org.gzhz.park.bean.CarInfo">
 		select * from CAR_PARK_INFO_TB 
 	</select>
+<!-- 使用嵌套查询，当查出一条文档数据时，也关联查询出对应的用户信息 -->
+	<select id="searchCar" parameterType="org.gzhz.park.bean.SearchPort"
+		resultMap="carPortMap">
+		select * from CAR_PARK_INFO_TB 
+		<trim prefix="where" prefixOverrides="and">
+			<if test="search_license!=null"> and CAR_PARK_LICENSE like '%${search_license}%'</if>
+		   	<if test="search_carType!=null"> and CAR_PARK_TYPE = #{search_carType}</if>
+<!-- 			<if test="d_type!=null"> and D_TYPE = #{d_type}</if> -->
+<!-- 					<if test="d_name!=null"> and D_NAME like '%${d_name}%'</if> -->
+<!-- 			<if test="d_name!=null"> and D_NAME like #{d_name}</if> -->
+<!-- 			<if test="d_user!=null"> and D_UP_USERID = #{d_user}</if> -->
+			<if test="(search_date1!=null)and(search_date2!=null)"> and CAR_IN_TIME between  #{search_date1} and  #{search_date2}</if>
+		</trim>  
+	</select>
+	
+	<select id="selectCarPort" parameterType="java.lang.Integer"
+		resultType="org.gzhz.park.bean.CarPort">
+		select * from CARPORT_TB where CARPORT_ID =#{id}
+	</select>
+	<select id="selectCarType" parameterType="java.lang.Integer"
+		resultType="org.gzhz.park.bean.CarType">
+		select * from PARAMETER_TB where PARAMETER_ID =#{id}
+	</select>
+
+	<resultMap type="org.gzhz.park.bean.CarInfo" id="carPortMap">
+		<association property="carport" column="CARPORT_ID"
+			javaType="org.gzhz.park.bean.CarPort" select="selectCarPort">
+		</association>
+		<association property="cartype" column="PARAMETER_ID"
+			javaType="org.gzhz.park.bean.CarType" select="selectCarType">
+		</association>
+	</resultMap>
 </mapper>

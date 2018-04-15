@@ -29,12 +29,12 @@
 		<div>
 			<label>车牌：</label>
 			<input type="text" id="carLisence">
-			<label>用户类型：</label>
+			<label>车辆类型：</label>
 			<select value="" name="carType" id="carType">
 					<option value ="" >不限</option>
-					<option value ="VIP用户" >VIP用户</option>
-					<option value ="包年月套餐用户" >包年月套餐用户</option>
-					<option value ="临时用户" >临时用户</option>
+					<option value ="4" >VIP用户</option>
+					<option value ="3" >包年月套餐用户</option>
+					<option value ="2" >临时用户</option>
 			</select>
 			<!-- 按钮触发模态框 -->
 			<button class="btn btn-primary" data-toggle="modal" data-target="#myModal1">待用按钮</button>	
@@ -45,14 +45,8 @@
 			<input type="text" id="import_Date2">
 			
 			<label>车辆所在分区：</label>
-			<select value="" name="doc_point" id="doc_point">
+			<select value="" name="carArea" id="carArea">
 					<option value ="" >不限</option>
-					<option value ="5"  >5分</option>
-					<option value ="10" >10分</option>
-					<option value ="15" >15分</option>
-					<option value ="20" >20分</option>
-					<option value ="25" >25分</option>
-					<option value ="30" >30分</option>
 			</select>	
 			<button type="button" class="btn btn-primary" onclick="search()">查询</button>		
 		</div>

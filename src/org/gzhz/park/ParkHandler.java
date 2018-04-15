@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.gzhz.park.bean.CarInfo;
+import org.gzhz.park.bean.SearchPort;
 import org.gzhz.park.dao.ICarInfoDao;
 import org.gzhz.tool.MyDateUnitl;
 import org.springframework.stereotype.Component;
@@ -188,11 +189,26 @@ public class ParkHandler {
 	* @return  CarInfo car 
 	*/
 	@RequestMapping(value="/searchCarInfo.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
-	public @ResponseBody String searchCarInfo(String carLisence,String carType){
-		System.out.println("得到的信息是："+carLisence);
-		System.out.println("得到的信息是："+carType);
-
-		List<CarInfo> resultList = iCarInfoDao.searchCar();
+	public @ResponseBody String searchCarInfo(SearchPort sp){
+		System.out.println("要搜索的车牌是："+sp.getSearch_license());
+		System.out.println("要搜索的车辆类型是："+sp.getSearch_carType());
+		System.out.println("要搜索的车辆进入时间是："+"从"+sp.getSearch_date1()+"到"+sp.getSearch_date2());
+		System.out.println("要搜索的车辆所在分区是："+sp.getSearch_area());
+		//对提交的数据进行处理开始
+		if(sp.getSearch_carType().length()==0){
+			sp.setSearch_carType(null);
+		}
+		if(sp.getSearch_date1().length()==0){
+			sp.setSearch_date1(null);
+		}
+		if(sp.getSearch_date2().length()==0){
+			sp.setSearch_date2(null);
+		}
+		if(sp.getSearch_area().length()==0){
+			sp.setSearch_area(null);
+		}
+		//对提交的数据进行处理结束
+		List<CarInfo> resultList = iCarInfoDao.searchCar(sp);
 		Gson gson = new Gson();
 		String data = gson.toJson(resultList);
 		System.out.println(data);
