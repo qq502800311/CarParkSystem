@@ -6,119 +6,102 @@
 
 $(function() {//此处方法为全部加载完成，能保证全部ID、标签等都能找到
 	search();
-	useGetRequest();
+//	useGetRequest();
 })
 
-var applyVerifyPersonID;
-var applyVerifyPersonName;
-var myDate = new Date();//获取系统当前时间
 
 function search() {
-//	alert('点击函数触发');
+
 	//页面查询部分参数
-	var doc_name = document.getElementById("doc_name").value;
-	var doc_type = document.getElementById("doc_type").value;
-	var import_Date1 = document.getElementById("import_Date1").value;
-	var import_Date2 = document.getElementById("import_Date2").value;
-	var doc_point = document.getElementById("doc_point").value;
-	
+	var carLisence = document.getElementById("carLisence").value;
+	var carType = document.getElementById("carType").value;
+//	var import_Date1 = document.getElementById("import_Date1").value;
+//	var import_Date2 = document.getElementById("import_Date2").value;
+//	var doc_point = document.getElementById("doc_point").value;
 	
 //	alert('获得日期'+testDate);
 //	alert('起始卡ID为：'+cardStart_ID+','+'起始卡ID为：'+cardStart_ID+','+'目标卡状态：'+cardState);
 	
 	$.ajax({
 		type:"POST",
-		url:"4.2/userFind.action",
-//		data:"dsb.d_name=" + doc_name + "&dsb.d_type=" + doc_type + 
-//			 "&dsb.d_date1=" + import_Date1 +"&dsb.d_date2=" + import_Date2 +
-//			 "&dsb.d_point=" + doc_point,
+		url:"searchCarInfo.action",
+		data:"carLisence=" + carLisence + "&carType=" + carType,
 		dataType:"json",
 		async:true,	
-		success: function(msg){
+		success: function(resultList){
 			//清空表格
 			$("#myShowtab tr:not(:first)").html("");
 			//写入数据
-			var cardList = jQuery.parseJSON(msg);
-//			var arrayList = JSON.parse(msg);
-//			var arrayList = JSON.stringify(msg);
-//			alert(msg);
+//			var list = jQuery.parseJSON(resultList);
+
 			var tabNode = document.getElementById("myShowtab");
 			var a = 1;
-			for(var i=0;i<cardList.length;i++){
+			for(var i=0;i<resultList.length;i++){
 				var trNode = tabNode.insertRow();
-				for(var j=0;j<10;j++){
+				for(var j=0;j<7;j++){
 					var tdNode = trNode.insertCell();
-					var emp_EnableName;
-					var emp_EnableName2;
-					if( cardList[i].user_enable==1){
-						emp_EnableName = '启用';
-						emp_EnableName2 = '禁用';
-					}else{
-						emp_EnableName = '禁用';
-						emp_EnableName2 = '启用';
-					}
+
 					if(j==0){
 						tdNode.innerHTML = a++;
 					}else if(j==1){
-						tdNode.innerHTML = cardList[i].user_name;	//用户名称
+						tdNode.innerHTML = resultList[i].car_park_license;	//用户名称
 					}else if(j==2){
-						tdNode.innerHTML = cardList[i].user_date;		//用户注册时间
+						tdNode.innerHTML = resultList[i].car_in_time;		//用户注册时间
 					}else if(j==3){
-						tdNode.innerHTML = cardList[i].user_point;		//用户积分
+						tdNode.innerHTML = resultList[i].car_park_type;		//用户积分
 					}else if(j==4){
-						tdNode.innerHTML = cardList[i].user_up_number;//用户上传文档数
+						tdNode.innerHTML = resultList[i].carport_id;//用户上传文档数
 					}else if(j==5){
-						tdNode.innerHTML = cardList[i].user_dl_number;//用户下载文档数
-					}else if(j==6){
-						tdNode.innerHTML = emp_EnableName;//用户状态
-					}else if(j==7){
-						var btnb = document.createElement("input");
-						btnb.type = "button";
-						btnb.id = "button"+i;
-						btnb.value = "查看";
-						btnb.onclick = function(){
-							updatemyModal1(this,cardList);
+						tdNode.innerHTML = resultList[i].car_park_status;//用户下载文档数
+					}
+//					else if(j==7){
+//						var btnb = document.createElement("input");
+//						btnb.type = "button";
+//						btnb.id = "button"+i;
+//						btnb.value = "查看";
+//						btnb.onclick = function(){
+//							updatemyModal1(this,cardList);
 //							myDelete(this);
-							
-						}
-						//启用禁用按钮
-						var btnb1 = document.createElement("input");
-						btnb1.type = "button";
-						btnb1.id = "button1"+i;
-						btnb1.value = emp_EnableName2;
-						btnb1.onclick = function(){
-							changeEmpEnableApply(this,cardList);
+//							
+//						}
+//						//启用禁用按钮
+//						var btnb1 = document.createElement("input");
+//						btnb1.type = "button";
+//						btnb1.id = "button1"+i;
+//						btnb1.value = emp_EnableName2;
+//						btnb1.onclick = function(){
+//							changeEmpEnableApply(this,cardList);
 //							myDelete(this);
-							
-						}
-//						<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">查看</button>	
-						var btnb2 = document.createElement("input");
+//							
+//						}
+////						<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">查看</button>	
+//						var btnb2 = document.createElement("input");
 //						btnb2.setAttribute('data-toggle',"modal");
 //						btnb2.setAttribute('data-target',"#myModal1");
-						btnb2.type = "button";
-						btnb2.id = "button2"+i;
-						btnb2.value = "备用按钮1";
-						btnb2.onclick = function(){
-							deleteEmpPswApply(this,cardList);
+//						btnb2.type = "button";
+//						btnb2.id = "button2"+i;
+//						btnb2.value = "备用按钮1";
+//						btnb2.onclick = function(){
+//							deleteEmpPswApply(this,cardList);
 //							myDelete(this);
-							
-						}
-						var btnb3 = document.createElement("input");
+//							
+//						}
+//						var btnb3 = document.createElement("input");
 //						btnb3.setAttribute('data-toggle',"modal");
 //						btnb3.setAttribute('data-target',"#myModal1");
-						btnb3.type = "button";
-						btnb3.id = "button3"+i;
-						btnb3.value = "备用按钮2";
-						btnb3.onclick = function(){
-							changeEmpPswApply(this,cardList);
+//						btnb3.type = "button";
+//						btnb3.id = "button3"+i;
+//						btnb3.value = "备用按钮2";
+//						btnb3.onclick = function(){
+//							changeEmpPswApply(this,cardList);
 //							myDelete(this);
-							
-						}
-						tdNode.appendChild(btnb);
-						tdNode.appendChild(btnb1);
-						tdNode.appendChild(btnb2);
-						tdNode.appendChild(btnb3);
-					}
+//							
+//						}
+//						tdNode.appendChild(btnb);
+//						tdNode.appendChild(btnb1);
+//						tdNode.appendChild(btnb2);
+//						tdNode.appendChild(btnb3);
+//					}
 				}
 			}
 		}

@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,9 @@ import org.springframework.stereotype.Service;
 @Component
 public class MyDateUnitl {
 	// 获取当前日期的方法
+	@Log(operationType = "获取服务器当前时间", operationName = "得到时间")
 	public String getNowDate() {
+		System.out.println("获取时间工具类启动");
 		String formatdate;
 		// -------------------------------获取当前日期开始---------------------------------------//
 		Date date = new java.util.Date();// 获取当前时间对象，也可以直接传入Date的对象

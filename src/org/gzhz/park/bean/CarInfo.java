@@ -18,6 +18,7 @@ public class CarInfo {
 	private Integer carport_id;			//车辆停放车位编号
 	private String 	car_park_status;	//车辆缴费状态
 	
+	
 	public CarInfo() {
 		super();
 	}

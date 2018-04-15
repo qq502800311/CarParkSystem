@@ -25,12 +25,13 @@
 		<property name="mapperLocations" value="classpath:org/gzhz/*/*/*.xml" />
 	</bean>
 
-	<!--扫描 -->
+	<!--郭智雄 扫描开始 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="sqlSessionFactory" ref="seesionFactory"></property>
 		<property name="basePackage" value="org.gzhz.park.dao" />
 	</bean>
-	
+	<!--郭智雄 扫描结束 -->
+	 
 	<!--黄彪华扫描 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="sqlSessionFactory" ref="seesionFactory"></property>
@@ -53,5 +54,4 @@
 	
 	<!-- 开启组件扫描 -->
 	<context:component-scan base-package="org.gzhz.*" />
-
 </beans>

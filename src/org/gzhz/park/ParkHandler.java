@@ -2,6 +2,7 @@ package org.gzhz.park;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
 
 import bean.User;
 
@@ -62,7 +65,7 @@ public class ParkHandler {
 	*/
 	@RequestMapping("/export.action")
 	public ModelAndView pageToExport(){
-		System.out.println("显示停车场入口页面");
+		System.out.println("显示停车场出口页面");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("outCar");
 		return mav;
@@ -156,6 +159,44 @@ public class ParkHandler {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("home");
 		return mav;
+	}
+	
+	/** 
+	* @author  作者 E-mail: 郭智雄
+	* @date 创建时间：2018年4月12日 下午08:21:49 
+	* @version 1.0 
+	* @parameter  无
+	* @return  跳转到车场查询页面
+	*/
+	//http://localhost:9090/CarParkSystem/park/pageToSearchCarInfo.action
+	@RequestMapping("/pageToSearchCarInfo.action")
+	public ModelAndView pageToSearchCarInfo(){
+		System.out.println("显示停车场入口页面");
+		ModelAndView mav = new ModelAndView();
+//		mav.setViewName("/zwhJsp/empLogin");
+		mav.setViewName("/carParkJsp/carPark_search");
+		return mav;
+	}
+	
+	/** 
+	* @author  作者 E-mail: 郭智雄
+	* @date 创建时间：2018年4月12日 下午08:45:49 
+	* @version 1.0 
+	* @parameter  HttpServletRequest request
+	* @parameter  Stirng carLisence
+	* @description 查询车场车辆信息
+	* @return  CarInfo car 
+	*/
+	@RequestMapping(value="/searchCarInfo.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
+	public @ResponseBody String searchCarInfo(String carLisence,String carType){
+		System.out.println("得到的信息是："+carLisence);
+		System.out.println("得到的信息是："+carType);
+
+		List<CarInfo> resultList = iCarInfoDao.searchCar();
+		Gson gson = new Gson();
+		String data = gson.toJson(resultList);
+		System.out.println(data);
+		return data;
 	}
 	
 	/** 

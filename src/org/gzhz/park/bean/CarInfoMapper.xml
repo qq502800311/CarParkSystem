@@ -21,4 +21,8 @@
 		delete from CAR_PARK_INFO_TB where
 		CAR_PARK_LICENSE=#{car_park_license}
 	</delete>
+<!-- 	停车场数据表用车牌或车位查询车辆 -->	
+	<select id="searchCar" resultType="org.gzhz.park.bean.CarInfo">
+		select * from CAR_PARK_INFO_TB 
+	</select>
 </mapper>
