@@ -27,8 +27,8 @@ public interface ICarInfoDao {
 	//根据条件查询车位情况
 	public List<CarPort> searchAllCarPort(Map<String,String> map);
 	//查询当前车场车位空余情况
-	public List<CarPort> searchUnusePort(Integer i);
+	public List<CarPort> searchUnusePort(Integer i);//输入车位状态ID
 	//查询参数表的参数ID
-	public Integer searchUnusePortParameter(String str);
+	public Integer searchUnusePortParameter(String str);//输入为参数的名称
 
 }

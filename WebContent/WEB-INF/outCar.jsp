@@ -78,7 +78,7 @@
 <!-- 		上传车牌照片部分开始 -->			
 				<div class="form-group">
 					<label for="inputEmail3" class="col-sm-5 control-label">上传车牌照片：</label>
-					<form action="park/fileact.action" method="post" enctype="multipart/form-data">
+					<form action="park/exportFileact.action" method="post" enctype="multipart/form-data">
 					<div class="col-sm-3">
 						<input type="file" name="fileact">
 					</div>

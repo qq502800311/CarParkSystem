@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -14,6 +15,7 @@ import org.gzhz.park.bean.CarInfo;
 import org.gzhz.park.bean.CarPort;
 import org.gzhz.park.bean.SearchPort;
 import org.gzhz.park.dao.ICarInfoDao;
+import org.gzhz.tool.CarParkUnitl;
 import org.gzhz.tool.MyDateUnitl;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -33,7 +35,7 @@ import bean.User;
 * @author  作者 E-mail: 郭智雄
 * @date 创建时间：2018年4月12日 上午8:31:27 
 * @version 1.0 
-* @description 用于处理所有有关停车场的业务  
+* @description 用于控制所有有关停车场的业务分发
 */
 
 @Controller //此注释的含义是将该类设置成为浏览器提交的上来的类
@@ -43,6 +45,8 @@ public class ParkHandler {
 	private ICarInfoDao iCarInfoDao;
 	@Resource
 	private MyDateUnitl myDateUnitl;
+	@Resource
+	private CarParkUnitl carParkUnitl;
 	
 	/** 
 	* @author  作者 E-mail: 郭智雄
@@ -85,26 +89,15 @@ public class ParkHandler {
 	*/
 	@RequestMapping(value="/entranceDisplay.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
 	public @ResponseBody CarInfo pageToEntranceDisplay(String carLisence){
-		String flag = "false";
+		CarInfo car = null;
 		//-------------------查询车位是否存在空位开始------------------------//
-		int j = iCarInfoDao.searchUnusePort(iCarInfoDao.searchUnusePortParameter("未使用")).size();
+		int j = carParkUnitl.searchCarPort("未使用").size();
 		if(j>0){
 			System.out.println(j);
 			System.out.println("车场有空余车位");
+			car = carParkUnitl.addCar(carLisence);
 		}
 		//-------------------查询车位是否存在空位结束------------------------//
-		System.out.println("得到的车牌号是："+carLisence);
-		String date = myDateUnitl.getNowDate();
-		System.out.println("当前日期是："+date);
-		CarInfo car = new CarInfo(carLisence,date);
-		int i  = iCarInfoDao.partAddCar(car);
-		if(i!=1){
-			car = null;
-		}else{
-			flag = "true";
-		}
-		System.out.println("flag:"+flag);
-		System.out.println("i:"+i);
 		return car;
 	}
 	
@@ -141,30 +134,34 @@ public class ParkHandler {
 	* @version 1.0 
 	* @parameter  MultipartFile fileact
 	* @parameter  HttpSession session
-	* @description 上传车辆照片 
+	* @description 入口上传车辆照片 
 	* @return  页面
 	*/
-	@RequestMapping(value="/fileact.action", method=RequestMethod.POST)
-	public ModelAndView fileact(MultipartFile fileact,HttpSession session){
-		String filename = fileact.getOriginalFilename();
-		System.out.println("获取到的文件名:" + filename);
-		if(filename.endsWith(".jpg")){
-			System.out.println("符合要求");
-			String path = session.getServletContext().getRealPath("/images");
-			// 声明文件目录image，如果文件名不存在就建一个呗～
-			File file = new File(path);
-			if (!file.exists()) {
-				System.out.println("目录不存在，新建文件");
-				file.mkdirs();
-			}
-			System.out.println(path);
-			try {
-				fileact.transferTo(new File(path + "/" +filename));
-			} catch (IllegalStateException | IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+	@RequestMapping(value="/entranceFileact.action", method=RequestMethod.POST)
+	public ModelAndView entranceFileact(MultipartFile fileact,HttpSession session){
+		ServletContext servletContext = session.getServletContext();
+		String str = carParkUnitl.getImage(fileact, servletContext, "入口");
+		System.out.println("图片存储路径为:" + str);
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("home");
+		return mav;
+	}
+	
+	/** 
+	* @author  作者 E-mail: 郭智雄
+	* @date 创建时间：2018年4月12日 下午15:45:49 
+	* @version 1.0 
+	* @parameter  MultipartFile fileact
+	* @parameter  HttpSession session
+	* @description 出口上传车辆照片 
+	* @return  页面
+	*/
+	@RequestMapping(value="/exportFileact.action", method=RequestMethod.POST)
+	public ModelAndView exportFileact(MultipartFile fileact,HttpSession session){
+		ServletContext servletContext = session.getServletContext();
+		String str = carParkUnitl.getImage(fileact, servletContext, "出口");
+		System.out.println("图片存储路径为:" + str);
 		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("home");
