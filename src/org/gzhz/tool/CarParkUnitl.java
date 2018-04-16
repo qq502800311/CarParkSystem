@@ -7,6 +7,9 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 
+import org.bytedeco.javacpp.opencv_imgcodecs;
+import org.bytedeco.javacpp.opencv_core.Mat;
+import org.gzhz.park.PlateRecognition;
 import org.gzhz.park.bean.CarInfo;
 import org.gzhz.park.bean.CarPort;
 import org.gzhz.park.dao.ICarInfoDao;
@@ -43,6 +46,24 @@ public class CarParkUnitl {
 		CarInfo car = new CarInfo(carLisence,date);
 		int i  = iCarInfoDao.partAddCar(car);
 		if(i!=1){
+			car = null;
+		}
+		return car;
+	}
+	/** 
+	* @author  作者 E-mail: 郭智雄
+	* @date 创建时间：2018年4月16日 上午11:31:49 
+	* @version 1.0 
+	* @parameter  String carLisence 车牌号
+	* @description 从当前车场车辆表中删除车辆信息
+	* @return  boolean
+	*/
+	public CarInfo deleteCar(String carLisence){
+		String date = myDateUnitl.getNowDate();
+		System.out.println("当前日期是："+date);
+		CarInfo car = new CarInfo(carLisence,date);
+		int i  = iCarInfoDao.partDeleteCar(car);
+		if(i<1){
 			car = null;
 		}
 		return car;
@@ -116,6 +137,10 @@ public class CarParkUnitl {
 			String newFilename=date.replaceAll("[\\pP\\p{Punct}]","");//清除所有符号,只留下字母 数字  汉字  共3类.  
 			newFilename = newFilename + ".jpg";
 	        System.out.println("新文件名是：" + newFilename); 
+	        System.out.println("处理前的路径是：" + path); 
+	        path = path.replace("\\", "/");
+	        System.out.println("处理后的路径是：" + path); 
+	        
 			try {
 				fileact.transferTo(new File(path + "/" +newFilename));
 			} catch (IllegalStateException | IOException e) {
@@ -125,6 +150,22 @@ public class CarParkUnitl {
 			filePath = path + "/" +newFilename;//将写入的图片地址传入返回值
 		}
 		return filePath;
-		
+	}
+	
+	/** 
+	* @author  作者 E-mail: 郭智雄
+	* @date 创建时间：2018年4月16日 上午14:07:49 
+	* @version 1.0 
+	* @description 从车辆照片中识别车牌
+	* @parameter  String filePath 图片地址
+	* @return String 车牌字符串
+	*/
+	public String recognitionCarImage(String filePath){
+		System.out.println("即将要识别的车牌文件路径是：" + filePath);
+		String carLicense = null;
+		Mat src2 = opencv_imgcodecs.imread(filePath);
+		carLicense = PlateRecognition.plateRecognise(src2);
+		System.out.println("识别的车牌:"+carLicense);
+		return carLicense;
 	}
 }

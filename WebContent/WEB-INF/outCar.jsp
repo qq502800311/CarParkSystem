@@ -113,7 +113,7 @@
             style="FILTER: glow(color=red); LINE-HEIGHT: 60px; WIDTH: 100%; FONT-FAMILY: '黑体','黑体_GB2312','黑体';
 			 COLOR: #ffff00; FONT-SIZE: 50px; text-shadow: #ff0000 1px 1px 0px" 
             scrollAmount=8><B><FONT 
-            face=Verdana>感谢惠顾！您的车牌号是：闽D88888</FONT></B>
+            face=Verdana id="displayboard">感谢惠顾!</FONT></B>
 			</MARQUEE>
 		  </TD>
 		</TR>

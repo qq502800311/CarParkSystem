@@ -112,19 +112,8 @@ public class ParkHandler {
 	*/
 	@RequestMapping(value="/exportDisplay.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
 	public @ResponseBody CarInfo pageToExportDisplay(String carLisence){
-		String flag = "false";
 		System.out.println("得到的车牌号是："+carLisence);
-		String date = myDateUnitl.getNowDate();
-		System.out.println("当前日期是："+date);
-		CarInfo car = new CarInfo(carLisence,date);
-		int i  = iCarInfoDao.partDeleteCar(car);
-		if(i!=1){
-			car = null;
-		}else{
-			flag = "true";
-		}
-		System.out.println("flag:"+flag);
-		System.out.println("i:"+i);
+		CarInfo car = carParkUnitl.deleteCar(carLisence);
 		return car;
 	}
 	
@@ -142,7 +131,7 @@ public class ParkHandler {
 		ServletContext servletContext = session.getServletContext();
 		String str = carParkUnitl.getImage(fileact, servletContext, "入口");
 		System.out.println("图片存储路径为:" + str);
-		
+		String carLicense = carParkUnitl.recognitionCarImage("F:/ChuanYiJava/UTF8Mode/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/CarParkSystem/entranceImage/20180416 163929.jpg");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("home");
 		return mav;
