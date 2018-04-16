@@ -86,6 +86,13 @@ public class ParkHandler {
 	@RequestMapping(value="/entranceDisplay.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
 	public @ResponseBody CarInfo pageToEntranceDisplay(String carLisence){
 		String flag = "false";
+		//-------------------查询车位是否存在空位开始------------------------//
+		int j = iCarInfoDao.searchUnusePort(iCarInfoDao.searchUnusePortParameter("未使用")).size();
+		if(j>0){
+			System.out.println(j);
+			System.out.println("车场有空余车位");
+		}
+		//-------------------查询车位是否存在空位结束------------------------//
 		System.out.println("得到的车牌号是："+carLisence);
 		String date = myDateUnitl.getNowDate();
 		System.out.println("当前日期是："+date);

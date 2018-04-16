@@ -71,4 +71,12 @@
 			javaType="java.lang.String" select="selectCarPortType">
 		</association>
 	</resultMap>
+<!-- 	查询当前车场空余停车位数 -->	
+	<select id="searchUnusePort" parameterType="java.lang.Integer" resultType="org.gzhz.park.bean.CarPort">
+		select * from CARPORT_TB where CARPORT_STATUS =#{id} 
+	</select>
+	<select id="searchUnusePortParameter" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		select PARAMETER_ID from PARAMETER_TB where PARAMETER_NAME =#{id}
+	</select>
 </mapper>
