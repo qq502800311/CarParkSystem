@@ -42,7 +42,7 @@ public class CarParkUnitl {
 	*/
 	public CarInfo addCar(String carLisence){
 		String date = myDateUnitl.getNowDate();
-		System.out.println("当前日期是："+date);
+		System.out.println("车辆进入时间为："+date);
 		CarInfo car = new CarInfo(carLisence,date);
 		int i  = iCarInfoDao.partAddCar(car);
 		if(i!=1){
@@ -161,15 +161,7 @@ public class CarParkUnitl {
 	* @return String 车牌字符串
 	*/
 	public String recognitionCarImage(String filePath){
-		System.out.println("即将要识别的车牌文件路径是：" + filePath);
-		
-		System.out.println(System.getProperty("user.dir"));
-		String classPath = this.getClass().getResource("/").getPath();
-		System.out.println(classPath);
-		
-		String path2 = (this.getClass().getResource("").getPath() + "SVM/svm.xml").substring(1);
-		System.out.println(path2);
-		
+		System.out.println("即将要识别的车牌文件路径是：" + filePath);		
 		String carLicense = null;
 		Mat src2 = opencv_imgcodecs.imread(filePath);
 		carLicense = PlateRecognition.plateRecognise(src2);

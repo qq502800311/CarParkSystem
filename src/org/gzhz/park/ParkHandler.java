@@ -2,6 +2,7 @@ package org.gzhz.park;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.gzhz.park.bean.CarInfo;
@@ -16,10 +18,12 @@ import org.gzhz.park.bean.CarPort;
 import org.gzhz.park.bean.SearchPort;
 import org.gzhz.park.dao.ICarInfoDao;
 import org.gzhz.tool.CarParkUnitl;
+import org.gzhz.tool.Log;
 import org.gzhz.tool.MyDateUnitl;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -80,6 +84,27 @@ public class ParkHandler {
 	
 	/** 
 	* @author  作者 E-mail: 郭智雄
+	* @date 创建时间：2018年4月17日 上午10:23:49 
+	* @version 1.0 
+	* @parameter  无
+	* @description 查询车场是否有空余车位  
+	* @return  String flag
+	*/
+	@RequestMapping(value="/entranceDisplaySearch.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
+	public @ResponseBody String displayPortStatus(){
+		String flag = "false";
+		int j = carParkUnitl.searchCarPort("未使用").size();
+		if(j>0){
+			System.out.println("车场有空余车位:" + j + "个");
+			flag = "true";
+		}
+		flag = String.valueOf(j);
+		return flag;
+	}
+	
+	
+	/** 
+	* @author  作者 E-mail: 郭智雄
 	* @date 创建时间：2018年4月12日 下午08:45:49 
 	* @version 1.0 
 	* @parameter  HttpServletRequest request
@@ -87,17 +112,11 @@ public class ParkHandler {
 	* @description 根据入口得到的车牌向车场表中添加车辆信息  
 	* @return  CarInfo car 
 	*/
+	@Log(operationType = "控制器", operationName = "得到时间")
 	@RequestMapping(value="/entranceDisplay.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
 	public @ResponseBody CarInfo pageToEntranceDisplay(String carLisence){
 		CarInfo car = null;
-		//-------------------查询车位是否存在空位开始------------------------//
-		int j = carParkUnitl.searchCarPort("未使用").size();
-		if(j>0){
-			System.out.println(j);
-			System.out.println("车场有空余车位");
-			car = carParkUnitl.addCar(carLisence);
-		}
-		//-------------------查询车位是否存在空位结束------------------------//
+		car = carParkUnitl.addCar(carLisence);
 		return car;
 	}
 	
@@ -126,16 +145,40 @@ public class ParkHandler {
 	* @description 入口上传车辆照片 
 	* @return  页面
 	*/
-	@RequestMapping(value="/entranceFileact.action", method=RequestMethod.POST)
-	public ModelAndView entranceFileact(MultipartFile fileact,HttpSession session){
-		ServletContext servletContext = session.getServletContext();
+	
+	@RequestMapping(value="/entranceFileact.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
+	public @ResponseBody CarInfo entranceFileact(MultipartFile fileact,HttpServletRequest  request){
+		CarInfo car = null;
+		ServletContext servletContext = request.getServletContext();
 		String str = carParkUnitl.getImage(fileact, servletContext, "入口");
 		System.out.println("图片存储路径为:" + str);
 		String carLicense = carParkUnitl.recognitionCarImage(str);
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("home");
-		return mav;
+		car = carParkUnitl.addCar(carLicense);
+		return car;
 	}
+	
+	/** 
+	* @author  作者 E-mail: 郭智雄
+	* @date 创建时间：2018年4月17日 下午19:16:49 
+	* @version 1.0 
+	* @parameter  MultipartFile fileact
+	* @parameter  HttpServletRequest request
+	* @description 出口上传车辆照片 ajax方式实现------重要
+	* @return  CarInfo car
+	*/
+//	, produces="application/json;charset=utf-8"
+	@RequestMapping(value = "/upload.action", method = RequestMethod.POST)
+    public @ResponseBody CarInfo upload(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+        CarInfo car = null;
+		ServletContext servletContext = request.getServletContext();
+		String str = carParkUnitl.getImage(file, servletContext, "入口");
+		System.out.println("图片存储路径为:" + str);
+		String carLicense = carParkUnitl.recognitionCarImage(str);
+		car = carParkUnitl.addCar(carLicense);
+		return car;
+    }
+
+	
 	
 	/** 
 	* @author  作者 E-mail: 郭智雄
@@ -151,7 +194,6 @@ public class ParkHandler {
 		ServletContext servletContext = session.getServletContext();
 		String str = carParkUnitl.getImage(fileact, servletContext, "出口");
 		System.out.println("图片存储路径为:" + str);
-		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("home");
 		return mav;

@@ -100,18 +100,36 @@
 <!-- 		上传车牌照片部分开始 -->			
 				<div class="form-group">
 					<label for="inputEmail3" class="col-sm-5 control-label">上传车牌照片：</label>
-					<form action="park/entranceFileact.action" method="post" enctype="multipart/form-data">
-					<div class="col-sm-3">
-						<input type="file" name="fileact">
-					</div>
-					<div class="col-sm-2">
-						<input type="submit" value="提交"  class="btn btn-default">
-					</div>
-					</form>
+					<form id= "uploadForm">  
+						<div class="col-sm-3">
+							<input type="file" name="file"/>
+						</div>
+						<div class="col-sm-2">
+							<input type="button" value="上传" onclick="doUpload()" class="btn btn-default"/>  
+						</div>
+      					
+      					
+					</form>  
+					
+					
+					
    				</div>
-<!-- 		上传车牌照片部分结束 -->     			
-     		
-		</div>
+<!-- 		上传车牌照片部分结束 -->   
+<!-- 		车辆传感器部分开始 -->			
+				<div class="form-group">
+					<label for="inputEmail3" class="col-sm-5 control-label">车辆进入传感器1：</label>
+					<div class="col-sm-6">
+						<button onclick="carSensor1()" class="btn btn-default">触发传感器1</button>
+					</div>
+					<label for="inputEmail3" class="col-sm-5 control-label">车辆进入传感器2：</label>
+					<div class="col-sm-6">
+						<button onclick="carSensor1()" class="btn btn-default">触发传感器2</button>
+					</div>	
+				</div>
+<!-- 		车辆传感器部分结束 -->   	
+
+	
+
 		</font>
 		<div class="col-md-2 column">
 		</div>
@@ -127,8 +145,7 @@
         <TBODY>
         <TR>
           <TD height=66 width=150>
-		  <span id="systimeshow" style="color:#FF0000">
-		  <script language="javascript">getCurDate();</script></span>
+		  <span id="systimeshow" style="color:#FF0000"></span>
 		  </TD>
           <TD width=850>
 		  <MARQUEE 
