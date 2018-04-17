@@ -29,6 +29,7 @@ public class PlateJudge {
 
     public void loadModel(String s) {
         svm.clear();
+        s = s.substring(1);
         svm=SVM.loadSVM(s, "svm");
     }
     
@@ -98,5 +99,8 @@ public class PlateJudge {
     /**
      * 模型存储路径
      */
-    private String path = "res/model/svm.xml";
+//    private String path = this.getClass().getResource("/").getPath() + "/res/model/svm.xml";
+    private String path = (this.getClass().getResource("").getPath() + "SVM/svm.xml");
+//    private String path = "F:/ChuanYiJava/UTF8Mode/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/CarParkSystem/WEB-INF/classes/org/gzhz/park/core/SVM/svm.xml";
+    
 }

@@ -106,6 +106,7 @@ public class CharsIdentify {
 
     public void loadModel(String s) {
        ann.clear();
+       s = s.substring(1);
        ann=ANN_MLP.loadANN_MLP(s, "ann");
     }
 
@@ -122,7 +123,9 @@ public class CharsIdentify {
     //private CvANN_MLP ann = new CvANN_MLP();
     private ANN_MLP ann=ANN_MLP.create();
 
-    private String path = "res/model/ann.xml";
+//    private String path = this.getClass().getResource("/").getPath() + "/res/model/ann.xml";
+    private String path = (this.getClass().getResource("").getPath() + "ANN/ann.xml");
+//    private String path = "F:/ChuanYiJava/UTF8Mode/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/CarParkSystem/WEB-INF/classes/org/gzhz/park/core/ANN/ann.xml";
 
     private int predictSize = 10;
 

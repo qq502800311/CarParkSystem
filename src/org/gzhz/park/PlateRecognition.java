@@ -100,6 +100,7 @@ public class PlateRecognition {
 		
 		//--------------------------自己写的使用方法开始---------------------------------//
 //		String imgPath2 = "F:/ChuanYiJava/UTF8Mode/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/CarParkSystem/entranceImage/20180416 155439.jpg";
+		
 		String imgPath2 = "res/image/general_test/timg.jpg";
 		Mat src2 = opencv_imgcodecs.imread(imgPath2);
 		String ret2 = plateRecognise(src2);

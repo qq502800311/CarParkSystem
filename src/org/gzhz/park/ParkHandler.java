@@ -131,7 +131,7 @@ public class ParkHandler {
 		ServletContext servletContext = session.getServletContext();
 		String str = carParkUnitl.getImage(fileact, servletContext, "入口");
 		System.out.println("图片存储路径为:" + str);
-		String carLicense = carParkUnitl.recognitionCarImage("F:/ChuanYiJava/UTF8Mode/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/CarParkSystem/entranceImage/20180416 163929.jpg");
+		String carLicense = carParkUnitl.recognitionCarImage(str);
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("home");
 		return mav;

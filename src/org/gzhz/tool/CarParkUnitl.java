@@ -162,6 +162,14 @@ public class CarParkUnitl {
 	*/
 	public String recognitionCarImage(String filePath){
 		System.out.println("即将要识别的车牌文件路径是：" + filePath);
+		
+		System.out.println(System.getProperty("user.dir"));
+		String classPath = this.getClass().getResource("/").getPath();
+		System.out.println(classPath);
+		
+		String path2 = (this.getClass().getResource("").getPath() + "SVM/svm.xml").substring(1);
+		System.out.println(path2);
+		
 		String carLicense = null;
 		Mat src2 = opencv_imgcodecs.imread(filePath);
 		carLicense = PlateRecognition.plateRecognise(src2);
