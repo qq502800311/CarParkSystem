@@ -50,7 +50,7 @@ function search() {
 					}else if(j==2){
 						tdNode.innerHTML = resultList[i].car_in_time;		//车辆入场时间
 					}else if(j==3){
-						tdNode.innerHTML = resultList[i].car_park_type;		//车辆类型
+						tdNode.innerHTML = resultList[i].cartype.parameter_name;		//车辆类型
 					}else if(j==4){
 						tdNode.innerHTML = resultList[i].carport.carport_num;		//车辆车位ID
 					}else if(j==5){

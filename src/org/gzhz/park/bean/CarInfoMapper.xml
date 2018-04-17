@@ -49,7 +49,7 @@
 		<association property="carport" column="CARPORT_ID"
 			javaType="org.gzhz.park.bean.CarPort" select="selectCarPort">
 		</association>
-		<association property="cartype" column="PARAMETER_ID"
+		<association property="cartype" column="CAR_PARK_TYPE"
 			javaType="org.gzhz.park.bean.CarType" select="selectCarType">
 		</association>
 	</resultMap>

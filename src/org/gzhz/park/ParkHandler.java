@@ -164,7 +164,7 @@ public class ParkHandler {
 	* @parameter  无
 	* @return  跳转到车场查询页面
 	*/
-	//http://localhost:9090/CarParkSystem/park/pageToSearchCarInfo.action
+	//http://localhost:8080/CarParkSystem/park/pageToSearchCarInfo.action
 	@RequestMapping("/pageToSearchCarInfo.action")
 	public ModelAndView pageToSearchCarInfo(){
 		System.out.println("显示停车场查询页面");
@@ -217,7 +217,7 @@ public class ParkHandler {
 	* @parameter  无
 	* @return  跳转到车位查询页面
 	*/
-	//http://localhost:9090/CarParkSystem/park/pageToSearchCarPort.action
+	//http://localhost:8080/CarParkSystem/park/pageToSearchCarPort.action
 	@RequestMapping("/pageToSearchCarPort.action")
 	public ModelAndView pageToSearchCarPort(){
 		System.out.println("显示停车场查询页面");
