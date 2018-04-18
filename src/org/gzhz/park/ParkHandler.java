@@ -69,6 +69,21 @@ public class ParkHandler {
 	
 	/** 
 	* @author  作者 E-mail: 郭智雄
+	* @date 创建时间：2018年4月18日 下午08:21:49 
+	* @version 1.0 
+	* @parameter  无
+	* @return  跳转到停车入口页面
+	*/
+	@RequestMapping("/carPort.action")
+	public ModelAndView pageToCarPort(){
+		System.out.println("显示停车场车库界面");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/carParkJsp/carPort");
+		return mav;
+	}
+	
+	/** 
+	* @author  作者 E-mail: 郭智雄
 	* @date 创建时间：2018年4月13日 下午14:50:49 
 	* @version 1.0 
 	* @parameter  无
@@ -142,7 +157,7 @@ public class ParkHandler {
 	* @version 1.0 
 	* @parameter  MultipartFile fileact
 	* @parameter  HttpSession session
-	* @description 入口上传车辆照片 
+	* @description 入口上传车辆照片 -------------旧的表格提交
 	* @return  页面
 	*/
 	
@@ -163,7 +178,7 @@ public class ParkHandler {
 	* @version 1.0 
 	* @parameter  MultipartFile fileact
 	* @parameter  HttpServletRequest request
-	* @description 出口上传车辆照片 ajax方式实现------重要
+	* @description 入口上传车辆照片 ajax方式实现------重要
 	* @return  CarInfo car
 	*/
 //	, produces="application/json;charset=utf-8"
@@ -177,6 +192,33 @@ public class ParkHandler {
 		car = carParkUnitl.addCar(carLicense);
 		return car;
     }
+	
+	/** 
+	* @author  作者 E-mail: 郭智雄
+	* @date 创建时间：2018年4月18日 上午08:32:49 
+	* @version 1.0 
+	* @parameter  MultipartFile fileact
+	* @parameter  HttpServletRequest request
+	* @description 停车入库上传车辆照片 ajax方式实现------重要
+	* @return  CarInfo car
+	*/
+//	, produces="application/json;charset=utf-8"
+	@RequestMapping(value = "/carPortUploadIn.action", method = RequestMethod.POST)
+    public @ResponseBody CarInfo carPortUploadIn(HttpServletRequest request, @RequestParam("file") MultipartFile file, String carPort_num) {
+        CarInfo car = null;
+        System.out.println(carPort_num);
+		ServletContext servletContext = request.getServletContext();
+		String str = carParkUnitl.getImage(file, servletContext, "入库");	//得到图片的存储路径
+		String carLicense = carParkUnitl.recognitionCarImage(str);			//根据路径找到图片并识别车牌
+		//根据图片路径和车库编号构建一个车库类
+		//查询参数表中车位使用中的参数对应ID,更新到车库类中
+		//将车库类提交更新到车库表,并得到该车位的ID
+		//将ID与车牌构建一个车辆类
+		//将车辆类提交更新到车辆表
+		//检查以上操作的标志位，返回标志位。
+		car = carParkUnitl.addCar(carLicense);
+		return car;
+    }
 
 	
 	
@@ -186,7 +228,7 @@ public class ParkHandler {
 	* @version 1.0 
 	* @parameter  MultipartFile fileact
 	* @parameter  HttpSession session
-	* @description 出口上传车辆照片 
+	* @description 出口上传车辆照片 --------------旧的表格提交
 	* @return  页面
 	*/
 	@RequestMapping(value="/exportFileact.action", method=RequestMethod.POST)

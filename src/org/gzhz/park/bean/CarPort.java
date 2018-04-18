@@ -18,6 +18,14 @@ public class CarPort {
 	public CarPort() {
 		super();
 	}
+	
+
+	public CarPort(String carport_num, String picture_url) {
+		super();
+		this.carport_num = carport_num;
+		this.picture_url = picture_url;
+	}
+
 
 	public Integer getCarport_id() {
 		return carport_id;
