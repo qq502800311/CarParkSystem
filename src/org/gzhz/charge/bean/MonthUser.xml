@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="org.gzhz.charge.dao.MonthUserMapper">
+
+	<!-- 添加月缴费用户 -->
+	<insert id="addMonthUser"  parameterType="org.gzhz.charge.bean.MonthUser">
+		insert into user_tb(user_id,car_park_license,user_register_date,user_timeout_date,user_name,user_pwd,meal_id,user_status,user_phone) 
+		values(#{user_id},#{car_park_license},#{user_register_date},#{user_timeout_date},#{user_name},#{user_pwd},#{meal_id},#{user_status},#{user_phone})
+	</insert> 
+	
+	<!-- 查看所有月缴费用户 -->
+ 	<select id="findAllMonthUser" resultType="org.gzhz.charge.bean.MonthUser">
+		select * from user_tb
+	</select>	
+	
+	<!-- 条件查询月缴费用户信息,及对应的套餐信息 -->
+	<select id="getTodayMoney" parameterType="HashMap" resultMap="userMap">
+		select * from user_tb 
+		<where>
+	        <if test="start_time!=''"> and user_register_date &gt;= #{start_time}</if>
+			<if test="end_time!=''"> and user_register_date &lt; = #{end_time}</if> 
+		</where>
+	</select>
+	
+	<!-- 本日月缴费用户收款情况 -->
+	<select id="findConditionUser" parameterType="HashMap" resultMap="userMap">
+		select * from user_tb 
+		<where>
+	        <if test="user_id!=''"> and user_id = #{user_id}</if>
+			<if test="car_park_license!=''"> car_park_license = #{car_park_license}</if>
+		</where>
+	</select>	
+	
+		
+		
+ 	<select id="findMeal" resultType="org.gzhz.charge.bean.Meal" parameterType="int">
+		select * from meal_tb where meal_id=#{meal_id}
+	</select>	
+	
+	<resultMap type="org.gzhz.charge.bean.MonthUser" id="userMap">
+		<association property="meal" column="meal_id" javaType="org.gzhz.charge.bean.Meal" select="findMeal"></association>
+	</resultMap>	
+	
+	
+	<!-- 跟新月缴费用户状态 ，退款！-->
+	<update id="updateMonthUser" parameterType="org.gzhz.charge.bean.MonthUser">
+		update user_tb set
+		user_status=#{user_status} where user_id=#{user_id}
+	</update>	
+	
+	<!-- 用户重新充值更新-->
+	<update id="rechargeUpdate" parameterType="org.gzhz.charge.bean.MonthUser">
+		update user_tb set
+		user_status=#{user_status},user_register_date=#{user_register_date},
+		user_timeout_date=#{user_timeout_date},
+		meal_id=#{meal_id} where car_park_license=#{car_park_license}
+	</update>	
+	
+</mapper>

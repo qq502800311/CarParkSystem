@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="org.gzhz.charge.dao.MoneyDetailMapper">
+
+	<!-- 插入明细表 -->
+	<insert id="addMoneyDetail"  parameterType="org.gzhz.charge.bean.MoneyDetail">
+	
+	<selectKey keyProperty="detail_id" order="BEFORE" resultType="int">
+	    select SEQUENCE_MONEY_DETAIL_TB.nextval from dual 
+	</selectKey>	
+		insert into money_detail_tb(detail_id,car_park_license,deal_time,deal_matter,deal_money,deal_method) 
+		values(#{detail_id},#{car_park_license},#{deal_time},#{deal_matter},#{deal_money},#{deal_method})
+	</insert> 
+	
+	<!-- 日结款查询 -->
+	<select id="findTodayMoney" parameterType="HashMap" resultType="org.gzhz.charge.bean.MoneyDetail">
+		select * from money_detail_tb
+		<where>
+	        <if test="start_time!=''"> and deal_time &gt;= #{start_time}</if>
+			<if test="end_time!=''"> and deal_time &lt; = #{end_time}</if> 		
+		</where> 
+
+	</select>	
+	
+	
+</mapper>
+
+
+
+
+
+
+

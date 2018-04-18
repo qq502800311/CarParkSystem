@@ -12,9 +12,9 @@ function check_port_msg(){
 			data: str,
 			dataType: "json",
 			success: function(info) {
-				
-				
-
+				$("#using_port").html(info.carport_using_num);
+				$("#remain_port").html(info.carport_remain_num);
 			}
 		});
+		
 }
