@@ -29,14 +29,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <div class="container">
 
 	<div class="form-group">
-	<h4><label>车位信息查看：</label></h4>
+	<h4><label>车位信息查看：</label></h4><button class="btn btn-default" type="button" onclick="check_port_msg()">查 看</button>
 	<table style="border-collapse:separate;border-spacing:0px 10px;" style="border-collapse:separate;border-spacing:0px 5px;">
 		<tr>
 			<td>已使用车位:</td>
-			<td><input type="text" class="form-control" id="using_port"></td>
+			<td><label id="using_port"></label></td>
+		</tr>
+		<tr>
 			<td>空余车位:</td>
-			<td><input type="text" class="form-control" id="remain_port"></td>
-			<td><button class="btn btn-default" type="button" onclick="check_port_msg()">查 看</button></td>
+			<td><label id="remain_port"></label></td>
 		</tr>	
 	</table>
 	</div>

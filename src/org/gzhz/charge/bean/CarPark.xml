@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="org.gzhz.charge.dao.CarParkMapper">
+
+	<!-- 停车收费，查找停车信息 -->
+	<select id="searchCarParkMsg" parameterType="HashMap" resultMap="caMap">
+		select * from car_park_info_tb where car_park_license = #{car_park_license}
+	</select>	
+		
+ 	<select id="findCar" resultType="org.gzhz.charge.bean.Parameter" parameterType="int">
+		select * from parameter_tb where parameter_id=#{car_park_type}
+	</select>	
+	
+	<resultMap type="org.gzhz.charge.bean.CarPark" id="caMap">
+		<association property="parameter" column="car_park_type" javaType="org.gzhz.charge.bean.Parameter" select="findCar"></association>
+	</resultMap>
+	
+ 	<!-- 收完费车辆信息删除 -->
+	<delete id="deleteCarParkMsg" parameterType="org.gzhz.charge.bean.CarPark">
+		delete from car_park_info_tb where car_park_license=#{car_park_license}
+	</delete>
+	
+</mapper>
+
+
+
+
+
+
+

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="org.gzhz.charge.dao.CarLogMapper">
+
+	<!-- 查找收费日结款 -->
+	<select id="findTodayMoney" parameterType="HashMap" resultMap="carMap">
+		select * from car_log_tb where car_park_type=2 
+         <if test="start_time!=''"> and car_in_time &gt;= #{start_time}</if>
+		<if test="end_time!=''"> and car_out_time &lt; = #{end_time}</if> 
+	</select>
+		
+  	<select id="findCar" resultType="org.gzhz.charge.bean.Parameter" parameterType="int">
+		select * from parameter_tb where parameter_id=#{car_park_type}
+	</select>	
+	
+	<resultMap type="org.gzhz.charge.bean.CarLog" id="carMap">
+		<association property="parameter" column="car_park_type" javaType="org.gzhz.charge.bean.Parameter" select="findCar"></association>
+	</resultMap>
+	
+</mapper>
+
+
+
+
+
+
+

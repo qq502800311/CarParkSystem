@@ -44,8 +44,4 @@ public class CarportUserMsg {
 	public void setWelcome_word(String welcome_word) {
 		this.welcome_word = welcome_word;
 	}
-	
-	
-	
-
 }
