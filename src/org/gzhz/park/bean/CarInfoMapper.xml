@@ -75,8 +75,14 @@
 	<select id="searchUnusePort" parameterType="java.lang.Integer" resultType="org.gzhz.park.bean.CarPort">
 		select * from CARPORT_TB where CARPORT_STATUS =#{id} 
 	</select>
-	<select id="searchUnusePortParameter" parameterType="java.lang.String"
+<!-- 	根据参数名称查询ID -->	
+	<select id="searchParameterIDByName" parameterType="java.lang.String"
 		resultType="java.lang.Integer">
 		select PARAMETER_ID from PARAMETER_TB where PARAMETER_NAME =#{id}
+	</select>
+
+<!-- 	车辆VIP表查询车辆类型且关联参数表查询 -->	
+	<select id="searchCarType"  parameterType="java.lang.String" resultType="java.lang.String">
+		select b.PARAMETER_NAME from CAR_VIP_TB a, PARAMETER_TB b where a.CAR_PARK_LICENSE =#{id} and a.CAR_PARK_TYPE=b.PARAMETER_ID
 	</select>
 </mapper>

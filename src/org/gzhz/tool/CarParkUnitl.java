@@ -12,6 +12,7 @@ import org.bytedeco.javacpp.opencv_core.Mat;
 import org.gzhz.park.PlateRecognition;
 import org.gzhz.park.bean.CarInfo;
 import org.gzhz.park.bean.CarPort;
+import org.gzhz.park.bean.CarType;
 import org.gzhz.park.dao.ICarInfoDao;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,8 +28,6 @@ public class CarParkUnitl {
 	@Resource
 	private MyDateUnitl myDateUnitl;
 	@Resource
-	private CarParkUnitl carParkUnitl;
-	@Resource
 	private ICarInfoDao iCarInfoDao;
 	
 
@@ -43,7 +42,18 @@ public class CarParkUnitl {
 	public CarInfo addCar(String carLisence){
 		String date = myDateUnitl.getNowDate();
 		System.out.println("车辆进入时间为："+date);
+		String carType = searchCarType(carLisence);		//获得车辆用户类型
 		CarInfo car = new CarInfo(carLisence,date);
+		car.setCartype(new CarType()); 							//新建车辆类中的车辆类型类
+		car.getCartype().setParameter_name(carType);	//向车辆类中的车辆类型类添加车辆类型名称
+		if(carType.equals("临时车辆")){
+			car.setCar_park_status("未缴费");
+		}else{
+			car.setCar_park_status("已缴费");
+		}
+		System.out.println("当前车辆类型为: " + car.getCartype().getParameter_name());
+		Integer car_park_type = iCarInfoDao.searchParameterIDByName(car.getCartype().getParameter_name());	//根据当前车辆类型到参数表中查询车辆类型ID
+		car.setCar_park_type(car_park_type);
 		int i  = iCarInfoDao.partAddCar(car);
 		if(i!=1){
 			car = null;
@@ -60,7 +70,7 @@ public class CarParkUnitl {
 	*/
 	public CarInfo deleteCar(String carLisence){
 		String date = myDateUnitl.getNowDate();
-		System.out.println("当前日期是："+date);
+		System.out.println("车辆离开时间为："+date);
 		CarInfo car = new CarInfo(carLisence,date);
 		int i  = iCarInfoDao.partDeleteCar(car);
 		if(i<1){
@@ -78,8 +88,26 @@ public class CarParkUnitl {
 	* @return List<CarPort>
 	*/
 	public List<CarPort> searchCarPort(String str){
-		List<CarPort> list = iCarInfoDao.searchUnusePort(iCarInfoDao.searchUnusePortParameter(str));
+		List<CarPort> list = iCarInfoDao.searchUnusePort(iCarInfoDao.searchParameterIDByName(str));
 		return list;
+	}
+	
+	/** 
+	* @author  作者 E-mail: 郭智雄
+	* @date 创建时间：2018年4月18日 上午10:35:49 
+	* @version 1.0 
+	* @parameter  String carLicense 车牌号
+	* @description 查询当前车辆是否是特殊用户
+	* @return String resultStr
+	*/
+	public String searchCarType(String carLicense){
+		String resultStr = iCarInfoDao.searchCarType(carLicense);
+		System.out.println("查询环节找到的数据1: " + resultStr);
+		if( (!("月缴用户".equals(resultStr))) && (!("白名单".equals(resultStr))) ){
+			resultStr = "临时车辆";
+		}
+		System.out.println("查询环节找到的数据2: " + resultStr);
+		return resultStr;
 	}
 	
 	/** 

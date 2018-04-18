@@ -1,6 +1,9 @@
 
-
-
+$(function() {//此处方法为全部加载完成，能保证全部ID、标签等都能找到
+	carSensor1();
+	getCurDate();
+	setInterval("getCurDate()", 100);//控制页面时间跳动
+})
 
 function clickBtn2() {
 	var carLisence = $(" input[ name='carLisence' ] ").val();
@@ -16,6 +19,38 @@ function clickBtn2() {
 		}
 	});
 }
+
+//触发传感器1
+function carSensor1() {
+	$.ajax({
+		url : "park/entranceDisplaySearch.action",
+		type : "POST",
+		success : function(res) {
+			$(" font[ id='displayboard' ] ").text("欢迎光临!当前空余车位:" + res);
+		}
+	});
+}
+
+//最终测试成功的上传车牌文件ajax方法
+function doUpload() {  
+    var formData = new FormData($( "#uploadForm" )[0]);  
+    $.ajax({  
+         url: 'park/exportFileact.action',  
+         type: 'POST',  
+         data: formData,  
+         async: false,  
+         cache: false,  
+         contentType: false,  
+         processData: false,  
+         success: function (returndata) {  
+             alert("成功" + returndata.car_park_license); 
+             $(" font[ id='displayboard' ] ").text("本次停车费5元！欢迎再次光临!" + returndata.car_park_license + "的车主");
+         },  
+         error: function (returndata) {  
+             alert("提交车辆照片失败");  
+         }  
+    });  
+} 
 
 // -------------------LED显示效果JS开始 -------------------//
 function getCurDate(){

@@ -63,7 +63,7 @@ public class ParkHandler {
 	public ModelAndView pageToEntrance(){
 		System.out.println("显示停车场入口页面");
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("enterCar");
+		mav.setViewName("/carParkJsp/enterCar");
 		return mav;
 	}
 	
@@ -93,7 +93,7 @@ public class ParkHandler {
 	public ModelAndView pageToExport(){
 		System.out.println("显示停车场出口页面");
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("outCar");
+		mav.setViewName("/carParkJsp/outCar");
 		return mav;
 	}
 	
@@ -131,6 +131,8 @@ public class ParkHandler {
 	@RequestMapping(value="/entranceDisplay.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
 	public @ResponseBody CarInfo pageToEntranceDisplay(String carLisence){
 		CarInfo car = null;
+		String str = carParkUnitl.searchCarType(carLisence);
+		System.out.println("当前车辆属于什么用户:" + str);
 		car = carParkUnitl.addCar(carLisence);
 		return car;
 	}
@@ -226,19 +228,23 @@ public class ParkHandler {
 	* @author  作者 E-mail: 郭智雄
 	* @date 创建时间：2018年4月12日 下午15:45:49 
 	* @version 1.0 
-	* @parameter  MultipartFile fileact
-	* @parameter  HttpSession session
-	* @description 出口上传车辆照片 --------------旧的表格提交
+	* @parameter  MultipartFile file
+	* @parameter  HttpServletRequest request
+	* @description 出口上传车辆照片 --------------新版ajax方式
 	* @return  页面
 	*/
-	@RequestMapping(value="/exportFileact.action", method=RequestMethod.POST)
-	public ModelAndView exportFileact(MultipartFile fileact,HttpSession session){
-		ServletContext servletContext = session.getServletContext();
-		String str = carParkUnitl.getImage(fileact, servletContext, "出口");
-		System.out.println("图片存储路径为:" + str);
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("home");
-		return mav;
+	@RequestMapping(value = "/exportFileact.action", method = RequestMethod.POST)
+	public @ResponseBody CarInfo exportFileact(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+		CarInfo car = null;
+		ServletContext servletContext = request.getServletContext();
+		String str = carParkUnitl.getImage(file, servletContext, "出口");
+		System.out.println("图片存储路径为:" + str);							//上传图片完毕
+		String carLicense = carParkUnitl.recognitionCarImage(str);			//根据返回的图片地址识别车牌号
+		//根据车牌号查询是否已缴费，如果未缴费则返回车辆进入时刻
+		//调用收费端将时间传入，返回应收取的金额
+		//将收取的金额加入车辆类中向前端传递
+		car = carParkUnitl.deleteCar(carLicense);							//车辆离开删除车场记录
+		return car;
 	}
 	
 	/** 

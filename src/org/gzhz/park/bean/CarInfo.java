@@ -18,6 +18,8 @@ public class CarInfo {
 	private Integer carport_id;			//车辆停放车位编号
 	private String 	car_park_status;	//车辆缴费状态
 	
+	private String 	car_park_money;		//车辆停车产生的费用
+	
 	private CarPort carport; 			//车辆停放的车位类
 	private CarType cartype; 			//车辆类型信息类
 	
@@ -102,6 +104,17 @@ public class CarInfo {
 	public void setCartype(CarType cartype) {
 		this.cartype = cartype;
 	}
+
+
+	public String getCar_park_money() {
+		return car_park_money;
+	}
+
+
+	public void setCar_park_money(String car_park_money) {
+		this.car_park_money = car_park_money;
+	}
+	
 	
 	
 }
