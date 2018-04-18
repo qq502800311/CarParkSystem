@@ -1,5 +1,8 @@
 package org.gzhz.charge.bean;
- /** 
+
+import org.springframework.stereotype.Component;
+
+/** 
 * @author  作者 E-mail: 黄彪华
 * @date 创建时间：2018年4月17日 上午9:35:10
 * @version 1.03
@@ -7,6 +10,7 @@ package org.gzhz.charge.bean;
 * @since  
 * @return  
 */
+@Component
 public class CarLog {
 	
 	private int car_log_id;
