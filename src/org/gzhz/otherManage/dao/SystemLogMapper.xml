@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="org.gzhz.otherManage.dao.SystemLogMapper">
+	<!-- //查询计费规则套餐 -->
+	<select id="selectlog" parameterType="java.util.HashMap"  resultMap="logmap">
+		select * from LOG_TB ,EMP_TB  
+		<where>
+		 EMP_TB.EMP_ID=LOG_TB.emp_id
+			<if test="starttime_systemlog!=null and starttime_systemlog!=''">
+				and LOG_TB.LOG_TIME &gt; #{starttime_systemlog}
+			</if>
+			<if test="endtime_systemlog!=null and endtime_systemlog!=''">
+				and LOG_TB.LOG_TIME &lt; #{endtime_systemlog}
+			</if>
+			<if test="emp_name!=null and emp_name!=''">
+				and EMP_TB.EMP_NAME like #{emp_name}
+			</if>
+		</where>
+	</select>
+	
+	<resultMap type="org.gzhz.otherManage.bean.LogTb" id="logmap">
+		<id column="log_id" property="log_id" javaType="java.lang.Integer" />
+		<result column="emp_id" property="emp_id" javaType="java.lang.String" />
+		<result column="log_time" property="log_time" javaType="java.lang.String" />
+		<result column="log_even" property="log_even"
+			javaType="java.lang.String" />
+		<!-- 多对一的关系 -->
+		<!-- property: 指的是属性的值, javaType：指的是属性的类型 -->
+		<association property="emptb"  javaType="org.gzhz.otherManage.bean.EmpTb">
+			<id column="emp_id" property="emp_id" javaType="java.lang.String" />
+			<result column="emp_name" property="emp_name"
+				javaType="java.lang.String" />
+			<result column="emp_pwd" property="emp_pwd"
+				javaType="java.lang.String" />
+			<result column="emp_status" property="emp_status"
+				javaType="java.lang.String" />
+		</association>
+	</resultMap>
+	
+
+	<select id="selectcountmealtb" resultType="java.lang.Integer">
+		select sum(meal_pid)
+		FROM MEAL_TB
+	</select>
+
+
+
+
+
+
+
+
+
+
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="org.gzhz.otherManage.dao.PayMonthMapper">
+	<!-- //查询计费规则套餐 -->
+	<select id="findpaymonth" resultType="org.gzhz.otherManage.bean.MealTb">
+		select * from MEAL_TB
+	</select>
+
+	<select id="selectcountmealtb" resultType="java.lang.Integer">
+		select sum(meal_pid) FROM MEAL_TB 
+	</select>
+
+
+	
+
+
+	<!-- 添加计费规则 -->
+
+
+	<!-- 批量增加 -->
+	<insert id="insertWithList" parameterType="java.util.List">
+		INSERT INTO meal_tb
+		(MEAL_ID,MEAL_MONEY,MEAL_NAME,MEAL_STATUS,MEAL_DETAIL,meal_pid)
+		SELECT
+		SEQUENCE_MEAL_TB.NEXTVAL meal_id, A.*
+		FROM(
+		<foreach collection="list" item="item" index="index"
+			separator="UNION ALL">
+			SELECT
+			#{item.meal_money,jdbcType=INTEGER} meal_money,
+			#{item.meal_name,jdbcType=VARCHAR} meal_name,
+			#{item.meal_status,jdbcType=VARCHAR} meal_status,
+			#{item.meal_detail}meal_detail,
+			#{item.meal_pid} meal_pid
+			FROM dual
+		</foreach>
+		)A
+	</insert>
+
+	<!-- 修改状态 金额-->
+	<update id="updatemoney" parameterType="java.util.HashMap">
+		UPDATE meal_tb set meal_money=#{meal_money} where meal_id =#{meal_id}
+	</update>
+	
+	<!-- 修改状态  启用禁用-->
+	<update id="updatestatus" parameterType="java.util.HashMap">
+		UPDATE meal_tb set meal_status=#{meal_status} where meal_pid =#{meal_pid}
+	</update>
+	
+	<!-- 查找状态  -->
+	<select id="selectstatus" parameterType="java.lang.String" resultType="org.gzhz.otherManage.bean.MealTb">
+		
+		select * from meal_tb where  meal_status=#{meal_status}
+	</select>
+	
+
+	<!-- 删除 -->
+	<delete id="deletemealtbById" parameterType="java.lang.String"  >
+		delete FROM meal_tb WHERE meal_pid=#{meal_pid}
+	</delete>
+
+
+
+
+</mapper>

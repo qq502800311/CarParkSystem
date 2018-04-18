@@ -1,6 +1,6 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
@@ -19,21 +19,18 @@
 <!-- laydate控件方式,layDate 采用原生 JavaScript 编写，不依赖任何第三方库，兼容所有浏览器（IE6/7除外） -->
 <!-- <script src="js/laydate/laydate.js"></script> -->
 <!-- 改成你的路径 -->
-<script type="text/javascript" src="js/zlbjs/vip_search.js"></script>
+
 
 
 
 </head>
 <body>
-	<h1>白名单查询与管控</h1>
+	<h1>月缴产品查询与管控</h1>
 	<!-- 	查询条件框部分开始 -->
 	<div>
-		<div>查询条件：</div>
+		
 		<div>
-			<form id="condition_from">
-				<label>车牌号：</label> <input type="text" name="car_park_license">
-				<button type="button" class="btn btn-primary" onclick="search()">查询</button>
-			</form>
+			
 			<!-- 按钮触发模态框 -->
 			<button class="btn btn-primary" data-toggle="modal"
 				data-target="#myModal1">增加</button>
@@ -53,8 +50,11 @@
 			<thead>
 				<tr>
 					<td>序号</td>
-					<td>车牌</td>
-					<td>车辆状态</td>
+					<td>套餐名</td>
+					<td>套餐金额</td>
+					<td>套餐详情</td>
+				
+					<td>状态</td>
 					<td>操作</td>
 
 				</tr>
@@ -74,36 +74,33 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true"></button>
-					<h4 class="modal-title" id="myModalLabel">新增车辆白名单</h4>
+					<h4 class="modal-title" id="myModalLabel">新增缴费套餐</h4>
 				</div>
 				<div class="modal-body" align="center">
 					<!-- 								模态框中表单开始 -->
-					<!-- 				要增加的人员姓名 -->
-					<div>
-						<label>车牌号</label> <input id="newvip_Name" type="text" onchange="change_carvip()">
-					<label id="car_msg">
-					</label></div>
+					<!-- 				要增加的月套餐 -->
+					<form id="addmeal_from">
+					<div><label id="meal_1_msg"></label></br>
+						<label>月套餐</label> <input  maxlength="5" name="mealmoney_1" id="mealmoney_1" type="text" onblur="blur_meal_1()" >
+					</div>
 					<br></br>
-					<!-- 				设置密码1 -->
+					<!-- 				要增加的季套餐 -->
 					<div>
-						
+					<label id="meal_2_msg"></label></br>
+						<label>季套餐</label> <input maxlength="5" name="mealmoney_2" id="mealmoney_2" type="text" onblur="blur_meal_2()" >
+					
 
 					</div>
 					<br></br>
-					<!-- 				设置密码2 -->
+					<!-- 				要增加的半年套餐	-->
 					<div>
-						
+					<label id="meal_3_msg"></label></br>
+						<label>半年套餐</label> <input maxlength="5" name="mealmoney_3" id="mealmoney_3" type="text" onblur="blur_meal_3()" >
+					
 					</div>
 					<br></br>
-					<!-- 				选择所属科室 -->
-					<div>
-						
-					</div>
-					<br></br>
-					<!-- 				选择所属角色 -->
-					<div>
-						
-					</div>
+					
+					</form>
 					<br></br>
 
 
@@ -114,7 +111,7 @@
 						<!-- 									<button type="submit" class="btn btn-primary">入库</button> -->
 						<!-- 									<button type="button" onclick="" class="btn btn-primary">审核通过</button> -->
 						<button type="button" class="btn btn-primary"
-							onclick="addVipcar()" data-dismiss="modal">提交</button>
+							onclick="addmeal()" data-dismiss="modal">提交</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
 					</div>
 				</div>
@@ -135,30 +132,31 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true"></button>
-					<h4 class="modal-title" id="myModalLabel" >修改白名单</h4>
+					<h4 class="modal-title" id="myModalLabel" >修改套餐</h4>
 				</div>
 				<div class="modal-body" align="center">
 					<!-- 								模态框中表单开始 -->
-					<!-- 				要增加的人员姓名 -->
-					<div>
-						<label> 当前车牌 </label> <label id="changecar_park_license" ></label>
+				<form id="modifiercharge_from">
+					<div><label id="modifier_mealmoney_1_msg"></label></br>
+						<label>月套餐</label> <input name="mealmoney_1" maxlength="5" id="modifier_mealmoney_1" type="text" onblur="modifier_blur_money_1()" >
 					</div>
 					<br></br>
-					<!-- 				要修改的车牌号 -->
+					<!-- 				设置三小时之内 -->
 					<div>
-						<label>车牌号：</label> <input  type="text" id="modifiercarparkchangeCarparklicense" onchange="changemoodife_carvip()"> 
+					<label id="modifier_mealmoney_2_msg"></label></br>
+						<label>季套餐</label> <input name="mealmoney_2" maxlength="5" id="modifier_mealmoney_2" type="text" onblur="modifier_blur_money_2()" >
+					
+
+					</div>
+					<br></br>
+					<!-- 				设置超过三小时低于五小时，超出部分费用	-->
+					<div>
+					<label id="modifier_mealmoney_3_msg"></label></br>
+						<label>半年套餐</label> <input name="mealmoney_3" maxlength="5" id="modifier_mealmoney_3" type="text" onblur="modifier_blur_money_3()" >
+					  <label ></label>
 					</div>
 					<br></br>
 					
-					<div>
-						
-					</div>
-					<br></br>
-					
-					<div>
-						
-					</div>
-					<br></br>
 
 
 					<!-- 								模态框中表单结束 -->
@@ -167,7 +165,7 @@
 					<div class="col-sm-offset-2 col-sm-10">
 						
 						<button type="button" class="btn btn-primary"
-							onclick="changeCarparklicense()" data-dismiss="modal">修改</button>
+							onclick="changemodifier()" data-dismiss="modal">修改</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
 					</div>
 				</div>
@@ -178,4 +176,5 @@
 	</div>
 	<!-- 			修改人员模态框结束 -->
 </body>
+<script type="text/javascript" src="js/zlbjs/pay_monthly.js"></script>
 </html>

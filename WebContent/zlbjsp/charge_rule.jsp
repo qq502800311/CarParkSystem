@@ -1,6 +1,6 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
@@ -19,21 +19,18 @@
 <!-- laydate控件方式,layDate 采用原生 JavaScript 编写，不依赖任何第三方库，兼容所有浏览器（IE6/7除外） -->
 <!-- <script src="js/laydate/laydate.js"></script> -->
 <!-- 改成你的路径 -->
-<script type="text/javascript" src="js/zlbjs/vip_search.js"></script>
+
 
 
 
 </head>
 <body>
-	<h1>白名单查询与管控</h1>
+	<h1>计费规则查询与管控</h1>
 	<!-- 	查询条件框部分开始 -->
 	<div>
-		<div>查询条件：</div>
+		
 		<div>
-			<form id="condition_from">
-				<label>车牌号：</label> <input type="text" name="car_park_license">
-				<button type="button" class="btn btn-primary" onclick="search()">查询</button>
-			</form>
+			
 			<!-- 按钮触发模态框 -->
 			<button class="btn btn-primary" data-toggle="modal"
 				data-target="#myModal1">增加</button>
@@ -53,8 +50,12 @@
 			<thead>
 				<tr>
 					<td>序号</td>
-					<td>车牌</td>
-					<td>车辆状态</td>
+					<td>半小时之内</td>
+					<td>三小时之内</td>
+					<td>超过三小时低于五小时，超出部分费用</td>
+					<td>超过五小时低于八小时，超出部分费用</td>
+					<td>超过八小时低于二十四小时，超出部分费用</td>
+					<td>状态</td>
 					<td>操作</td>
 
 				</tr>
@@ -74,36 +75,45 @@
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true"></button>
-					<h4 class="modal-title" id="myModalLabel">新增车辆白名单</h4>
+					<h4 class="modal-title" id="myModalLabel">新增计费规则</h4>
 				</div>
 				<div class="modal-body" align="center">
 					<!-- 								模态框中表单开始 -->
-					<!-- 				要增加的人员姓名 -->
-					<div>
-						<label>车牌号</label> <input id="newvip_Name" type="text" onchange="change_carvip()">
-					<label id="car_msg">
-					</label></div>
+					<!-- 				要增加的计费半小时 -->
+					<form id="addcharge_from">
+					<div><label id="charge_rule_1_msg"></label></br>
+						<label>半小时内费用</label> <input maxlength="5" name="charge_rule_1" id="charge_rule_1" type="text" onblur="blur_charge_rule_1()" >
+					</div>
 					<br></br>
-					<!-- 				设置密码1 -->
+					<!-- 				设置三小时之内 -->
 					<div>
-						
+					<label id="charge_rule_2_msg"></label></br>
+						<label>三小时之内费用</label> <input maxlength="5" name="charge_rule_2" id="charge_rule_2" type="text" onblur="blur_charge_rule_2()" >
+					
 
 					</div>
 					<br></br>
-					<!-- 				设置密码2 -->
+					<!-- 				设置超过三小时低于五小时，超出部分费用	-->
 					<div>
-						
+					<label id="charge_rule_3_msg"></label></br>
+						<label>超过三小时低于五小时，超出部分费用</label> <input maxlength="5" name="charge_rule_3" id="charge_rule_3" type="text" onblur="blur_charge_rule_3()" >
+					
 					</div>
 					<br></br>
-					<!-- 				选择所属科室 -->
+					<!-- 				超过三小时低于五小时，超出部分费用 -->
 					<div>
-						
+					<label id="charge_rule_4_msg"></label></br>
+							<label>超过五小时低于八小时，超出部分费用</label> <input maxlength="5" name="charge_rule_4" id="charge_rule_4" type="text" onblur="blur_charge_rule_4()" >
+					
 					</div>
 					<br></br>
-					<!-- 				选择所属角色 -->
+					<!-- 				超过八小时低于二十四小时，超出部分费用 -->
 					<div>
-						
+					<label id="charge_rule_5_msg"></label></br>
+							<label>超过八小时低于二十四小时，超出部分费用</label> <input maxlength="5" name="charge_rule_5" id="charge_rule_5" type="text" onblur="blur_charge_rule_5()">
+					
 					</div>
+					</form>
 					<br></br>
 
 
@@ -114,7 +124,7 @@
 						<!-- 									<button type="submit" class="btn btn-primary">入库</button> -->
 						<!-- 									<button type="button" onclick="" class="btn btn-primary">审核通过</button> -->
 						<button type="button" class="btn btn-primary"
-							onclick="addVipcar()" data-dismiss="modal">提交</button>
+							onclick="addchargerule()" data-dismiss="modal">提交</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
 					</div>
 				</div>
@@ -139,25 +149,40 @@
 				</div>
 				<div class="modal-body" align="center">
 					<!-- 								模态框中表单开始 -->
-					<!-- 				要增加的人员姓名 -->
-					<div>
-						<label> 当前车牌 </label> <label id="changecar_park_license" ></label>
+				<form id="modifiercharge_from">
+					<div><label id="modifier_charge_rule_1_msg"></label></br>
+						<label>半小时内费用</label> <input maxlength="5" name="charge_rule_1" id="modifier_charge_rule_1" type="text" onblur="modifier_blur_charge_rule_1()" >
 					</div>
 					<br></br>
-					<!-- 				要修改的车牌号 -->
+					<!-- 				设置三小时之内 -->
 					<div>
-						<label>车牌号：</label> <input  type="text" id="modifiercarparkchangeCarparklicense" onchange="changemoodife_carvip()"> 
-					</div>
-					<br></br>
+					<label id="modifier_charge_rule_2_msg"></label></br>
+						<label>三小时之内费用</label> <input maxlength="5" name="charge_rule_2" id="modifier_charge_rule_2" type="text" onblur="modifier_blur_charge_rule_2()" >
 					
-					<div>
-						
+
 					</div>
 					<br></br>
-					
+					<!-- 				设置超过三小时低于五小时，超出部分费用	-->
 					<div>
-						
+					<label id="modifier_charge_rule_3_msg"></label></br>
+						<label>超过三小时低于五小时，超出部分费用</label> <input maxlength="5" name="charge_rule_3" id="modifier_charge_rule_3" type="text" onblur="modifier_blur_charge_rule_3()" >
+					  <label ></label>
 					</div>
+					<br></br>
+					<!-- 				超过三小时低于五小时，超出部分费用 -->
+					<div>
+					<label id="modifier_charge_rule_4_msg"></label></br>
+							<label>超过五小时低于八小时，超出部分费用</label> <input maxlength="5" name="charge_rule_4" id="modifier_charge_rule_4" type="text" onblur="modifier_blur_charge_rule_4()" >
+					
+					</div>
+					<br></br>
+					<!-- 				超过八小时低于二十四小时，超出部分费用 -->
+					<div>
+					<label id="modifier_charge_rule_5_msg"></label></br>
+							<label>超过八小时低于二十四小时，超出部分费用</label> <input maxlength="5" name="charge_rule_5" id="modifier_charge_rule_5" type="text" onblur="modifier_blur_charge_rule_5()">
+					
+					</div>
+					</form>
 					<br></br>
 
 
@@ -167,7 +192,7 @@
 					<div class="col-sm-offset-2 col-sm-10">
 						
 						<button type="button" class="btn btn-primary"
-							onclick="changeCarparklicense()" data-dismiss="modal">修改</button>
+							onclick="changemodifier()" data-dismiss="modal">修改</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">返回</button>
 					</div>
 				</div>
@@ -178,4 +203,5 @@
 	</div>
 	<!-- 			修改人员模态框结束 -->
 </body>
+<script type="text/javascript" src="js/zlbjs/charge_rule.js"></script>
 </html>

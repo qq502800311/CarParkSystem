@@ -1,4 +1,9 @@
 package org.gzhz.otherManage.bean;
+
+import java.util.List;
+
+import org.springframework.stereotype.Component;
+
 /** 
 * @author: 詹良斌
 * @date 创建时间 2018年4月12日 下午4:00:13
@@ -9,10 +14,13 @@ package org.gzhz.otherManage.bean;
 * @return
 * @Description: TODO
 */
+@Component
 public class Parameter_Tb {
      private int parameter_id;
      private int parameter_pid;
      private String parameter_name;
+     
+     private List<CarportTb>  carporttblist ;
 	public int getParameter_id() {
 		return parameter_id;
 	}
@@ -45,6 +53,12 @@ public class Parameter_Tb {
 	public String toString() {
 		return "Parameter_Tb [parameter_id=" + parameter_id + ", parameter_pid=" + parameter_pid + ", parameter_name="
 				+ parameter_name + "]";
+	}
+	public List<CarportTb> getCarporttblist() {
+		return carporttblist;
+	}
+	public void setCarporttblist(List<CarportTb> carporttblist) {
+		this.carporttblist = carporttblist;
 	}
 
      
