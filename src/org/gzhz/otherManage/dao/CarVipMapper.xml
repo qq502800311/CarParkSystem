@@ -37,16 +37,23 @@
 	<!-- 添加车牌 -->
 	<insert id="addvip" parameterType="org.gzhz.otherManage.bean.CarVipTb">
 		<selectKey keyProperty="vip_id" order="BEFORE" resultType="java.lang.Integer">
-			select SEQUENCE_VIP_TB.nextval from dual
+			select SEQUENCE_VIP_TB.nextval  from dual
+			
 		</selectKey>
 		insert into CAR_VIP_TB(VIP_ID,CAR_PARK_LICENSE,CAR_PARK_TYPE)
-		values(#{vip_id},#{newvip_Name},${4})
+		values(#{vip_id},#{car_park_license},#{car_park_type})
 	</insert>
 
 	<!-- 删除车牌车牌 -->
 	<delete id="deletevip" parameterType="String">
 		delete FROM CAR_VIP_TB WHERE CAR_PARK_LICENSE=#{currentcarparklicense}
 	</delete>
+	
+	<!-- 注册车牌检验重名 -->
+	<select id="carvipfindByName" parameterType="org.gzhz.otherManage.bean.CarVipTb"
+		resultType="org.gzhz.otherManage.bean.CarVipTb">
+		SELECT * from CAR_VIP_TB WHERE CAR_PARK_LICENSE =#{car_park_license}
+	</select>
 
 
 </mapper>

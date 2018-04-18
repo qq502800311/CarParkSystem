@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="org.gzhz.otherManage.dao.ChargeRule1Mapper">
+	<!-- //查询计费规则套餐 -->
+	<select id="findChargerulemeal" resultType="org.gzhz.otherManage.bean.ChargeRuleTb">
+		SELECT * from
+		charge_rule_tb
+
+	</select>
+
+	<!-- <select id="findvipBytype" resultType="org.gzhz.otherManage.bean.Parameter_Tb"> -->
+	<!-- select * from PARAMETER_TB -->
+	<!-- where parameter_id= ${4} -->
+	<!-- </select> -->
+
+	<!-- <resultMap type="org.gzhz.otherManage.bean.CarVipTb" id="findcarvipmap"> -->
+	<!-- <association property="parameter_tb" column="car_park_type" -->
+	<!-- javaType="org.gzhz.otherManage.bean.Parameter_Tb" select="findvipBytype"> -->
+	<!-- </association> -->
+	<!-- </resultMap> -->
+
+
+	<!-- 修改操作计费规则状态 -->
+	<update id="changerulestues" parameterType="org.gzhz.otherManage.bean.ChargeRuleTb">
+		update charge_rule_tb
+		set
+		charge_status=#{charge_status}
+		where
+		charge_id =#{charge_id}
+	
+	</update>
+	
+   <!-- 通过状态来查找 计费规则-->
+    <select id="findMinitabByStatus" parameterType="java.lang.String" resultType="org.gzhz.otherManage.bean.ChargeRuleTb">
+      select * from charge_rule_tb where charge_status=#{charge_status}
+    </select>
+       
+	<!-- 添加计费规则 -->
+	<insert id="addChargeRule" parameterType="org.gzhz.otherManage.bean.ChargeRuleTb">
+		<selectKey keyProperty="charge_id" order="BEFORE"
+			resultType="java.lang.Integer">
+			select SEQUENCE_CHARGE_RULE_TB.nextval from dual
+
+		</selectKey>
+		insert into
+		charge_rule_tb(CHARGE_ID,CHARGE_RULE_1,CHARGE_RULE_2,CHARGE_RULE_3,CHARGE_RULE_4,CHARGE_RULE_5,CHARGE_STATUS)
+		values(#{charge_id},#{charge_rule_1},#{charge_rule_2},#{charge_rule_3},#{charge_rule_4},#{charge_rule_5},#{charge_status})
+	</insert>
+	
+	<!-- 修改操作计费没小时费用  通过主键ID来找到 -->
+	<update id="changerulecost" parameterType="org.gzhz.otherManage.bean.ChargeRuleTb">
+		update charge_rule_tb
+		set
+		 CHARGE_RULE_1=#{charge_rule_1} 
+		, CHARGE_RULE_2=#{charge_rule_2}
+		,  CHARGE_RULE_3=#{charge_rule_3}
+		, CHARGE_RULE_4=#{charge_rule_4}
+		, CHARGE_RULE_5=#{charge_rule_5}
+		where
+		charge_id =#{charge_id}
+	
+	</update>
+
+	<!--删除车牌车牌  -->
+	<delete id="deletechargeRuleById" parameterType="org.gzhz.otherManage.bean.ChargeRuleTb">
+	delete FROM charge_rule_tb WHERE charge_id=#{charge_id}
+	</delete>
+
+	
+
+
+</mapper>
