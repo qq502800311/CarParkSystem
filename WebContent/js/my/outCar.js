@@ -43,8 +43,8 @@ function doUpload() {
          contentType: false,  
          processData: false,  
          success: function (returndata) {  
-             alert("成功" + returndata.car_park_license); 
-             $(" font[ id='displayboard' ] ").text("本次停车费5元！欢迎再次光临!" + returndata.car_park_license + "的车主");
+//             alert("成功" + returndata.car_park_license); 
+             $(" font[ id='displayboard' ] ").text("本次停车时长 " + returndata.stop_time + "停车费用:" + returndata.charge_money + "元！欢迎再次光临!" + returndata.car_license + "的车主");
          },  
          error: function (returndata) {  
              alert("提交车辆照片失败");  

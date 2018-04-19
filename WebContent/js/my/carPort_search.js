@@ -37,7 +37,9 @@ function search() {
 				var trNode = tabNode.insertRow();
 				for(var j=0;j<6;j++){
 					var tdNode = trNode.insertCell();
-
+						if(resultList[i].carport_area == 0){
+							break;
+						}
 					if(j==0){
 						tdNode.innerHTML = a++;
 					}else if(j==1){

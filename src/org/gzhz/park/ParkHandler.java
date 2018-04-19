@@ -2,6 +2,7 @@ package org.gzhz.park;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -13,10 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.gzhz.charge.bean.CarOutMsg;
+import org.gzhz.charge.bean.CarPark;
 import org.gzhz.park.bean.CarInfo;
 import org.gzhz.park.bean.CarPort;
 import org.gzhz.park.bean.SearchPort;
 import org.gzhz.park.dao.ICarInfoDao;
+import org.gzhz.tool.CarChargeUnitl;
 import org.gzhz.tool.CarParkUnitl;
 import org.gzhz.tool.Log;
 import org.gzhz.tool.MyDateUnitl;
@@ -51,6 +55,8 @@ public class ParkHandler {
 	private MyDateUnitl myDateUnitl;
 	@Resource
 	private CarParkUnitl carParkUnitl;
+	@Resource
+	private CarChargeUnitl carChargeUnitl;
 	
 	/** 
 	* @author  作者 E-mail: 郭智雄
@@ -281,19 +287,21 @@ public class ParkHandler {
 	* @parameter  HttpServletRequest request
 	* @description 出口上传车辆照片 --------------新版ajax方式
 	* @return  页面
+	 * @throws ParseException 
 	*/
 	@RequestMapping(value = "/exportFileact.action", method = RequestMethod.POST)
-	public @ResponseBody CarInfo exportFileact(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+	public @ResponseBody CarOutMsg exportFileact(HttpServletRequest request, @RequestParam("file") MultipartFile file) throws ParseException {
 		CarInfo car = null;
 		ServletContext servletContext = request.getServletContext();
 		String str = carParkUnitl.getImage(file, servletContext, "出口");
 		System.out.println("图片存储路径为:" + str);							//上传图片完毕
 		String carLicense = carParkUnitl.recognitionCarImage(str);			//根据返回的图片地址识别车牌号
-		//根据车牌号查询是否已缴费，如果未缴费则返回车辆进入时刻
-		//调用收费端将时间传入，返回应收取的金额
-		//将收取的金额加入车辆类中向前端传递
+
+		CarPark carPark = new CarPark();
+		carPark.setCar_park_license(carLicense);
+		CarOutMsg carOutMsg = carChargeUnitl.chargeCarOut(carPark);
 		car = carParkUnitl.deleteCar(carLicense);							//车辆离开删除车场记录
-		return car;
+		return carOutMsg;
 	}
 	
 	/** 
