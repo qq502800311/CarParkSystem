@@ -99,11 +99,11 @@ function search() {
 		for (var i = 0; i < data.length; i++) {
 			tr += "<tr>";
 			tr += "<td>" + (i + 1) + "</td>";
-			tr += "<td>" + data[i].DEAL_TIME + "</td>";
-			tr += "<td>" + data[i].DEAL_MATTER + "</td>";
+			tr += "<td>" + data[i].deal_time + "</td>";
+			tr += "<td>" + data[i].deal_matter + "</td>";
 
-			tr += "<td>" + data[i].DEAL_MONEY + "</td>";
-			moneynum += data[i].DEAL_MONEY;
+			tr += "<td>" + data[i].deal_money + "</td>";
+			moneynum += data[i].deal_money;
 			// if (data[i].carport_status == '8') {
 			// tr += "<td><button class='btn btn-primary' value=" + i
 			// + " onclick='initiatemode(this);' >启用</button>";

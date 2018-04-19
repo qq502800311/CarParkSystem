@@ -3,7 +3,7 @@
  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 <mapper namespace="org.gzhz.otherManage.dao.ReciptPaymentMapper">
 	<!-- //查询计费规则套餐 -->
-	<select id="selectsumlist" parameterType="java.util.HashMap">
+	<select id="selectsumlist" parameterType="java.util.HashMap"  resultType="org.gzhz.otherManage.bean.MoneyDetailTb">
 		select * from MONEY_DETAIL_TB
 		<where>
 			<if test="starttime_moneydetail!=null and starttime_moneydetail!=''">

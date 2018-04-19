@@ -166,4 +166,12 @@ public class CarVipHandler {
 		return msginfo;
 
 	}
+	@RequestMapping("/pageTocarvip")
+	public ModelAndView pageTocarvip() {
+		ModelAndView modelAndView= new ModelAndView("zlbjsp/vip_search");
+		return modelAndView;
+	}
+	
+	
+	
 }

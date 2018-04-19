@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 import com.sun.org.apache.bcel.internal.generic.NEW;
@@ -113,4 +114,11 @@ public class CarPortHandler {
 		this.carportmapper = carportmapper;
 	}
 
+	
+	//页面跳转
+			@RequestMapping("/pageTocarport")
+			public ModelAndView pageTocarport() {
+				ModelAndView modelAndView= new ModelAndView("zlbjsp/carport_configuration");
+				return modelAndView;
+			}
 }
