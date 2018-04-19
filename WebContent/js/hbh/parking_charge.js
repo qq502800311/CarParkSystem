@@ -1,8 +1,4 @@
 
-$(function(){
-	getChargeRule();
-})
-
 
 /*打开隐藏的收费信息*/
 function openParkingCharge(){
@@ -43,81 +39,21 @@ function searchParkingCar(){
 			type: "POST",
 			dataType: "json",
 			data: str,
-			success : function(date){
-				if(typeof date == "string"){
-					alert(date);
+			success : function(carout){
+				if(carout.car_license==null){
+					alert("查无此车牌");
 				}else{
-				$("#car_license").html(date.car_park_license);        //车牌照
-				$("#in_date").html(date.car_in_time);                 //车进场时间
-				$("#out_date").html(nowTime);      
-				var carType = date.parameter.parameter_name;
-				$("#car_type").html(carType);   //车的类型
-				var middleTime = dateNumber(nowTime,date.car_in_time);  //时间差值，分钟为单位
-				
-				$("#user_time").html( Math.ceil(middleTime/60));
-				//-------支付金额计算------
-				//--1.车辆类型判断，白名单、月缴费用户缴费金额为0
-				//--2.算停车时间，算停车费用
-				var rules = $("#tem_hidden").text();
-				alert("收费规则:"+rules);
-				var fir = rules.split(":")[0];
-				var sec = rules.split(":")[1];
-				var thr = rules.split(":")[2];
-				var fur = rules.split(":")[3];
-				var fiv = rules.split(":")[4];
-				if(carType!="临时车辆"){
-					$("#total_money").html(fir)
-				}else{
-					
-					if(middleTime<30){			
-						$("#total_money").html(0);
-						
-					}else if(30<=middleTime && middleTime<180){
-						var a = Math.ceil((middleTime-30)/60);
-						$("#total_money").html(sec*a);
-						
-					}else if(180<=middleTime && middleTime<300){
-						var b = Math.ceil((middleTime-180)/60);
-						$("#total_money").html(3*sec+b*thr);
-						
-					}else if(300<=middleTime && middleTime<480){
-
-						var c = Math.ceil((middleTime-300)/60);	
-						$("#total_money").html(3*sec+2*thr+fur*c);
-						
-					}else{
-						var d = Math.ceil((middleTime-480)/(60*24));
-						$("#total_money").html(3*sec+2*thr+fur*3+fiv*d);
-					}	
+					$("#car_license").html(carout.car_license);        //车牌照
+					$("#in_date").html(carout.in_time);                 //车进场时间
+					$("#out_date").html(carout.out_time);      
+					$("#car_type").html(carout.car_type);   //车的类型				
+					$("#user_time").html(carout.stop_time);
+					$("#total_money").html(carout.charge_money);
+					openParkingCharge();
 				}
-				openParkingCharge();
-			}
 			}
 		});
 }
-
-//-------获取收费规则信息-------
-function getChargeRule(){
-	var str = '{"car_park_license":"666"}';
-	$.ajax({
-		url: "carport/getChargeRule.action",
-//		contentType : "application/json;charset=utf-8", //如果采用requestbody那么一定要加
-		type: "POST",
-		dataType: "json",
-		data: str,
-		success: function(date){
-//			alert("这里:"+date);
-			$("#tem_hidden").html(date);
-		}
-	});
-}
-
-
-
-
-
-
-
 
 //------获取系统当前时间，时间格式YY--MM--DD HH:MM:SS
 function getNowDate() {
@@ -165,10 +101,11 @@ function dateNumber(stop_date,now_date){
 function openDoor(){
 	var license = $("#car_license").html();              //车牌号码---删除停车信息表单条数据，车辆日志列表
 	var money   = $("#total_money").html();              //车辆停车费用--用于车辆日志列表
+	var money2 = -money;
 	var in_time = $("#in_date").html();                  //车辆进场时间--用于车辆日志列表
 	var out_time =$("#out_date").html();                 //车辆出场时间--用于车辆日志列表
 	//暂时发车牌号过去，用于删除停车信息表
-	var str = '{"car_park_license":"'+license+'","deal_money":"'+money+'","deal_time":"'+out_time+'"}';
+	var str = '{"car_park_license":"'+license+'","deal_money":"'+money2+'","deal_time":"'+out_time+'"}';
 	$.ajax({
 		url: "carport/deleteOutCarMsg.action",
 		contentType : "application/json;charset=utf-8", //如果采用requestbody那么一定要加
@@ -176,8 +113,6 @@ function openDoor(){
 		dataType: "json",
 		data: str,
 		success: function(date){
-//			$("#mytable").html("");
-//			closeBackMoney();
 			alert(date);
 			
 		}

@@ -47,7 +47,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </tr>           
         <tr>
         	<td><label>停车时间:</label></td>
-        	<td><label id="user_time"></label><label>小时</label></td>
+        	<td><label id="user_time"></label></td>
         </tr>
         <tr>
         	<td><label>车辆类型:</label></td>
