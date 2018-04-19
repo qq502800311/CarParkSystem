@@ -31,6 +31,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- 	jsp向iframe传输参数方式开始		 -->
 
 <!-- 	jsp向iframe传输参数方式结束		 -->
+
+<!-- 	用户信息 开始		 -->
+<%
+HttpSession s = request.getSession(); 
+%>
+
+<span><%=s.getAttribute("emp_id")%></span>
+<span><%=s.getAttribute("emp_name")%></span>
+
+<!-- 	用户信息 结束		 -->
+
+
 	<table >
 		<tr>
 			<td colspan="2" class="myheader">

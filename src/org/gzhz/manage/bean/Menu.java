@@ -15,16 +15,12 @@ public class Menu {
 	private int menu_id;
 	private int menu_pid;
 	private String menu_name;
+	private String menu_url;
+	
+	private String second_menu_name;
 	
 	public Menu() {
 		super();
-	}
-
-	public Menu(int menu_id, int menu_pid, String menu_name) {
-		super();
-		this.menu_id = menu_id;
-		this.menu_pid = menu_pid;
-		this.menu_name = menu_name;
 	}
 
 	public int getMenu_id() {
@@ -50,6 +46,21 @@ public class Menu {
 	public void setMenu_name(String menu_name) {
 		this.menu_name = menu_name;
 	}
-	
+
+	public String getMenu_url() {
+		return menu_url;
+	}
+
+	public void setMenu_url(String menu_url) {
+		this.menu_url = menu_url;
+	}
+
+	public String getSecond_menu_name() {
+		return second_menu_name;
+	}
+
+	public void setSecond_menu_name(String second_menu_name) {
+		this.second_menu_name = second_menu_name;
+	}
 	
 }

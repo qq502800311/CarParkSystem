@@ -1,5 +1,7 @@
 package org.gzhz.manage.bean;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 /** 
@@ -17,8 +19,8 @@ public class Emp {
 	private String emp_pwd;
 	private String emp_status;
 	
-	//多对一
-	private EmpRoll empRoll;
+	//一对多
+	private List<EmpRole> empRoleList;
 	
 	public Emp() {
 		super();
@@ -64,13 +66,15 @@ public class Emp {
 		this.emp_status = emp_status;
 	}
 
-	public EmpRoll getEmpRoll() {
-		return empRoll;
+	public List<EmpRole> getEmpRoleList() {
+		return empRoleList;
 	}
 
-	public void setEmpRoll(EmpRoll empRoll) {
-		this.empRoll = empRoll;
+	public void setEmpRoleList(List<EmpRole> empRoleList) {
+		this.empRoleList = empRoleList;
 	}
+
+	
 	
 	
 }

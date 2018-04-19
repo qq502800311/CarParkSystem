@@ -22,5 +22,17 @@ public interface EmpMapper {
 	//登录验证
 	public List<Emp> checkLogin(@Param("emp_id")String emp_id, @Param("emp_pwd")String emp_pwd);
 	
+	//查询
+	public List<Emp> search(@Param("emp_id")String emp_id, @Param("emp_name")String emp_name, @Param("emp_status")String emp_status);
+
+	//查询全部信息（包含角色）
+	public List<Emp> searchInfo(@Param("emp_id")String emp_id, @Param("emp_name")String emp_name, @Param("emp_status")String emp_status);
+	
+	//修改用户状态
+	public int updateStatus(@Param("emp_id")String emp_id, @Param("emp_status")String emp_status);
+	
+	//重置用户密码
+	public int updatePwd(@Param("emp_id")String emp_id);
+	
 	
 }

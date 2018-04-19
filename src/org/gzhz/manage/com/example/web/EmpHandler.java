@@ -15,13 +15,19 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.gzhz.manage.bean.Emp;
+import org.gzhz.manage.bean.EmpRole;
 import org.gzhz.manage.bean.MenuView;
 import org.gzhz.manage.dao.EmpMapper;
+import org.gzhz.manage.dao.EmpRoleMapper;
 import org.gzhz.manage.dao.MenuViewMapper;
 import org.gzhz.manage.util.CodeUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.gson.Gson;
 
 
 
@@ -40,20 +46,21 @@ public class EmpHandler {
 	@Resource
 	private EmpMapper empMapper;	//用户类接口
 	@Resource
+	private EmpRoleMapper empRoleMapper;	//用户角色-角色类接口
+	@Resource
 	private MenuViewMapper menuViewMapper;		//后台管理菜单接口
 	
 	/** 
 	* 验证码生成
 	* @author  作者 E-mail: 郑伟豪
 	* @date 创建时间：2018年4月12日 上午8:21:09 
-	* @version 1.0 
+	* @version 	1.0 
 	* @parameter  URL请求
 	* @since  
 	* @return  调用验证码工具，返回验证码流
 	*/
 	@RequestMapping("/createCode.action")
-    public void captcha(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+    public void createCode(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {		
         CodeUtil.getCode(request, response);
     }
 	
@@ -98,7 +105,8 @@ public class EmpHandler {
 				if(newEmp.getEmp_status().equals("启用")) {
 					//登录成功
 					mav.setViewName("/zwhJsp/houTai");	//跳转目标为后台页面
-					session.setAttribute(newEmp.getEmp_id(), newEmp.getEmp_name());	//记录用户ID，名字
+					session.setAttribute("emp_id", newEmp.getEmp_id());	//记录用户ID
+					session.setAttribute("emp_name", newEmp.getEmp_name());	//记录用户名称
 					//获取用户 菜单，写入session					
 //					HashMap<String, Object> menuMap = new HashMap<String, Object>();
 					//用户对应的菜单视图
@@ -153,5 +161,81 @@ public class EmpHandler {
 		return mav;
 	}
 	
-		
+	/** 
+	* 人员查询
+	* @author  作者 E-mail: 郑伟豪
+	* @date 创建时间：2018年4月13日 上午8:21:09 
+	* @version 1.0 
+	* @parameter  查询条件（用户ID，用户名，用户状态）
+	* @since  
+	* @return  	用户信息
+	*/
+	@RequestMapping(value="/search.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
+	public @ResponseBody String search(String emp_id, String emp_name, String emp_status){
+		//显示查询条件
+//		System.out.println(emp_id);
+//		System.out.println(emp_name);
+//		System.out.println(emp_status);
+		//查询符合条件的用户
+		List<Emp> empList = empMapper.searchInfo(emp_id, emp_name, emp_status);
+		Gson gson = new Gson();
+		String date = gson.toJson(empList);
+		System.out.println("返回用户信息：" + date);
+		return date;
+	}
+	
+	/** 
+	* 更改用户状态
+	* @author  作者 E-mail: 郑伟豪
+	* @date 创建时间：2018年4月13日 上午8:21:09 
+	* @version 1.0 
+	* @parameter  查询条件（用户ID，用户状态）
+	* @since  
+	* @return  	String("失败"/"禁用成功""启用成功")
+	*/
+	@RequestMapping(value="/updateStatus.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
+	public @ResponseBody String updateStatus(String emp_id, String emp_status){
+		String str = "失败";
+		//显示查询条件
+//		System.out.println(emp_id);
+//		System.out.println(emp_status);
+		//查询符合条件的用户
+		int update = empMapper.updateStatus(emp_id, emp_status);
+		if(update>0) {
+			if(emp_status.equals("启用")) {
+				str = "禁用成功";
+			}else {
+				str = "启用成功";
+			}
+		}
+		Gson gson = new Gson();
+		String date = gson.toJson(str);
+		System.out.println("返回：" + date);
+		return date;
+	}
+	
+	/** 
+	* 重置用户密码
+	* @author  作者 E-mail: 郑伟豪
+	* @date 创建时间：2018年4月13日 上午8:21:09 
+	* @version 1.0 
+	* @parameter  查询条件（用户ID）
+	* @since  
+	* @return  	String("重置失败"/"重置失败")
+	*/
+	@RequestMapping(value="/updatePwd.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
+	public @ResponseBody String updatePwd(String emp_id){
+		String str = "重置失败";
+		//显示查询条件
+//		System.out.println(emp_id);
+		//查询符合条件的用户
+		int update = empMapper.updatePwd(emp_id);
+		if(update>0) {
+			str = "重置成功";
+		}
+		Gson gson = new Gson();
+		String date = gson.toJson(str);
+		System.out.println("返回：" + date);
+		return date;
+	}	
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="org.gzhz.manage.dao.ParameterMapper">
+	
+	<!-- 查询参数类型列表-->
+	<select id="searchParameterType" resultType="org.gzhz.manage.bean.Parameter">
+		select * from PARAMETER_TB where parameter_pid=0
+	</select>
+	
+<!-- 自关联查询   开始-->
+	<!-- 参数列表查询 -->
+	<select id="search" parameterType="org.gzhz.manage.bean.Parameter" resultMap="ParameterList">
+		select a.*, b.PARAMETER_NAME second_parameter_name
+		from PARAMETER_TB a, PARAMETER_TB b
+		where a.PARAMETER_PID=b.PARAMETER_ID
+		<if test="parameter_pid!=null and parameter_pid!='-1'">and a.parameter_pid=#{parameter_pid}</if>
+		<if test="parameter_name!=null and parameter_name!=''">and a.parameter_name=#{parameter_name}</if>
+	</select>
+	
+    <!-- resultMap -->	
+    <resultMap type="org.gzhz.manage.bean.Parameter" id="ParameterList">
+		<result property="second_menu_name" column="second_menu_name"/>     	       	
+    </resultMap>
+    
+<!-- 自关联查询 结束-->
+
+	<!-- 增加参数-->
+	<insert id="add"  parameterType="org.gzhz.manage.bean.Parameter">
+		<selectKey keyProperty="parameter_id" order="BEFORE" resultType="int">
+		    select SEQUENCE_PARAMETER_TB.nextval from dual 
+		</selectKey>	
+		insert into PARAMETER_TB values(#{parameter_id},#{parameter_pid},#{parameter_name})
+	</insert>
+	
+	<!-- 修改参数-->
+	<update id="update" parameterType="org.gzhz.manage.bean.Parameter">
+		update PARAMETER_TB set parameter_pid=#{parameter_pid},parameter_name=#{parameter_name}
+		<where>
+			<if test="parameter_id!=null and parameter_id!=''">and parameter_id=#{parameter_id}</if>
+		</where>			
+	</update>
+	
+</mapper>
