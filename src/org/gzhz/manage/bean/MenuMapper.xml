@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="org.gzhz.manage.dao.MenuMapper">
+
+	<!-- 查询一级菜单-->
+	<select id="searchFirstMenu" resultType="org.gzhz.manage.bean.Menu">
+		select * from MENU_TB where menu_pid=0
+	</select>
+	
+<!-- 自关联查询   开始-->
+	<!-- 菜单查询 -->
+	<select id="search" parameterType="org.gzhz.manage.bean.Menu" resultMap="MenuList">
+		select a.*, b.MENU_NAME second_menu_name
+		from MENU_TB a, MENU_TB b
+		where a.MENU_PID=b.MENU_ID
+		<if test="menu_pid!=null and menu_pid!='-1'">and a.menu_pid=#{menu_pid}</if>
+		<if test="menu_name!=null and menu_name!=''">and a.menu_name=#{menu_name}</if>
+	</select>
+	
+    <!-- resultMap -->	
+    <resultMap type="org.gzhz.manage.bean.Menu" id="MenuList">
+		<result property="second_menu_name" column="second_menu_name"/>     	       	
+    </resultMap>
+    
+<!-- 自关联查询 结束-->	
+
+	<!-- 增加菜单-->
+	<insert id="add"  parameterType="org.gzhz.manage.bean.Menu">
+		<selectKey keyProperty="menu_id" order="BEFORE" resultType="int">
+		    select SEQUENCE_MENU_TB.nextval from dual 
+		</selectKey>	
+		insert into MENU_TB values(#{menu_id},#{menu_pid},#{menu_name},#{menu_url})
+	</insert>
+	
+	<!-- 检验菜单重名-->
+	<select id="checkName" parameterType="org.gzhz.manage.bean.Menu" resultType="org.gzhz.manage.bean.Menu">
+		select * from MENU_TB where menu_name=#{menu_name} and menu_id!=#{menu_id}
+	</select>
+	
+	<!-- 修改菜单-->
+	<update id="update" parameterType="org.gzhz.manage.bean.Menu">
+		update MENU_TB set menu_pid=#{menu_pid},menu_name=#{menu_name},menu_url=#{menu_url}
+		<where>
+			<if test="menu_id!=null and menu_id!=''">and menu_id=#{menu_id}</if>
+		</where>			
+	</update>
+	
+	<!-- 查询原生菜单-->
+	<select id="searchAllMenu" resultType="org.gzhz.manage.bean.MenuTree">
+		select menu_id id, menu_pid pid, menu_name name from MENU_TB
+	</select>
+	
+	
+
+</mapper>

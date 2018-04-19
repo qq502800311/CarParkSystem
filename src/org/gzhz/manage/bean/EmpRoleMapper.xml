@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="org.gzhz.manage.dao.EmpRoleMapper">
+
+
+	<!-- 增加角色 -->
+	<insert id="add"  parameterType="org.gzhz.manage.bean.EmpRole">
+		<selectKey keyProperty="emp_role_id" order="BEFORE" resultType="int">
+		    select SEQUENCE_ROLE_EMP_TB.nextval from dual 
+		</selectKey>	
+		insert into EMP_ROLE_TB values(#{emp_role_id},#{emp_id},#{role_id})
+	</insert>
+	
+	<!-- 删除角色 -->
+	<delete id="delete"  parameterType="org.gzhz.manage.bean.EmpRole">	
+		delete from EMP_ROLE_TB where emp_id=#{emp_id} and role_id=#{role_id}
+	</delete>
+
+<!-- 多对一查询   开始-->
+	<!-- 查询 -->
+	<select id="search" resultMap="EmpRole">
+		select * from EMP_ROLE_TB 
+	</select>
+	
+    <!-- resultMap -->
+    <resultMap type="org.gzhz.manage.bean.EmpRole" id="EmpRole">
+    	<!-- association关联属性   property属性名   javaType属性类型  column关联属性在多的一方的列名   -->
+        <association property="role" column="role_id" javaType="org.gzhz.manage.bean.Role"
+        	select="searchRoll"></association>
+        	       	
+    </resultMap>
+    
+    <!-- 关联查询分类、类型表 -->
+    <select id="searchRoll" parameterType="java.lang.String" resultType="org.gzhz.manage.bean.Role">
+       select * from ROLE_TB where role_id=#{role_id} 
+    </select> 
+<!-- 多对一查询 结束-->
+    
+</mapper>
