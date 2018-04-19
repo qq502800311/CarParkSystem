@@ -152,7 +152,7 @@ function change_carvip() {
 }
 
 function addVipcar() {
-	$("#newvip_Name").html("");
+	
 
 	if (flag == true) {
 
@@ -165,12 +165,15 @@ function addVipcar() {
 		});
 
 	} else if (flag == false) {
-		alert("重名啦");
+		alert("车牌已存在");
 	} else {
 		alert("请输入正确车牌");
 	}
-	//		
+	$("#newvip_Name").val("");		
 
+}
+function settext(){
+	$("#newvip_Name").val("");
 }
 
 // function useHelp() {

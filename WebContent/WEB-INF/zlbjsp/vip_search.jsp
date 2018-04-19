@@ -31,12 +31,12 @@
 		<div>查询条件：</div>
 		<div>
 			<form id="condition_from">
-				<label>车牌号：</label> <input type="text" name="car_park_license">
+				<label>车牌号：</label> <input type="text" name="car_park_license" >
 				<button type="button" class="btn btn-primary" onclick="search()">查询</button>
 			</form>
 			<!-- 按钮触发模态框 -->
 			<button class="btn btn-primary" data-toggle="modal"
-				data-target="#myModal1">增加</button>
+				data-target="#myModal1" >增加</button>
 
 		</div>
 		<div></div>
@@ -84,26 +84,7 @@
 					<label id="car_msg">
 					</label></div>
 					<br></br>
-					<!-- 				设置密码1 -->
-					<div>
-						
-
-					</div>
-					<br></br>
-					<!-- 				设置密码2 -->
-					<div>
-						
-					</div>
-					<br></br>
-					<!-- 				选择所属科室 -->
-					<div>
-						
-					</div>
-					<br></br>
-					<!-- 				选择所属角色 -->
-					<div>
-						
-					</div>
+					
 					<br></br>
 
 
