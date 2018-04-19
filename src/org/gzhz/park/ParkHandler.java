@@ -299,7 +299,7 @@ public class ParkHandler {
 
 		CarPark carPark = new CarPark();
 		carPark.setCar_park_license(carLicense);
-		CarOutMsg carOutMsg = carChargeUnitl.chargeCarOut(carPark);
+		CarOutMsg carOutMsg = carChargeUnitl.chargeCarOut(carPark);			//调用黄彪华的计费接口得到计费结果类
 		car = carParkUnitl.deleteCar(carLicense);							//车辆离开删除车场记录
 		return carOutMsg;
 	}

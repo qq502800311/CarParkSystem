@@ -78,29 +78,29 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</ol>
 				<div class="carousel-inner">
 					<div class="item active">
-						<img alt="" src="Image/IS2.jpg"> />
+						<img alt="" src="Image/BMW_I8.jpg"> />
 						<div class="carousel-caption">
 							<h4>
-								第一张图片
+								传一智能停车场
 							</h4>
 							<p>
-								Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+								智慧停车独角兽传一科技：将再造万亿级价值新市场
 							</p>
 						</div>
 					</div>
 					<div class="item">
-						<img alt="" src="Image/IV.jpg"/>
+						<img alt="" src="Image/TESLA.jpg"/>
 						<div class="carousel-caption">
 							<h4>
-								第二张图片
+								传一智能停车场
 							</h4>
 							<p>
-								Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
+								智慧停车巨头传一科技正式进军共享单车行业
 							</p>
 						</div>
 					</div>
 					<div class="item">
-						<img alt="" src="/Image/IV-D.jpg"/>
+						<img alt="" src="Image/BMW_I8.jpg"/>
 						<div class="carousel-caption">
 							<h4>
 								第三张图片标题
