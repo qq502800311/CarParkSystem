@@ -68,6 +68,7 @@ public class SystemLogHandler {
 	}
 	
 	//跳转页面
+	//http://localhost:8080/CarParkSystem/systemlog/pageTosystlog.action
 	@RequestMapping("/pageTosystlog")
 	public ModelAndView carviptourl() {
 		ModelAndView modelAndView= new ModelAndView("zlbjsp/systemlog");

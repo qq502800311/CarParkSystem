@@ -55,18 +55,21 @@ public class CarPortHandler {
 
 		return listjson;
 	}
+
 	// 状态修改
 	@RequestMapping(value = "/changestatus", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-	public @ResponseBody String changestatus(HttpServletRequest request,@RequestParam(value="carport_status", required=true, defaultValue="empty") String carport_status, String carport_id) {
+	public @ResponseBody String changestatus(HttpServletRequest request,
+			@RequestParam(value = "carport_status", required = true, defaultValue = "empty") String carport_status,
+			String carport_id) {
 		System.out.println(carport_status + "-----状态修改-----" + carport_id);
-		CarportTb carportTb=new CarportTb();
-		if(carport_status.equals("8")) {
+		CarportTb carportTb = new CarportTb();
+		if (carport_status.equals("8")) {
 			carportTb.setCarport_status(7);
-			
-		}else {
+
+		} else {
 			carportTb.setCarport_status(8);
 		}
-		
+
 		carportTb.setCarport_id(Integer.parseInt(carport_id));
 		carportmapper.updatcarportstatus(carportTb);
 		return null;
@@ -114,11 +117,11 @@ public class CarPortHandler {
 		this.carportmapper = carportmapper;
 	}
 
-	
-	//页面跳转
-			@RequestMapping("/pageTocarport")
-			public ModelAndView pageTocarport() {
-				ModelAndView modelAndView= new ModelAndView("zlbjsp/carport_configuration");
-				return modelAndView;
-			}
+	// 页面跳转
+	// http://localhost:8080/CarParkSystem/carport/pageTocarport.action
+	@RequestMapping("/pageTocarport")
+	public ModelAndView pageTocarport() {
+		ModelAndView modelAndView = new ModelAndView("zlbjsp/carport_configuration");
+		return modelAndView;
+	}
 }

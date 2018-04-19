@@ -165,6 +165,7 @@ public class PayMonthHandler {
 		this.paymonthmapper = paymonthmapper;
 	}
 	//页面跳转
+	//http://localhost:8080/CarParkSystem/paymonth/pageTopaymonth.action
 	@RequestMapping("/pageTopaymonth")
 	public ModelAndView pageTopaymonth() {
 		ModelAndView modelAndView= new ModelAndView("zlbjsp/pay_monthly_management");

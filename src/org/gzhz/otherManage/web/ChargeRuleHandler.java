@@ -97,6 +97,7 @@ public class ChargeRuleHandler {
 	
 	
 	//页面跳转
+	////http://localhost:8080/CarParkSystem/chargerule/pageTochargerule.action
 		@RequestMapping("/pageTochargerule")
 		public ModelAndView carviptourl() {
 			ModelAndView modelAndView= new ModelAndView("zlbjsp/charge_rule");

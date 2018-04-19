@@ -62,7 +62,8 @@ public class ReciptPaymentHandler {
 
 	}
 	
-	
+	//页面跳转
+	//http://localhost:8080/CarParkSystem/reciptpay/pageToreceiptpay.action
 	@RequestMapping("/pageToreceiptpay")
 	public ModelAndView carviptourl() {
 		ModelAndView modelAndView= new ModelAndView("zlbjsp/receiptpayment");
