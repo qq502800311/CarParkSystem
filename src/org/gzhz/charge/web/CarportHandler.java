@@ -70,9 +70,9 @@ public class CarportHandler {
 	
 	
 
-	//http://localhost:8080/CarParkSystem/jsp_hbh/PageToParkMsgCheck.action
+	//http://localhost:8080/CarParkSystem/carport/pageToParkMsgCheck.action
 	//---------跳转车位查看页面----------
-	@RequestMapping("/PageToParkMsgCheck.action")
+	@RequestMapping("/pageToParkMsgCheck.action")
 	public ModelAndView pageToParkMsgCheck(){
 		System.out.println("调用查看车位信息界面");
 		ModelAndView mav = new ModelAndView();
@@ -80,8 +80,9 @@ public class CarportHandler {
 		return mav;
 	}
 	
+	//http://localhost:8080/CarParkSystem/carport/pageToTodayMoneyCheck.action
 	//----------跳转今日结款账单界面---------
-	@RequestMapping("/PageToTodayMoneyCheck.action")
+	@RequestMapping("/pageToTodayMoneyCheck.action")
 	public ModelAndView pageToTodayMoneyCheck(){
 		System.out.println("调用日结款页面");
 		ModelAndView mav = new ModelAndView();
@@ -89,8 +90,9 @@ public class CarportHandler {
 		return mav;
 	}
 	
+	//http://localhost:8080/CarParkSystem/carport/pageToMontherUserManager.action
 	//----------跳转月缴费用户充值、退款界面---------
-	@RequestMapping("/PageToMontherUserManager.action")
+	@RequestMapping("/pageToMontherUserManager.action")
 	public ModelAndView pageToMontherUserManager(){
 		System.out.println("调用月缴费用户充值、退款界面");
 		ModelAndView mav = new ModelAndView();
@@ -98,8 +100,9 @@ public class CarportHandler {
 		return mav;
 	}	
 	
+	//http://localhost:8080/CarParkSystem/carport/pageToMontherUserRegister.action
 	//----------跳转月缴费用户注册页面---------
-	@RequestMapping("/PageToMontherUserRegister.action")
+	@RequestMapping("/pageToMontherUserRegister.action")
 	public ModelAndView pageToMontherUserRegister(){
 		System.out.println("调用月缴费用户注册界面");
 		ModelAndView mav = new ModelAndView();
@@ -107,8 +110,9 @@ public class CarportHandler {
 		return mav;
 	}		
 	
+	//http://localhost:8080/CarParkSystem/carport/pageToSearchMeal.action
 	//----------查找套餐页面---------
-	@RequestMapping("/PageToSearchMeal.action")
+	@RequestMapping("/pageToSearchMeal.action")
 	public ModelAndView pageToSearchMeal(){
 		System.out.println("调用套餐详情界面");
 		ModelAndView mav = new ModelAndView();
@@ -116,8 +120,9 @@ public class CarportHandler {
 		return mav;
 	}		
 	
+	//http://localhost:8080/CarParkSystem/carport/pageToParkedCharge.action
 	//----------停车收费界面、车辆放行--------
-	@RequestMapping("/PageToParkedCharge.action")
+	@RequestMapping("/pageToParkedCharge.action")
 	public ModelAndView pageToParkedCharge(){
 		System.out.println("调用停车收费界面");
 		ModelAndView mav = new ModelAndView();
