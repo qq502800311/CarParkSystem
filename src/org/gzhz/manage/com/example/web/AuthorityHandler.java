@@ -111,9 +111,13 @@ public class AuthorityHandler {
 	public @ResponseBody String updateRoleMenu(String role_id, String str) {
 		String msg = "修改失败";
 		//显示查询条件
-//		System.out.println(role_id);
+		System.out.println(role_id);
+		System.out.println(str);
 		//查询该角色拥有的菜单
 		List<RoleMenu> list = roleMenuMapper.searchRoleMenu(role_id);
+		
+		
+		//------------------------------------备份  开始------------------------------//			
 		
 		//----------------------设置断点-------------------------------//
 		
@@ -121,7 +125,15 @@ public class AuthorityHandler {
 		int update = roleMenuMapper.deleteRoleMenu(role_id);
 		//判断删除条数是否正确
 		if(update == list.size()) {
-			List<RoleMenu> roleMenuList = new ArrayList<RoleMenu>();
+			
+			
+//			List<RoleMenu> roleMenuList = new ArrayList<RoleMenu>();
+			if(str.equals("")) {
+				msg = "修改成功";
+			}else{
+				
+			
+			
 			for(int i=0;i<str.split(",").length;i++) {
 				RoleMenu roleMenu = new RoleMenu();
 				roleMenu.setRole_id(Integer.parseInt(role_id));
@@ -137,12 +149,38 @@ public class AuthorityHandler {
 //			}
 //			int update1 = roleMenuMapper.updateRoleMenu(roleMenuList);
 //			if(update1 == roleMenuList.size()) {
-				msg = "修改成功";
+//				msg = "修改成功";
 				//----------------------提交事务-------------------------------//
 			}
+			msg = "修改成功";
+		}
 		}else {
 			//----------------------回滚-------------------------------//
 		}
+		
+//------------------------------------备份  结束------------------------------//	
+
+//		//删除
+//		int update = roleMenuMapper.deleteRoleMenu(role_id);
+//		//判断删除条数是否正确
+//		if(update == list.size()) {
+//		
+//			try {	
+//				for(int i=0;i<str.split(",").length;i++) {
+//					RoleMenu roleMenu = new RoleMenu();
+//					roleMenu.setRole_id(Integer.parseInt(role_id));
+//					roleMenu.setMenu_id(Integer.parseInt(str.split(",")[i]));
+//					
+//					msg = "修改成功";
+//					roleMenuMapper.updateRoleMenu1(roleMenu);
+//				}
+//			}catch(Exception e){
+//				//
+//			}
+//		}else {
+//			
+//		}
+		
 		Gson gson = new Gson();
 		String date = gson.toJson(msg);
 		System.out.println("返回：" + date);

@@ -9,8 +9,8 @@
 	</select>
 	
 	<!-- 批量删除角色-菜单对应关系 -->
-    <delete id="deleteRoleMenu" parameterType="int">
-        delete from ROLE_MENU_TB where role_id=3
+    <delete id="deleteRoleMenu" parameterType="java.lang.String">
+        delete from ROLE_MENU_TB where role_id=#{role_id}
     </delete>
 	
 	<!-- 批量增加角色-菜单对应关系 -->
