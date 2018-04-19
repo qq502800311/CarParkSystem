@@ -1,5 +1,6 @@
 package org.gzhz.charge.web;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.gzhz.charge.bean.CarLog;
+import org.gzhz.charge.bean.CarOutMsg;
 import org.gzhz.charge.bean.CarPark;
 import org.gzhz.charge.bean.CarportUserMsg;
 import org.gzhz.charge.bean.ChargeRule;
@@ -386,28 +388,95 @@ public class CarportHandler {
 	 * @parameter
 	 * @since
 	 * @return 停车收费，查找停车信息,计算停车费用
+	 * @throws ParseException 
 	 */
 	@RequestMapping(value = "/searchParking.action", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-	public @ResponseBody String searchParking(@RequestBody CarPark carpark) {
+	public @ResponseBody CarOutMsg searchParking(@RequestBody CarPark carpark) throws ParseException {
 		System.out.println("即将出场的车辆车牌:" + carpark.getCar_park_license());
-		Gson gson = new Gson();
+		CarOutMsg carout = new CarOutMsg();
+		int total_money = 0;
+		int fir = 0;
+		int sec = 0;
+		int thr = 0;
+		int fur = 0;
+		int fiv = 0;		
 		// ---------数据库获取当前车辆停车信息---------
-		String date = null;
 		CarPark car = carParkDao.searchCarParkMsg(carpark);
 
 		if (car == null) {
 			String str = "用户不存在！";
-			date = gson.toJson(str);
 		} else {
 			String car_type = car.getParameter().getParameter_name();
 			String start_time = car.getCar_in_time();
-			date = gson.toJson(car);
-			System.out.println("车辆进场时间:" + start_time);
-			System.out.println("汽车类型:" + car_type);
+			//---------------计算费用---------
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Calendar c = Calendar.getInstance();
+			String now_time = df.format(c.getTime()); // 获取系统的当前时间
+
+			//计算时间差
+			long from = df.parse(start_time).getTime();
+			long to = df.parse(now_time).getTime();  
+			int minutes = (int) ((to - from)/(1000 * 60)); 
+			System.out.println("停车时间:"+minutes);
+			
+			//获取收费规则信息
+			List<ChargeRule> rules = chargeRule.findChargeRule();
+			if(rules.size()!=0) {
+				System.out.println("收费规则表获取成功");
+			}else {
+				System.out.println("收费规则表获取失败");
+			}
+
+			for (int i = 0; i < rules.size(); i++) {
+				fir = rules.get(0).getCharge_rule_1();
+				sec = rules.get(0).getCharge_rule_2();
+				thr = rules.get(0).getCharge_rule_3();
+				fur = rules.get(0).getCharge_rule_4();
+				fiv = rules.get(0).getCharge_rule_5();
+			}
+			
+			System.out.println("停车时间2:"+minutes);
+			//计算费用
+			System.out.println("汽车类型:" +car_type);
+			if(!car_type.equals("临时车辆")) {
+				total_money = 0;
+			}else {
+				if(minutes<30) {
+					int a = fir;
+					total_money = a*sec;
+				}else if(30<=minutes && minutes<180){
+					int b = (int) Math.ceil((minutes-30)/60);
+					total_money = 3*sec+b*thr;		
+					
+				}else if(180<=minutes && minutes<300) {
+					int b = (int) Math.ceil((minutes-180)/60);
+					total_money = 3*sec+b*thr;
+				}
+				
+				else if(300<=minutes && minutes<480){
+					
+					int d = (int) Math.ceil((minutes-300)/60);	
+					total_money = 3*sec+2*thr+fur*d;
+				}else {
+					int e = (int) Math.ceil((minutes-480)/(60*24));
+					total_money = 3*sec+2*thr+fur*3+fiv*e;					
+				}
+			}
+			String time = minutes/60+"小时 "+minutes%60+"分钟";
+			carout.setCar_license(carpark.getCar_park_license());
+			carout.setCar_type(car_type);
+			carout.setCharge_money(String.valueOf(total_money));
+			carout.setIn_time(start_time);
+			carout.setOut_time(now_time);
+			carout.setStop_time(time);
+			System.out.println("车牌号:"+carpark.getCar_park_license());
+			System.out.println("收费金额："+total_money);
+			System.out.println("出场时间："+now_time);
+			System.out.println("车辆进场时间:"+start_time);
+			System.out.println("汽车类型:" +car_type);
+			System.out.println("停车时间:"+time);
 		}
-		
-		
-		return date;
+		return carout;
 	}
 
 	/**
@@ -486,47 +555,8 @@ public class CarportHandler {
 		}else {
 			System.err.println("收费为空");
 		}
-
 		Gson gson = new Gson();
 		String date = gson.toJson(details);
-		System.out.println(date);
-		return date;
-	}
-	
-	/**
-	 * @date 创建时间：2018年4月13日 下午23:21:15
-	 * @parameter
-	 * @return     日结款明细查询
-	 */
-	@RequestMapping(value = "/getChargeRule.action", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-	public @ResponseBody String getChargeRuleMsg(String msg) {
-
-		System.out.println("获取收费规则表信息:" + msg);
-		
-		List<ChargeRule> rules = chargeRule.findChargeRule();
-		if(rules.size()!=0) {
-			System.out.println("收费规则表获取成功");
-		}else {
-			System.out.println("收费规则表获取失败");
-		}
-
-		int fir = 0;
-		int sec = 0;
-		int thr = 0;
-		int fur = 0;
-		int fiv = 0;
-		for (int i = 0; i < rules.size(); i++) {
-			fir = rules.get(0).getCharge_rule_1();
-			sec = rules.get(0).getCharge_rule_2();
-			thr = rules.get(0).getCharge_rule_3();
-			fur = rules.get(0).getCharge_rule_4();
-			fiv = rules.get(0).getCharge_rule_5();
-		}
-		
-		String rule = fir+":"+sec+":"+thr+":"+fur+":"+fiv;
-		System.out.println("收费规则："+rule);
-		Gson gson = new Gson();
-		String date = gson.toJson(rule);
 		System.out.println(date);
 		return date;
 	}

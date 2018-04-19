@@ -129,7 +129,27 @@ function checkUserid(){
 
 /*---------------------数据库添加月缴用户----------------*/
 function addUser(){
-	alert("444");
+	if(username = $("#username").val()==""){
+		alert("请输入用户名");
+		return false;
+	}else if($("#pwd").val()==""){
+		alert("请输入密码");
+		return false;
+	}else if($("#userid").val()==""){
+		alert("请输入身份证");
+		return false;
+	}else if($("#licence").val()==""){
+		alert("请输入车牌");
+		return false;
+	}else if($("#selectMeal").val()==""){
+		alert("请选择套餐");
+		return false;
+	}else if($("#phone").val()==""){
+		alert("请输入手机号");
+		return false;
+	}else {
+		
+	
 	var username = $("#username").val();
 	var phone = $("#phone").val();
 	var pwd = $("#pwd").val();
@@ -147,11 +167,19 @@ function addUser(){
 				
 				if(flag.user_name==username){
 					alert("办理成功");
+					$("#username").val("");
+					$("#phone").val("");
+					$("#pwd").val("");
+					$("#licence").val("");
+					$("#selectMeal option:selected").val("");
+					$("#userid").val("");
+					$("#repwd").val("");
 				} else {
 					alert("办理失败");
 				}
 			}
 		});
+	}
 }
 
 

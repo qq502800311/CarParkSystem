@@ -14,13 +14,11 @@ function chooseWorkTime(){
 
 
 function seachMoney(){
-
+	var to_money = null;
 	var msg = $("#work_time").val();
 	if(msg==""){
 		alert("请选择班次");
 	}else{
-//		alert(msg);
-//	var str = {"msg":msg};
 	var str = "msg=" + msg;
 	$.ajax({
 		url: "carport/searchMoney.action",
@@ -53,7 +51,7 @@ function seachMoney(){
 						tdNode.innerHTML = typelist[i].deal_money;
 						break;							
 					default:
-						
+//						to_money += typelist[i].deal_money;
 						break;
 					}
 				}
