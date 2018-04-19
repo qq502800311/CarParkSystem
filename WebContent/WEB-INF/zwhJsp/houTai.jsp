@@ -37,8 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 HttpSession s = request.getSession(); 
 %>
 
-<span><%=s.getAttribute("emp_id")%></span>
-<span><%=s.getAttribute("emp_name")%></span>
+
 
 <!-- 	用户信息 结束		 -->
 
@@ -49,7 +48,7 @@ HttpSession s = request.getSession();
 			<div id="myheader_div1"></div>
 
 			<div id="myheader_div2">
-				<font><strong>共享文档系统</strong></font>
+				<font><strong>智能停车场后台管理系统</strong></font>
 				
 			</div>
 
@@ -67,17 +66,12 @@ HttpSession s = request.getSession();
 				<font color="white">
 				<!-- 				此处显示用户名及相关信息 -->
 				<label>欢迎！<s:property value="session.user.user_name"/></label>
-
-<img src="<s:property value="userImage"/> " alt="图像无法显示" height="30" width="30"/>
-				<img src="${sessionScope.user.user_avatarURL}  " alt="图像无法显示" height="30" width="30"/>
-				<img src="<s:property value="session.user.user_avatarURL"/> " alt="图像无法显示" height="30" width="30"/>
-				<a href="getMyInfo.action?req=myInfo&user.user_name=<s:property value="session.user.user_name"/>">我的信息</a>
+					<span><%=s.getAttribute("emp_id")%></span>
+					<span><%=s.getAttribute("emp_name")%></span>
 
 				</font>
 				
-				<s:if test="#session.user == null">
-				 	 看到这段代码说明session中是空的 
-				</s:if>
+
 <!-- 				<button class="btn btn-primary" data-toggle="modal" data-target="#myModal1">查看</button>	 -->
 				
 				<% if(((String)request.getAttribute("customerID"))==null){ %>
@@ -85,7 +79,6 @@ HttpSession s = request.getSession();
 					<a href="#"  data-toggle="modal" data-target="#myModal2" >注销</a>
 					<a href="#" data-toggle="modal" data-target="#myModal1" >更改密码</a>
 					<a href="pageShift.action?req=uploadtest">文档上传</a>
-<%-- 					<a class="navbar-brand" href="pageShift.action?req=uploadtest"><span class="glyphicon glyphicon-home"></span> 首页</a> --%>
 				
 				<% } %>
 				<a href="#"  >返回首页</a>

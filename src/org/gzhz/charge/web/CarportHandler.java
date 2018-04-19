@@ -107,7 +107,7 @@ public class CarportHandler {
 	 * @parameter
 	 * @return 月缴费用户办理套餐，返回数字，1，插入成功
 	 */
-
+//	carport/MonthUser.action
 	@RequestMapping(value = "/MonthUser.action", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 	public @ResponseBody MonthUser addMonthUser(@RequestBody MonthUser user) {
 
