@@ -32,8 +32,8 @@ function carSensor1() {
 	});
 }
 
-//最终测试成功的上传车牌文件ajax方法
-function doUpload() {  
+//
+function doUploadIn() {  
     var formData = new FormData($( "#uploadForm" )[0]);  
     $.ajax({  
          url: 'park/carPortUploadIn.action',  
@@ -53,6 +53,26 @@ function doUpload() {
     });  
 } 
 
+//最终测试成功的上传车牌文件ajax方法
+function doUploadOut() {  
+    var formData = new FormData($( "#uploadForm" )[0]);  
+    $.ajax({  
+         url: 'park/carPortUploadOut.action',  
+         type: 'POST',  
+         data: formData,  
+         async: false,  
+         cache: false,  
+         contentType: false,  
+         processData: false,  
+         success: function (returndata) {  
+             alert("成功" + returndata.car_park_license); 
+             $(" font[ id='displayboard' ] ").text("再见!" + returndata.car_park_license + "的车主");
+         },  
+         error: function (returndata) {  
+             alert("提交车辆照片失败");  
+         }  
+    });  
+} 
 
 
 // -------------------LED显示效果JS开始 -------------------//

@@ -30,7 +30,13 @@ public interface ICarInfoDao {
 	public List<CarPort> searchUnusePort(Integer i);//输入车位状态ID
 	//查询参数表的参数ID
 	public Integer searchParameterIDByName(String str);//输入为参数的名称
-	//根据车牌号查询车辆类型---------------------暂未完成
+	//根据车牌号查询车辆类型
 	public String searchCarType(String carLicense);//输入参数为车牌号
+	//根据车位类的编号将图片地址更新到数据库
+	public int updateCarPortTB(CarPort carPort);
+	//根据车位类的编号查询车位ID
+	public CarPort searchCarPortID(CarPort carPort);
+	//根据车牌号将停车位ID更新到停车场车辆数据表中
+	public int updateCarParkTB(CarInfo car);
 
 }

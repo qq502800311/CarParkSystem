@@ -85,4 +85,19 @@
 	<select id="searchCarType"  parameterType="java.lang.String" resultType="java.lang.String">
 		select b.PARAMETER_NAME from CAR_VIP_TB a, PARAMETER_TB b where a.CAR_PARK_LICENSE =#{id} and a.CAR_PARK_TYPE=b.PARAMETER_ID
 	</select>
+<!-- 	根据车库编号和车辆入库图片，对停车位数据库进行更新 -->	
+	<update id="updateCarPortTB" parameterType="org.gzhz.park.bean.CarPort">
+		update CARPORT_TB set
+		PICTURE_URL=#{picture_url} where CARPORT_NUM=#{carport_num}
+	</update>
+<!-- 	根据车库编号查询车库ID -->	
+	<select id="searchCarPortID" parameterType="org.gzhz.park.bean.CarPort"
+		resultType="org.gzhz.park.bean.CarPort">
+		select * from CARPORT_TB where CARPORT_NUM =#{carport_num}
+	</select>
+<!-- 	根据车辆牌号，对停车场车辆表中所停放的车位编号进行更新 -->	
+	<update id="updateCarParkTB" parameterType="org.gzhz.park.bean.CarInfo">
+		update CAR_PARK_INFO_TB set
+		CARPORT_ID=#{carport_id} where CAR_PARK_LICENSE=#{car_park_license}
+	</update>
 </mapper>

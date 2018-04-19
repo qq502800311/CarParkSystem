@@ -109,7 +109,8 @@
 							<input type="file" name="file"/>
 						</div>
 						<div class="col-sm-2">
-							<input type="button" value="上传" onclick="doUpload()" class="btn btn-default"/>  
+							<input type="button" value="入库" onclick="doUploadIn()" class="btn btn-default"/>  
+							<input type="button" value="出库" onclick="doUploadOut()" class="btn btn-default"/>  
 						</div>
 					
    				</div>

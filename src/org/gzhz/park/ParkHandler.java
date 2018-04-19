@@ -213,16 +213,65 @@ public class ParkHandler {
 		String str = carParkUnitl.getImage(file, servletContext, "入库");	//得到图片的存储路径
 		String carLicense = carParkUnitl.recognitionCarImage(str);			//根据路径找到图片并识别车牌
 		//根据图片路径和车库编号构建一个车库类
+		CarPort cp = new CarPort(carPort_num, str);
 		//查询参数表中车位使用中的参数对应ID,更新到车库类中
+		int i = iCarInfoDao.updateCarPortTB(cp);
+		if(i == 1){
+			System.out.println("车位表更新成功");
+		}
 		//将车库类提交更新到车库表,并得到该车位的ID
+		CarPort cp2 = iCarInfoDao.searchCarPortID(cp);
 		//将ID与车牌构建一个车辆类
+		car = new CarInfo(carLicense, cp2.getCarport_id());
 		//将车辆类提交更新到车辆表
+		int j = iCarInfoDao.updateCarParkTB(car);
+		if(j == 1){
+			System.out.println("车辆表更新成功");
+		}
 		//检查以上操作的标志位，返回标志位。
-		car = carParkUnitl.addCar(carLicense);
+		if((i==0) || (j==0)){
+			car = null;
+		}
 		return car;
     }
 
-	
+	/** 
+	* @author  作者 E-mail: 郭智雄
+	* @date 创建时间：2018年4月18日 上午08:32:49 
+	* @version 1.0 
+	* @parameter  MultipartFile fileact
+	* @parameter  HttpServletRequest request
+	* @description 停车出库上传车辆照片 ajax方式实现------重要
+	* @return  CarInfo car
+	*/
+//	, produces="application/json;charset=utf-8"
+	@RequestMapping(value = "/carPortUploadOut.action", method = RequestMethod.POST)
+    public @ResponseBody CarInfo carPortUploadOut(HttpServletRequest request, @RequestParam("file") MultipartFile file, String carPort_num) {
+        CarInfo car = null;
+        System.out.println(carPort_num);
+		ServletContext servletContext = request.getServletContext();
+		String str = carParkUnitl.getImage(file, servletContext, "出库");	//得到图片的存储路径
+		String carLicense = carParkUnitl.recognitionCarImage(str);			//根据路径找到图片并识别车牌
+		//根据图片路径和车库编号构建一个车库类
+		CarPort cp = new CarPort(carPort_num, "无");
+		//查询参数表中车位使用中的参数对应ID,更新到车库类中
+		int i = iCarInfoDao.updateCarPortTB(cp);
+		if(i == 1){
+			System.out.println("车位表更新成功");
+		}
+		//将ID与车牌构建一个车辆类
+		car = new CarInfo(carLicense, 0);//车辆出库后无法再将Integer字段内容设置为null，所以选择0，表示已经出库。
+		//将车辆类提交更新到车辆表
+		int j = iCarInfoDao.updateCarParkTB(car);
+		if(j == 1){
+			System.out.println("车辆表更新成功");
+		}
+		//检查以上操作的标志位，返回标志位。
+		if((i==0) || (j==0)){
+			car = null;
+		}
+		return car;
+    }
 	
 	/** 
 	* @author  作者 E-mail: 郭智雄

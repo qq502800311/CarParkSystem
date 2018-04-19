@@ -28,6 +28,15 @@ public class CarInfo {
 		super();
 	}
 	
+	
+
+	public CarInfo(String car_park_license, Integer carport_id) {
+		super();
+		this.car_park_license = car_park_license;
+		this.carport_id = carport_id;
+	}
+
+
 
 	public CarInfo(String car_park_license, String car_in_time) {
 		super();

@@ -42,6 +42,14 @@ function search() {
 				var trNode = tabNode.insertRow();
 				for(var j=0;j<6;j++){
 					var tdNode = trNode.insertCell();
+					var carport_num = "暂无";
+					if(resultList[i].carport == null){
+						carport_num = "暂无";
+					}else if(resultList[i].carport.carport_num == 0){
+						carport_num = "已经出库";
+					}else{
+						carport_num = resultList[i].carport.carport_num;
+					}
 
 					if(j==0){
 						tdNode.innerHTML = a++;
@@ -52,7 +60,7 @@ function search() {
 					}else if(j==3){
 						tdNode.innerHTML = resultList[i].cartype.parameter_name;		//车辆类型
 					}else if(j==4){
-						tdNode.innerHTML = resultList[i].carport.carport_num;		//车辆车位ID
+						tdNode.innerHTML = carport_num;		//车辆车位ID
 					}else if(j==5){
 						tdNode.innerHTML = resultList[i].car_park_status;	//车辆缴费状态
 					}
