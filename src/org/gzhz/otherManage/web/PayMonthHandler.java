@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 
@@ -162,6 +163,13 @@ public class PayMonthHandler {
 
 	public void setPaymonthmapper(PayMonthMapper paymonthmapper) {
 		this.paymonthmapper = paymonthmapper;
+	}
+	//页面跳转
+	//http://localhost:8080/CarParkSystem/paymonth/pageTopaymonth.action
+	@RequestMapping("/pageTopaymonth")
+	public ModelAndView pageTopaymonth() {
+		ModelAndView modelAndView= new ModelAndView("zlbjsp/pay_monthly_management");
+		return modelAndView;
 	}
 
 }

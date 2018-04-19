@@ -166,4 +166,14 @@ public class CarVipHandler {
 		return msginfo;
 
 	}
+	//页面跳转
+	//http://localhost:8080/CarParkSystem/car/pageTocarvip.action
+	@RequestMapping("/pageTocarvip")
+	public ModelAndView pageTocarvip() {
+		ModelAndView modelAndView= new ModelAndView("zlbjsp/vip_search");
+		return modelAndView;
+	}
+	
+	
+	
 }

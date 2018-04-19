@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
 
@@ -93,5 +94,14 @@ public class ChargeRuleHandler {
 		
 		return null;
 	}
+	
+	
+	//页面跳转
+	////http://localhost:8080/CarParkSystem/chargerule/pageTochargerule.action
+		@RequestMapping("/pageTochargerule")
+		public ModelAndView carviptourl() {
+			ModelAndView modelAndView= new ModelAndView("zlbjsp/charge_rule");
+			return modelAndView;
+		}
 
 }
