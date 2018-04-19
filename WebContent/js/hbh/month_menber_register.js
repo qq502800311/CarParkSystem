@@ -148,8 +148,6 @@ function addUser(){
 		alert("请输入手机号");
 		return false;
 	}else {
-		
-	
 	var username = $("#username").val();
 	var phone = $("#phone").val();
 	var pwd = $("#pwd").val();

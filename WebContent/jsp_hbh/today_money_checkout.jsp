@@ -54,9 +54,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<th>金额</th>
 		</tr>
 		<tbody id="mytable"></tbody>
+		<div><label>金额合计:</label><label id="total_money"></label><label> 元</label></div>
 	</table>
 </div>
-<div><label>金额合计:</label><label id="total_money"></label></div>
+<div><a href="javascript:void(0);" onclick="exportExcel('table_div')">导出EXCEL文件</a></div>
 
 </div>
 

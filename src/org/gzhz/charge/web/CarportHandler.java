@@ -38,6 +38,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 
+import dao.UserMapper;
+
 /**
  * @author 作者 E-mail: 黄彪华
  * @date 创建时间：2018年4月12日 上午11:28:13
@@ -65,6 +67,71 @@ public class CarportHandler {
 	private MoneyDetailMapper DealDetailDao;
 	@Resource
 	private ChargeRuleMapper chargeRule;
+	
+	
+
+	//http://localhost:8080/CarParkSystem/carport/pageToParkMsgCheck.action
+	//---------跳转车位查看页面----------
+	@RequestMapping("/pageToParkMsgCheck.action")
+	public ModelAndView pageToParkMsgCheck(){
+		System.out.println("调用查看车位信息界面");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("jsp_hbh/check_park_msg");
+		return mav;
+	}
+	
+	//http://localhost:8080/CarParkSystem/carport/pageToTodayMoneyCheck.action
+	//----------跳转今日结款账单界面---------
+	@RequestMapping("/pageToTodayMoneyCheck.action")
+	public ModelAndView pageToTodayMoneyCheck(){
+		System.out.println("调用日结款页面");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("jsp_hbh/today_money_checkout");
+		return mav;
+	}
+	
+	//http://localhost:8080/CarParkSystem/carport/pageToMontherUserManager.action
+	//----------跳转月缴费用户充值、退款界面---------
+	@RequestMapping("/pageToMontherUserManager.action")
+	public ModelAndView pageToMontherUserManager(){
+		System.out.println("调用月缴费用户充值、退款界面");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("jsp_hbh/month_menber_manager");
+		return mav;
+	}	
+	
+	//http://localhost:8080/CarParkSystem/carport/pageToMontherUserRegister.action
+	//----------跳转月缴费用户注册页面---------
+	@RequestMapping("/pageToMontherUserRegister.action")
+	public ModelAndView pageToMontherUserRegister(){
+		System.out.println("调用月缴费用户注册界面");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("jsp_hbh/month_menber_register");
+		return mav;
+	}		
+	
+	//http://localhost:8080/CarParkSystem/carport/pageToSearchMeal.action
+	//----------查找套餐页面---------
+	@RequestMapping("/pageToSearchMeal.action")
+	public ModelAndView pageToSearchMeal(){
+		System.out.println("调用套餐详情界面");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("jsp_hbh/search_meal_msg");
+		return mav;
+	}		
+	
+	//http://localhost:8080/CarParkSystem/carport/pageToParkedCharge.action
+	//----------停车收费界面、车辆放行--------
+	@RequestMapping("/pageToParkedCharge.action")
+	public ModelAndView pageToParkedCharge(){
+		System.out.println("调用停车收费界面");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("jsp_hbh/parking_charge");
+		return mav;
+	}		
+	
+	
+	
 	/**
 	 * @date 创建时间：2018年4月12日 下午14:28:13
 	 * @parameter
@@ -73,8 +140,8 @@ public class CarportHandler {
 	 */
 	@RequestMapping(value = "/checkParkMsg.action", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 	public @ResponseBody CarportUserMsg findCarportMsg(String check_msg) {
+		
 		System.out.println("收到ajax的数据:" + check_msg);
-
 		List<CarportUserMsg> carport_msg_list = carport_msg.findAllMsg();
 		System.out.println("获取的车位信息列表:" + carport_msg_list);
 		CarportUserMsg carport = carport_msg_list.get(0);
