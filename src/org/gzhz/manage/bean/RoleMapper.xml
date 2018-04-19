@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="org.gzhz.manage.dao.RoleMapper">
+
+	<!-- 查询角色  -->
+	<select id="searchAll" resultType="org.gzhz.manage.bean.Role">
+		select * from ROLE_TB
+		<where>
+			<if test="role_name!=null and role_name!=''">and role_name=#{role_name}</if>
+		</where>	 
+	</select>
+	
+	<!-- 增加角色  -->
+	<insert id="add" parameterType="org.gzhz.manage.bean.Role">
+		<selectKey keyProperty="role_id" order="BEFORE" resultType="int">
+		    select SEQUENCE_ROLE_TB.nextval from dual 
+		</selectKey>	
+		insert into ROLE_TB values(#{role_id},#{role_name}) 
+	</insert>
+	
+	<!-- 增加角色  -->
+	<update id="updateName" parameterType="org.gzhz.manage.bean.Role">	
+		update ROLE_TB set role_name=#{role_name} where role_id=#{role_id} 
+	</update>
+	
+</mapper>

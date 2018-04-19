@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 */
 @Component
 public class RoleMenu {
+	
 	private int role_menu_id;
 	private int role_id;
 	private int menu_id;
