@@ -128,9 +128,7 @@ public class CarportHandler {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("jsp_hbh/parking_charge");
 		return mav;
-	}		
-	
-	
+	}
 	
 	/**
 	 * @date 创建时间：2018年4月12日 下午14:28:13
