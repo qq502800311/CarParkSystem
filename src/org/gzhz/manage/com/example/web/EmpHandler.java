@@ -27,6 +27,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 
 
@@ -177,10 +179,14 @@ public class EmpHandler {
 //		System.out.println(emp_name);
 //		System.out.println(emp_status);
 		//查询符合条件的用户
+		PageHelper.startPage(2, 5);
 		List<Emp> empList = empMapper.searchInfo(emp_id, emp_name, emp_status);
+		PageInfo<Emp> pageInfo = new PageInfo<Emp>(empList);
+//		System.out.println("pageInfo:" + pageInfo);
+		
 		Gson gson = new Gson();
-		String date = gson.toJson(empList);
-		System.out.println("返回用户信息：" + date);
+		String date = gson.toJson(pageInfo);
+		System.out.println("返回用户信息（包含分页信息）：" + date);
 		return date;
 	}
 	

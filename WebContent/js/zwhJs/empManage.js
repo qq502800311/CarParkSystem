@@ -2,6 +2,9 @@
  * 
  */
 
+
+var staticRoleList = null;	//角色列表
+
 $(function(){
 	searchAllRole();	//先查询角色信息，再查用户信息
 });
@@ -15,6 +18,7 @@ function searchAllRole(){
 		async:true,	
 		success: function(roleList){
 			//查询一次
+			staticRoleList = roleList;	//记录一个角色列表为全局变量
 			search(roleList);
 			//新增用户模态框中的角色选项
 			var roleNode = document.getElementById("new_role_id");	//角色节点
@@ -40,7 +44,7 @@ function search(roleList){
 			$("#tab tr:not(:first)").html("");
 			
 			//写入数据
-			var list = date;
+			var list = date.list;
 			var tabNode = document.getElementById("tab");
 			var a = 1;
 			for(var i=0;i<list.length;i++){
@@ -110,7 +114,11 @@ function search(roleList){
 
 					}
 				}
-			}			
+			}
+			
+			//记录分页信息
+			document.getElementById("pages").innerHTML = date.pages;	//总页数
+			document.getElementById("total").innerHTML = date.total;	//查询总数
 		}
 	})
 }
@@ -268,4 +276,104 @@ function updateEmpPwdSubmit(){
 			searchAllRole();
 		}
 	})
+}
+
+
+//下一页
+function nextPage(){
+	var pageNum = document.getElementById("pageNum").text;	//当前页数
+	var nextpage = Number(page) + 1;
+	
+	var pages = document.getElementById("pages").innerHTML = date.pages;	//总页数
+	
+	//页数判断
+	if(nextpage > pages){
+		alert("已经是最后一页了");
+	}else{
+		var msg = "pageNum=" + pageNum;
+		$.ajax({
+			type:"POST",
+			url:"emp/search.action",
+			data: msg,
+			dataType:"json",
+			async:true,	
+			success: function(date){
+				//清空表格
+				$("#tab tr:not(:first)").html("");
+				
+				//写入数据
+				var list = date;
+				var tabNode = document.getElementById("tab");
+				var a = 1;
+				for(var i=0;i<list.length;i++){
+					var trNode = tabNode.insertRow();
+					for(var j=0;j<7;j++){
+						var tdNode = trNode.insertCell();
+						if(j==0){
+							tdNode.innerHTML = a++;
+						}else if(j==1){
+							tdNode.innerHTML = list[i].emp_id;
+						}else if(j==2){
+							tdNode.innerHTML = list[i].emp_name;
+						}else if(j==3){
+							tdNode.innerHTML = list[i].emp_pwd;
+						}else if(j==4){
+							for(var k=0;k<list[i].empRoleList.length;k++){
+								tdNode.innerHTML += "[" + list[i].empRoleList[k].role.role_name + "]";
+							}
+						}else if(j==5){
+							tdNode.innerHTML = list[i].emp_status;
+						}else if(j==6){
+							var btnb = document.createElement("input");
+							btnb.type = "button";
+							btnb.value = "增加角色";
+							btnb.setAttribute('data-toggle', 'modal');
+							btnb.setAttribute('data-target', '#myModal2');	
+							btnb.onclick = function(){
+								addRole(this, list, staticRoleList);
+							}
+							
+							var btnc = document.createElement("input");
+							btnc.type = "button";
+							btnc.value = "删除角色";
+							btnc.setAttribute('data-toggle', 'modal');
+							btnc.setAttribute('data-target', '#myModal3');	
+							btnc.onclick = function(){
+								deleteRole(this, list, staticRoleList);
+							}
+
+							var btnd = document.createElement("input");
+							btnd.type = "button";
+							if(list[i].emp_status == "启用"){
+								btnd.value = "禁用";
+							}else{
+								btnd.value = "启用";
+							}
+							btnd.setAttribute('data-toggle', 'modal');
+							btnd.setAttribute('data-target', '#myModal4');							
+							btnd.onclick = function(){
+								updateEmpStatus(this, staticRoleList);
+							}	
+
+							
+							var btne = document.createElement("input");
+							btne.type = "button";
+							btne.value = "重置密码";
+							btne.onclick = function(){
+								updatePwd(this, staticRoleList);
+							}
+							btne.setAttribute('data-toggle', 'modal');
+							btne.setAttribute('data-target', '#myModal5');		
+							
+							tdNode.appendChild(btnb);
+							tdNode.appendChild(btnc);
+							tdNode.appendChild(btnd);
+							tdNode.appendChild(btne);
+
+						}
+					}
+				}			
+			}
+		})
+	}
 }

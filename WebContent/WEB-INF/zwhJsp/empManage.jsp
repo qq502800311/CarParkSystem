@@ -1,313 +1,737 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<!DOCTYPE html>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-
-<html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
+<html lang="en">
 <head>
-<base href="<%=basePath%>">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>管理端使用的用户查询页面</title>
-
-<link rel="stylesheet" type="text/css" href="css/bootstrap.css" >
-<script type="text/javascript" charset="UTF-8" src="js/jquery-3.3.1.js" ></script>
-<script type="text/javascript" charset="UTF-8" src= "js/bootstrap.js"></script>
-<!-- laydate控件方式,layDate 采用原生 JavaScript 编写，不依赖任何第三方库，兼容所有浏览器（IE6/7除外） -->
-<script src="js/laydate/laydate.js" ></script> <!-- 改成你的路径 -->
-<script type="text/javascript" src="js/zwhJs/empManage.js" ></script>  
+	
+	<!-- start: Meta -->
+	<meta charset="utf-8">
+	<title>Bootstrap Metro Dashboard by Dennis Ji for ARM demo</title>
+	 <base href="<%=basePath%>">
+	<meta name="description" content="Bootstrap Metro Dashboard">
+	<meta name="author" content="Dennis Ji">
+	<meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+	<!-- end: Meta -->
+	
+	<!-- start: Mobile Specific -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- end: Mobile Specific -->
+	
+	<!-- start: CSS -->
+	<link id="bootstrap-style" href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+	<link id="base-style" href="css/style.css" rel="stylesheet">
+	<link id="base-style-responsive" href="css/style-responsive.css" rel="stylesheet">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
+	<!-- end: CSS -->
 	
 
+	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	  	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<link id="ie-style" href="css/ie.css" rel="stylesheet">
+	<![endif]-->
 	
+	<!--[if IE 9]>
+		<link id="ie9style" href="css/ie9.css" rel="stylesheet">
+	<![endif]-->
+		
+	<!-- start: Favicon -->
+	<link rel="shortcut icon" href="img/favicon.ico">
+	<!-- end: Favicon -->
+	
+
+<style>
+ body{overflow:hidden;width:95%;margin:auto;} 
+</style>		
+		
 </head>
+
 <body>
-	<h1>用户管理</h1>
-<!-- 	查询条件框部分开始 -->
-	<div >
-		<div>查询条件：</div>
-		<div>
-			<!-- 	查询条件框信息开始 -->
-			<form id="searchForm" method="post">
-				<label>用户ID：</label>
-				<input type="text" name="emp_id">
-				<label>用户名：</label>
-				<input type="text" name="emp_name">
-				<label>用户状态：</label>
-				<select value="" name="emp_status">
-					<option value ="" >不限</option>					
-					<option value ="启用" >启用</option>
-					<option value ="禁用" >禁用</option>
-				</select>
-			</form>	
-			<!-- 	查询条件框信息结束 -->
-			<button type="button" class="btn btn-primary" onclick="searchAllRole()">查询</button>	
-			<!-- 按钮触发模态框 -->
-			<button class="btn btn-primary" data-toggle="modal" data-target="#myModal1">增加</button>	
-		</div>
-		<div>		
-<!-- 			<button type="button" class="btn btn-primary" onclick="useHelp()">使用帮助</button> -->
+				<!-- start: Content -->
+			<div id="content" class="span10" >
+
+			<ul class="breadcrumb">
+				<li>
+					<i class="icon-home"></i>
+					<a href="index.html">Home</a> 
+					<i class="icon-angle-right"></i>
+				</li>
+				<li><a href="#">人员管理</a></li>
+			</ul>
+
+			<div class="row-fluid sortable">		
+				<div class="box span12">
+					<div class="box-header" data-original-title>
+						<h2><i class="halflings-icon white user"></i><span class="break"></span>Members</h2>
+						<div class="box-icon">
+							<a href="#" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
+							<a href="#" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+							<a href="#" class="btn-close"><i class="halflings-icon white remove"></i></a>
+						</div>
+					</div>
+					<div class="box-content">
+						<table class="table table-striped table-bordered bootstrap-datatable datatable">
+						  <thead>
+							  <tr>
+								  <th>Username</th>
+								  <th>Date registered</th>
+								  <th>Role</th>
+								  <th>Status</th>
+								  <th>Actions</th>
+							  </tr>
+						  </thead>   
+						  <tbody>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/01/01</td>
+								<td class="center">Member</td>
+								<td class="center">
+									<span class="label label-success">Active</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>  
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>  
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/01/01</td>
+								<td class="center">Member</td>
+								<td class="center">
+									<span class="label label-success">Active</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>  
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>  
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/01/01</td>
+								<td class="center">Member</td>
+								<td class="center">
+									<span class="label label-success">Active</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>  
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>  
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+									</a>
+								</td>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/01/01</td>
+								<td class="center">Member</td>
+								<td class="center">
+									<span class="label label-success">Active</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/02/01</td>
+								<td class="center">Staff</td>
+								<td class="center">
+									<span class="label label-important">Banned</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/02/01</td>
+								<td class="center">Staff</td>
+								<td class="center">
+									<span class="label label-important">Banned</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/03/01</td>
+								<td class="center">Member</td>
+								<td class="center">
+									<span class="label label-warning">Pending</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/03/01</td>
+								<td class="center">Member</td>
+								<td class="center">
+									<span class="label label-warning">Pending</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/01/21</td>
+								<td class="center">Staff</td>
+								<td class="center">
+									<span class="label label-success">Active</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/01/21</td>
+								<td class="center">Staff</td>
+								<td class="center">
+									<span class="label label-success">Active</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/08/23</td>
+								<td class="center">Staff</td>
+								<td class="center">
+									<span class="label label-important">Banned</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/08/23</td>
+								<td class="center">Staff</td>
+								<td class="center">
+									<span class="label label-important">Banned</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/06/01</td>
+								<td class="center">Admin</td>
+								<td class="center">
+									<span class="label">Inactive</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/06/01</td>
+								<td class="center">Admin</td>
+								<td class="center">
+									<span class="label">Inactive</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/03/01</td>
+								<td class="center">Member</td>
+								<td class="center">
+									<span class="label label-warning">Pending</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+										
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/03/01</td>
+								<td class="center">Member</td>
+								<td class="center">
+									<span class="label label-warning">Pending</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+										
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/03/01</td>
+								<td class="center">Member</td>
+								<td class="center">
+									<span class="label label-warning">Pending</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+										
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/01/01</td>
+								<td class="center">Member</td>
+								<td class="center">
+									<span class="label label-success">Active</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+										
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/02/01</td>
+								<td class="center">Staff</td>
+								<td class="center">
+									<span class="label label-important">Banned</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+										
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/02/01</td>
+								<td class="center">Admin</td>
+								<td class="center">
+									<span class="label">Inactive</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+										
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/02/01</td>
+								<td class="center">Admin</td>
+								<td class="center">
+									<span class="label">Inactive</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+										
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/03/01</td>
+								<td class="center">Member</td>
+								<td class="center">
+									<span class="label label-warning">Pending</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+										
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/03/01</td>
+								<td class="center">Member</td>
+								<td class="center">
+									<span class="label label-warning">Pending</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+										
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/01/21</td>
+								<td class="center">Staff</td>
+								<td class="center">
+									<span class="label label-success">Active</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+										
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/01/21</td>
+								<td class="center">Staff</td>
+								<td class="center">
+									<span class="label label-success">Active</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+										
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/08/23</td>
+								<td class="center">Staff</td>
+								<td class="center">
+									<span class="label label-important">Banned</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+										
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/08/23</td>
+								<td class="center">Staff</td>
+								<td class="center">
+									<span class="label label-important">Banned</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+										
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/06/01</td>
+								<td class="center">Admin</td>
+								<td class="center">
+									<span class="label">Inactive</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+										
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/03/01</td>
+								<td class="center">Member</td>
+								<td class="center">
+									<span class="label label-warning">Pending</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+										
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/03/01</td>
+								<td class="center">Member</td>
+								<td class="center">
+									<span class="label label-warning">Pending</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+										
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/03/01</td>
+								<td class="center">Member</td>
+								<td class="center">
+									<span class="label label-warning">Pending</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+
+									</a>
+								</td>
+							</tr>
+							<tr>
+								<td>Dennis Ji</td>
+								<td class="center">2012/03/01</td>
+								<td class="center">Member</td>
+								<td class="center">
+									<span class="label label-warning">Pending</span>
+								</td>
+								<td class="center">
+									<a class="btn btn-success" href="#">
+										<i class="halflings-icon white zoom-in"></i>                                            
+									</a>
+									<a class="btn btn-info" href="#">
+										<i class="halflings-icon white edit"></i>                                            
+									</a>
+									<a class="btn btn-danger" href="#">
+										<i class="halflings-icon white trash"></i> 
+										
+									</a>
+								</td>
+							</tr>
+						  </tbody>
+					  </table>            
+					</div>
+				</div><!--/span-->
 			
-		</div>
-	</div>
-<!-- 	查询条件框部分结束 -->
+			</div><!--/row-->
 
-<!-- 	查询结果表格部分开始 -->
-	<div>
-		<table class="table table-striped" id="tab" >
-			<tr>
-				<td>序号</td><td>用户ID</td><td>用户名</td><td>用户密码</td><td>用户角色</td><td>用户状态</td><td>操作</td>
-			</tr>
-		</table>
-	</div>
-<!-- 	查询结果表格部分结束 -->
+		
+		
 
-<!-- 				查看单模态框开始 -->
-				
-				<!-- 模态框（Modal） -->
-				<div class="modal fade" id="myModal1" tabindex="-1" role="dialog"
-					aria-labelledby="myModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal"
-									aria-hidden="true"></button>
-								<h4 class="modal-title" id="myModalLabel">新增用户</h4>
-							</div>
-							<div class="modal-body" align="center">
-<!-- 								模态框中表单开始 -->
-								<form id="addEmpForm" method="post">
-									<!-- 				要增加的用户姓名 -->
-									<div >
-										<label >用户名：</label>
-										<input id="new_emp_name" name="emp_name">
-									</div>
-									<br></br>
-									<!-- 				选择用户角色 -->
-									<div >
-										<label >用户角色：</label>
-										<select value="" name="role_id" id="new_role_id">
+			
+		
+    
 
-										</select>
-									</div>
-									<br></br>
-								</form>
-									
-<!-- 								模态框中表单结束 -->
-							</div>
-							<div class="modal-footer">
-								<div class="col-sm-offset-2 col-sm-10">
-<!-- 									<button type="submit" class="btn btn-primary">入库</button> -->
-<!-- 									<button type="button" onclick="" class="btn btn-primary">审核通过</button> -->
-									<button type="button" class="btn btn-primary" onclick="addNewEmp()" data-dismiss="modal">提交</button>		
-									<button type="button" class="btn btn-default"
-										data-dismiss="modal">返回</button>
-								</div>
-							</div>
-						</div>
-						<!-- /.modal-content -->
-					</div>
-					<!-- /.modal -->
-				</div>
-<!-- 				查看单模态框结束 -->
-
-<!-- 				增加角色模态框开始 -->
-				
-				<!-- 模态框（Modal） -->
-				<div class="modal fade" id="myModal2" tabindex="-1" role="dialog"
-					aria-labelledby="myModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal"
-									aria-hidden="true"></button>
-								<h4 class="modal-title" id="myModalLabel">增加角色</h4>
-							</div>
-							<div class="modal-body" align="center">
-<!-- 								模态框中表单开始 -->
-								<form id="addEmpRoleForm" method="post">
-									<!-- 				要增加的用户ID -->
-										<div >
-											<label >用户ID：</label>
-											<label id="add_emp_id" name="emp_id"></label>
-										</div>
-										<br></br>
-										<!-- 				要增加的用户姓名 -->
-										<div >
-											<label >用户名：</label>
-											<label id="add_emp_name">
-										</div>
-										<br></br>
-										<!-- 				要增加的用户角色 -->
-										<div >
-											<label >增加角色：</label>
-											<select value ="" id="add_role_id" name="role_id">
-												<option value ="" >--请选择--</option>	
-											</select>
-										</div>
-										<br></br>
-								</form>
-									
-<!-- 								模态框中表单结束 -->
-							</div>
-							<div class="modal-footer">
-								<div class="col-sm-offset-2 col-sm-10">
-<!-- 									<button type="submit" class="btn btn-primary">入库</button> -->
-<!-- 									<button type="button" onclick="" class="btn btn-primary">审核通过</button> -->
-									<button type="button" class="btn btn-primary" onclick="addRoleSubmit()" data-dismiss="modal">提交</button>		
-									<button type="button" class="btn btn-default"
-										data-dismiss="modal">返回</button>
-								</div>
-							</div>
-						</div>
-						<!-- /.modal-content -->
-					</div>
-					<!-- /.modal -->
-				</div>
-<!-- 			增加角色模态框结束 -->
-
-<!-- 				删除角色模态框开始 -->
-				
-				<!-- 模态框（Modal） -->
-				<div class="modal fade" id="myModal3" tabindex="-1" role="dialog"
-					aria-labelledby="myModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal"
-									aria-hidden="true"></button>
-								<h4 class="modal-title" id="myModalLabel">删除角色</h4>
-							</div>
-							<div class="modal-body" align="center">
-<!-- 								模态框中表单开始 -->
-									<form id="deleteEmpRoleForm" method="post">
-										<!-- 				要增加的用户ID -->
-										<div >
-											<label >用户ID：</label>
-											<label id="delete_emp_id" name="emp_id"></label>
-										</div>
-										<br></br>
-										<!-- 				要增加的用户姓名 -->
-										<div >
-											<label >用户名：</label>
-											<label id="delete_emp_name">
-										</div>
-										<br></br>
-										<!-- 				要增加的用户角色 -->
-										<div >
-											<label >删除角色：</label>
-											<select id="delete_role_id" name="role_id">
-												<option value ="" >无</option>
-											</select>
-										</div>
-										<br></br>
-									</form>
-									
-<!-- 								模态框中表单结束 -->
-							</div>
-							<div class="modal-footer">
-								<div class="col-sm-offset-2 col-sm-10">
-<!-- 									<button type="submit" class="btn btn-primary">入库</button> -->
-<!-- 									<button type="button" onclick="" class="btn btn-primary">审核通过</button> -->
-									<button type="button" class="btn btn-primary" onclick="deleteRoleSubmit()" data-dismiss="modal">提交</button>		
-									<button type="button" class="btn btn-default"
-										data-dismiss="modal">返回</button>
-								</div>
-							</div>
-						</div>
-						<!-- /.modal-content -->
-					</div>
-					<!-- /.modal -->
-				</div>
-<!-- 			删除角色模态框结束 -->
-
-<!-- 				修改用户状态模态框开始 -->
-				
-				<!-- 模态框（Modal） -->
-				<div class="modal fade" id="myModal4" tabindex="-1" role="dialog"
-					aria-labelledby="myModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal"
-									aria-hidden="true"></button>
-								<h4 class="modal-title" id="myModalLabel">修改状态</h4>
-							</div>
-							<div class="modal-body" align="center">
-<!-- 								模态框中表单开始 -->
-									<form id="updateEmpStatusForm" method="post">
-										<!-- 				要修改的用户ID -->
-										<div >
-											<label >用户ID：</label>
-											<label id="update_emp_id" name="emp_id"></label>
-										</div>
-										<br></br>
-										<!-- 				要增加的用户状态 -->
-										<div >
-											<label >用户状态：</label>
-											<label id="update_emp_status" name="emp_status"></label>
-										</div>
-										<br></br>
-									</form>
-									
-<!-- 								模态框中表单结束 -->
-							</div>
-							<div class="modal-footer">
-								<div class="col-sm-offset-2 col-sm-10">
-<!-- 									<button type="submit" class="btn btn-primary">入库</button> -->
-<!-- 									<button type="button" onclick="" class="btn btn-primary">审核通过</button> -->
-									<button type="button" class="btn btn-primary" onclick="updateEmpStatusSubmit()" data-dismiss="modal">提交</button>		
-									<button type="button" class="btn btn-default"
-										data-dismiss="modal">返回</button>
-								</div>
-							</div>
-						</div>
-						<!-- /.modal-content -->
-					</div>
-					<!-- /.modal -->
-				</div>
-<!-- 			修改用户状态模态框结束 -->
-
-<!-- 				修改用户状态模态框开始 -->
-				
-				<!-- 模态框（Modal） -->
-				<div class="modal fade" id="myModal5" tabindex="-1" role="dialog"
-					aria-labelledby="myModalLabel" aria-hidden="true">
-					<div class="modal-dialog">
-						<div class="modal-content">
-							<div class="modal-header">
-								<button type="button" class="close" data-dismiss="modal"
-									aria-hidden="true"></button>
-								<h4 class="modal-title" id="myModalLabel">重置密码</h4>
-							</div>
-							<div class="modal-body" align="center">
-<!-- 								模态框中表单开始 -->
-									<form id="updateEmpPwdForm" method="post">
-										<!-- 				要修改的用户ID -->
-										<div >
-											<label >用户ID：</label>
-											<label id="update_pwd_emp_id" name="emp_id"></label>
-										</div>
-										<br></br>
-									</form>
-									
-<!-- 								模态框中表单结束 -->
-							</div>
-							<div class="modal-footer">
-								<div class="col-sm-offset-2 col-sm-10">
-<!-- 									<button type="submit" class="btn btn-primary">入库</button> -->
-<!-- 									<button type="button" onclick="" class="btn btn-primary">审核通过</button> -->
-									<button type="button" class="btn btn-primary" onclick="updateEmpPwdSubmit()" data-dismiss="modal">提交</button>		
-									<button type="button" class="btn btn-default"
-										data-dismiss="modal">返回</button>
-								</div>
-							</div>
-						</div>
-						<!-- /.modal-content -->
-					</div>
-					<!-- /.modal -->
-				</div>
-<!-- 			修改用户状态模态框结束 -->
+	</div>/.fluid-container
+	
+			<!-- end: Content -->
+	
 </body>
 </html>

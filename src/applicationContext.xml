@@ -23,6 +23,18 @@
 	<bean id="seesionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="myDataSource"></property>
 		<property name="mapperLocations" value="classpath:org/gzhz/*/*/*.xml" />
+		
+		 <!-- 配置mybatis分页插件PageHelper -->
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                    <property name="properties">
+                        <!-- 什么都不配，使用默认的配置 -->
+                        <value></value>
+                    </property>
+                </bean>
+            </array>
+        </property>
 	</bean>
 
 	<!--郭智雄 扫描开始 -->

@@ -59,6 +59,8 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/opencv-macosx-x86_64.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/opencv-windows-x86_64.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/opencv.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jsqlparser-0.9.5.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/pagehelper-5.1.3.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.5"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
