@@ -15,7 +15,7 @@
 		from MENU_TB a, MENU_TB b
 		where a.MENU_PID=b.MENU_ID
 		<if test="menu_pid!=null and menu_pid!='-1'">and a.menu_pid=#{menu_pid}</if>
-		<if test="menu_name!=null and menu_name!=''">and a.menu_name=#{menu_name}</if>
+		<if test="menu_name!=null and menu_name!=''">and a.menu_name like CONCAT(CONCAT('%', #{menu_name}), '%')</if>
 	</select>
 	
     <!-- resultMap -->	
