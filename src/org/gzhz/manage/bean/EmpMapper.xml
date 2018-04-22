@@ -27,8 +27,8 @@
 <!-- 		select * from (select t.*, rownum rn from ( -->
 		select * from EMP_TB
 		<where>
-			<if test="emp_id!=null and emp_id!=''">and emp_id=#{emp_id}</if>
-			<if test="emp_name!=null and emp_name!=''">and emp_name=#{emp_name}</if>
+			<if test="emp_id!=null and emp_id!=''">and emp_id like CONCAT(CONCAT('%', #{emp_id}), '%')</if>
+			<if test="emp_name!=null and emp_name!=''">and emp_name like CONCAT(CONCAT('%', #{emp_name}), '%')</if>
 			<if test="emp_status!=null and emp_status!=''">and emp_status=#{emp_status}</if>
 		</where>
 <!-- 		) t) where rn&gt;=6 AND rn&lt;=10	 -->

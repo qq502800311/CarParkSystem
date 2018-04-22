@@ -63,7 +63,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 <!-- 	查询结果表格部分结束 -->
 
-<!-- 				查看单模态框开始 -->
+<!-- 				增加人员模态框开始 -->
 				
 				<!-- 模态框（Modal） -->
 				<div class="modal fade" id="myModal1" tabindex="-1" role="dialog"
@@ -110,7 +110,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<!-- /.modal -->
 				</div>
-<!-- 				查看单模态框结束 -->
+<!-- 				增加人员模态框结束 -->
 
 <!-- 				增加角色模态框开始 -->
 				

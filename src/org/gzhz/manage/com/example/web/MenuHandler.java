@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.gzhz.manage.bean.Emp;
 import org.gzhz.manage.bean.Menu;
 import org.gzhz.manage.bean.Role;
 import org.gzhz.manage.dao.MenuMapper;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 
 /** 
@@ -76,15 +79,18 @@ public class MenuHandler {
 	* @return  	菜单列表
 	*/
 	@RequestMapping(value="/search.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
-	public @ResponseBody String search(Menu menu){
+	public @ResponseBody String search(Menu menu, int pageNum, int pageSize){
 		//显示查询条件
 //		System.out.println(menu.getMenu_id());
 //		System.out.println(menu.getMenu_name());
 //		System.out.println(menu.getMenu_pid());
 		//查询符合条件的菜单
+		PageHelper.startPage(pageNum, pageSize);
 		List<Menu> menulist = menuMapper.search(menu);
+		PageInfo<Menu> pageInfo = new PageInfo<Menu>(menulist);
+		
 		Gson gson = new Gson();
-		String date = gson.toJson(menulist);
+		String date = gson.toJson(pageInfo);
 		System.out.println("返回：" + date);
 		return date;
 	}

@@ -15,7 +15,7 @@
 		from PARAMETER_TB a, PARAMETER_TB b
 		where a.PARAMETER_PID=b.PARAMETER_ID
 		<if test="parameter_pid!=null and parameter_pid!='-1'">and a.parameter_pid=#{parameter_pid}</if>
-		<if test="parameter_name!=null and parameter_name!=''">and a.parameter_name=#{parameter_name}</if>
+		<if test="parameter_name!=null and parameter_name!=''">and a.parameter_name like CONCAT(CONCAT('%', #{parameter_name}), '%')</if>
 	</select>
 	
     <!-- resultMap -->	

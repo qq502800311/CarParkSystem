@@ -173,20 +173,20 @@ public class EmpHandler {
 	* @return  	用户信息
 	*/
 	@RequestMapping(value="/search.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
-	public @ResponseBody String search(String emp_id, String emp_name, String emp_status){
+	public @ResponseBody String search(String emp_id, String emp_name, String emp_status, int pageNum, int pageSize){
 		//显示查询条件
 //		System.out.println(emp_id);
 //		System.out.println(emp_name);
 //		System.out.println(emp_status);
 		//查询符合条件的用户
-		PageHelper.startPage(2, 5);
+		PageHelper.startPage(pageNum, pageSize);
 		List<Emp> empList = empMapper.searchInfo(emp_id, emp_name, emp_status);
 		PageInfo<Emp> pageInfo = new PageInfo<Emp>(empList);
 //		System.out.println("pageInfo:" + pageInfo);
 		
 		Gson gson = new Gson();
 		String date = gson.toJson(pageInfo);
-		System.out.println("返回用户信息（包含分页信息）：" + date);
+		System.out.println("返回（包含分页信息）：" + date);
 		return date;
 	}
 	

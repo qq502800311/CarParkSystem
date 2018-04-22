@@ -352,7 +352,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<a class="dropmenu" href="#"><i class="icon-folder-close-alt"></i><span class="hidden-tablet"><c:out value="${i.key}"></c:out></span></a>
 										<ul>	
 											<c:forEach var="j" items="${i.value}">
-<%-- 												<a href="${j.menu_url}" target="view_window" ><c:out value="${j.second_menu_name}"></c:out></a> --%>
 												<li>
 													<a class="submenu" href="${j.menu_url}" target="view_window">&#8195&#8195&#8195<i class="icon-file-alt"></i><span class="hidden-tablet"><c:out value="${j.second_menu_name}"></c:out></span></a>
 												</li>
@@ -394,23 +393,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
 				</div>
 			</noscript>
-
+			
 			<!-- iframe自适应高度 开始-->
-			<iframe name="view_window" width=100% style="min-height: 885px;"  frameborder="0" scrolling="no" id="external-frame" onload="setIframeHeight(this)"></iframe>
+			<script>
+				function setIframeHeight(iframe) {
+					if (iframe) {
+						var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+						if (iframeWin.document.body) {
+							iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+						}
+					}
+				};
+				window.onload = function () {
+					setIframeHeight(document.getElementById('external-frame'));
+				};
+			</script>
+			
+			<iframe name="view_window" width=100% style="min-height: 700px;"  frameborder="0" scrolling="no" id="external-frame" onload="setIframeHeight(this)"></iframe>
 			<script>
 
-			function setIframeHeight(iframe) {
-				if (iframe) {
-					var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
-					if (iframeWin.document.body) {
-						iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
-					}
-				}
-			};
-
-			window.onload = function () {
-				setIframeHeight(document.getElementById('external-frame'));
-			};
+// 			window.onload = function () {
+// 				setIframeHeight(document.getElementById('external-frame'));
+// 			};
 
 			</script>
 			<!-- iframe自适应高度结束-->	
