@@ -1,5 +1,6 @@
 package org.gzhz.charge.web;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import org.gzhz.charge.dao.ChargeRuleMapper;
 import org.gzhz.charge.dao.MealMapper;
 import org.gzhz.charge.dao.MoneyDetailMapper;
 import org.gzhz.charge.dao.MonthUserMapper;
+import org.gzhz.manage.bean.Menu;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,6 +38,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 
 import dao.UserMapper;
@@ -129,6 +134,26 @@ public class CarportHandler {
 		mav.setViewName("jsp_hbh/parking_charge");
 		return mav;
 	}
+	
+	//http://localhost:8080/CarParkSystem/carport/pageToShowDate.action
+	//----------停车收费界面、车辆放行--------
+	@RequestMapping("/pageToShowDate.action")
+	public ModelAndView pageToShowDate(){
+		System.out.println("调用显示界面图表");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("jsp_hbh/show_date");
+		return mav;
+	}	
+	
+	//http://localhost:8080/CarParkSystem/carport/pageToChargeMeth.action
+	//----------停车收费界面、车辆放行--------
+	@RequestMapping("/pageToChargeMeth.action")
+	public ModelAndView pageToChargeMeth(){
+		System.out.println("调用缴费渠道统计页面");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("jsp_hbh/charge_meth");
+		return mav;
+	}	
 	
 	/**
 	 * @date 创建时间：2018年4月12日 下午14:28:13
@@ -305,16 +330,23 @@ public class CarportHandler {
 	 */
 
 	@RequestMapping(value = "/searchUser.action", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-	public @ResponseBody String SearchMonthUser(@RequestBody MonthUser user) {
+	public @ResponseBody String SearchMonthUser(MonthUser user,int pageNum,int pageSize) {
 
 		System.out.println("用户车牌:" + user.getCar_park_license());
 		System.out.println("用户身份证:" + user.getUser_id());
+		System.out.println(pageNum);
+		System.out.println(pageSize);
 
 		// -------------条件查询-----------
+		PageHelper.startPage(pageNum, pageSize);
 		List<MonthUser> users = monthdao.findConditionUser(user);
+		System.out.println("返回的数据："+users);
+		PageInfo<MonthUser> pageInfo = new PageInfo<MonthUser>(users);
+		
 		System.out.println("返回的用户列表:" + users);
 		Gson gson = new Gson();
-		String date = gson.toJson(users);
+		String date = gson.toJson(pageInfo);
+		System.out.println("返回的数据:"+date);
 		return date;
 	}
 
@@ -464,7 +496,7 @@ public class CarportHandler {
 		int sec = 0;
 		int thr = 0;
 		int fur = 0;
-		int fiv = 0;		
+		int fiv = 0;
 		// ---------数据库获取当前车辆停车信息---------
 		CarPark car = carParkDao.searchCarParkMsg(carpark);
 
@@ -473,22 +505,22 @@ public class CarportHandler {
 		} else {
 			String car_type = car.getParameter().getParameter_name();
 			String start_time = car.getCar_in_time();
-			//---------------计算费用---------
+			// ---------------计算费用---------
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Calendar c = Calendar.getInstance();
 			String now_time = df.format(c.getTime()); // 获取系统的当前时间
 
-			//计算时间差
+			// 计算时间差
 			long from = df.parse(start_time).getTime();
-			long to = df.parse(now_time).getTime();  
-			int minutes = (int) ((to - from)/(1000 * 60)); 
-			System.out.println("停车时间:"+minutes);
-			
-			//获取收费规则信息
+			long to = df.parse(now_time).getTime();
+			int minutes = (int) ((to - from) / (1000 * 60));
+			System.out.println("停车时间:" + minutes);
+
+			// 获取收费规则信息
 			List<ChargeRule> rules = chargeRule.findChargeRule();
-			if(rules.size()!=0) {
+			if (rules.size() != 0) {
 				System.out.println("收费规则表获取成功");
-			}else {
+			} else {
 				System.out.println("收费规则表获取失败");
 			}
 
@@ -499,47 +531,46 @@ public class CarportHandler {
 				fur = rules.get(0).getCharge_rule_4();
 				fiv = rules.get(0).getCharge_rule_5();
 			}
-			
-			System.out.println("停车时间2:"+minutes);
-			//计算费用
-			System.out.println("汽车类型:" +car_type);
-			if(!car_type.equals("临时车辆")) {
+
+			System.out.println("停车时间2:" + minutes);
+			// 计算费用
+			System.out.println("汽车类型:" + car_type);
+			if (!car_type.equals("临时车辆")) {
 				total_money = 0;
-			}else {
-				if(minutes<30) {
-					int a = fir;
-					total_money = a*sec;
-				}else if(30<=minutes && minutes<180){
-					int b = (int) Math.ceil((minutes-30)/60);
-					total_money = 3*sec+b*thr;		
-					
-				}else if(180<=minutes && minutes<300) {
-					int b = (int) Math.ceil((minutes-180)/60);
-					total_money = 3*sec+b*thr;
+			} else {
+				if (minutes < 30) {
+					total_money = fir;
+				} else if (30 <= minutes && minutes < 180) {
+					int b = (int) Math.ceil((minutes - 30) / 60);
+					total_money =  sec+ b * sec;
+
+				} else if (180 <= minutes && minutes < 300) {
+					int f = (int) Math.ceil((minutes - 180) / 60);
+					total_money = 3 * sec + f * thr;
 				}
-				
-				else if(300<=minutes && minutes<480){
-					
-					int d = (int) Math.ceil((minutes-300)/60);	
-					total_money = 3*sec+2*thr+fur*d;
-				}else {
-					int e = (int) Math.ceil((minutes-480)/(60*24));
-					total_money = 3*sec+2*thr+fur*3+fiv*e;					
+
+				else if (300 <= minutes && minutes < 480) {
+
+					int d = (int) Math.ceil((minutes - 300) / 60);
+					total_money = 3 * sec + 2 * thr + fur * d;
+				} else {
+					int e = (int) Math.ceil((minutes - 480) / (60 * 24));
+					total_money = fiv + fiv * e;
 				}
 			}
-			String time = minutes/60+"小时 "+minutes%60+"分钟";
+			String time = minutes / 60 + "小时 " + minutes % 60 + "分钟";
 			carout.setCar_license(carpark.getCar_park_license());
 			carout.setCar_type(car_type);
 			carout.setCharge_money(String.valueOf(total_money));
 			carout.setIn_time(start_time);
 			carout.setOut_time(now_time);
 			carout.setStop_time(time);
-			System.out.println("车牌号:"+carpark.getCar_park_license());
-			System.out.println("收费金额："+total_money);
-			System.out.println("出场时间："+now_time);
-			System.out.println("车辆进场时间:"+start_time);
-			System.out.println("汽车类型:" +car_type);
-			System.out.println("停车时间:"+time);
+			System.out.println("车牌号:" + carpark.getCar_park_license());
+			System.out.println("收费金额：" + total_money);
+			System.out.println("出场时间：" + now_time);
+			System.out.println("车辆进场时间:" + start_time);
+			System.out.println("汽车类型:" + car_type);
+			System.out.println("停车时间:" + time);
 		}
 		return carout;
 	}
@@ -585,13 +616,16 @@ public class CarportHandler {
 	 * @return     日结款明细查询
 	 */
 	@RequestMapping(value = "/searchMoney.action", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-	public @ResponseBody String searchTodayMoney(String msg) {
+	public @ResponseBody String searchTodayMoney(String msg,int pageNum,int pageSize) {
 
 		System.out.println("查询的上班时间:" + msg);
+		System.out.println(pageNum);
+		System.out.println(pageSize);
+		
 		String work_time = msg;
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
-		String now_time = df.format(c.getTime()); // 获取系统的当前时间
+		String now_time = df.format(c.getTime()); // 获取系统的当前时间	
 
 		String start_time = null; // 上班开始时间
 		String end_time = null; // 上班结束时间
@@ -606,23 +640,199 @@ public class CarportHandler {
 		} else if (work_time.equals("晚班")) {
 			start_time = now_time + " 00:00:00";
 			end_time = now_time + " 08:00:00";
+		} else {
+			start_time =now_time+" 00:00:00";
+			end_time = now_time+" 24:00:00";
 		}
-		
+
 		System.out.println("结束时间：" + end_time);
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("start_time", start_time);
 		map.put("end_time", end_time);
 
-		//-----------查找今日所有日结款-------------
+		// -----------查找今日所有日结款-------------
+		PageHelper.startPage(pageNum, pageSize);
+		
 		List<MoneyDetail> details = DealDetailDao.findTodayMoney(map);
-		if(details!=null) {
+		PageInfo<MoneyDetail> pageInfo = new PageInfo<MoneyDetail>(details);
+		
+		if (details != null) {
 			System.out.println("收费不为空");
-		}else {
+		} else {
 			System.err.println("收费为空");
 		}
 		Gson gson = new Gson();
-		String date = gson.toJson(details);
+		String date = gson.toJson(pageInfo);
 		System.out.println(date);
 		return date;
 	}
+	
+	@RequestMapping(value = "/getProductPre.action", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	public @ResponseBody String getFouthDateMoney(String msg) {	
+		System.out.println("来自ajax的指令:" + msg);
+		
+		//拉取四月收费数据
+		String start_time = "2018-04-01 00:00:00";
+		String end_time = "2018-05-01 00:00:00";
+		
+		int total_cash = 0;
+		int total_month = 0;
+		int total_season = 0;
+		int total_halfyear = 0;
+		int total_money = 0;
+		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("start_time", start_time);
+		map.put("end_time", end_time);	
+		List<MoneyDetail> details = DealDetailDao.findTodayMoney(map);
+		System.out.println("拉回数据没:"+details);
+		for(MoneyDetail m:details) {
+			if(m.getDeal_matter().equals("停车收费")) {          
+				total_cash += m.getDeal_money();              //临时金额
+			} else if(m.getDeal_matter().equals("月套餐")) {
+				total_month += m.getDeal_money();             //月套套餐金额
+			} else if(m.getDeal_matter().equals("季套餐")) {
+				total_season += m.getDeal_money();
+			} else if(m.getDeal_matter().equals("半年套餐")) {  
+				total_halfyear += m.getDeal_money();           
+			}  
+		}
+        System.out.println("现金:"+total_cash);
+        System.out.println("月套餐:"+total_month);
+        System.out.println("季节占比:"+total_season);
+        System.out.println("半年占比:"+total_halfyear);
+        total_money = total_cash+total_month+total_season+total_halfyear;
+        DecimalFormat df = new DecimalFormat("0.0");
+        
+        String carPer = df.format((float)total_cash/total_money*100);
+        String monthPer = df.format((float)total_month/total_money*100);
+        String seasonPer = df.format((float)total_season/total_money*100);
+        String halfyearPer = df.format((float)total_halfyear/total_money*100);
+        System.out.println("现金占比:"+carPer);
+        System.out.println("月套餐占比:"+monthPer);
+        System.out.println("季节占比占比:"+seasonPer);
+        System.out.println("半年占比占比:"+halfyearPer);
+        
+        String ddd = carPer+":"+monthPer+":"+seasonPer+":"+halfyearPer;
+        
+		Gson gson = new Gson();
+		String date = gson.toJson(ddd);
+        
+		return date;
+	}
+	
+	/**
+	 * @date 创建时间：2018年4月22日 上午午09:21:15
+	 * @parameter
+	 * @return 返回月个月收入占比
+	 */
+	@RequestMapping(value = "/getMonthPre.action", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	public @ResponseBody String getMonthDateMoney(String msg) {	
+		System.out.println("来自ajax的指令2:" + msg);
+		
+		//拉取个月收费数据
+		//1月
+		String start_time1 = "2018-01-01 00:00:00";
+		String end_time1 = "2018-02-01 00:00:00";
+		//2月
+		String start_time2 = "2018-02-01 00:00:00";
+		String end_time2 = "2018-03-01 00:00:00";
+		//3月
+		String start_time3 = "2018-03-01 00:00:00";
+		String end_time3 = "2018-04-01 00:00:00";
+		//4月
+		String start_time4 = "2018-04-01 00:00:00";
+		String end_time4 = "2018-05-01 00:00:00";	
+
+		Map<String, String> map1 = new HashMap<String, String>();
+		Map<String, String> map2 = new HashMap<String, String>();
+		Map<String, String> map3 = new HashMap<String, String>();
+		Map<String, String> map4 = new HashMap<String, String>();
+		map1.put("start_time", start_time1);
+		map1.put("end_time", end_time1);
+		map2.put("start_time", start_time2);
+		map2.put("end_time", end_time2);
+		map3.put("start_time", start_time3);
+		map3.put("end_time", end_time3);
+		map4.put("start_time", start_time4);
+		map4.put("end_time", end_time4);
+		
+		int total_jan = 0;
+		int total_feb = 0;
+		int total_mar = 0;
+		int total_apr = 0;
+		List<MoneyDetail> details = DealDetailDao.findTodayMoney(map1);
+		System.out.println("获取的一月数据:"+details);		
+		for(MoneyDetail m:details) {
+			total_jan += m.getDeal_money();
+		}
+		List<MoneyDetail> detail2s = DealDetailDao.findTodayMoney(map2);
+		System.out.println("获取的er月数据:"+detail2s);		
+		for(MoneyDetail m:detail2s) {
+			total_feb += m.getDeal_money();
+		}		
+		List<MoneyDetail> detail3s = DealDetailDao.findTodayMoney(map3);
+		System.out.println("获取的san月数据:"+detail3s);		
+		for(MoneyDetail m:detail3s) {
+			total_mar += m.getDeal_money();
+		}		
+		List<MoneyDetail> detail4s = DealDetailDao.findTodayMoney(map4);
+		System.out.println("获取的san月数据:"+detail4s);		
+		for(MoneyDetail m:detail4s) {
+			total_apr += m.getDeal_money();
+		}
+
+        DecimalFormat df = new DecimalFormat("0.00");
+        String jan = df.format((float)total_jan/10000);
+        String feb = df.format((float)total_feb/10000);
+        String mar = df.format((float)total_mar/10000);
+        String apr = df.format((float)total_apr/10000);
+		
+        System.out.println("一月现金:"+jan);
+        System.out.println("二月现金:"+feb);
+        System.out.println("三月现金:"+mar);
+        System.out.println("四月现金:"+apr);        
+        
+        String ddd = jan+":"+feb+":"+mar+":"+apr;
+		Gson gson = new Gson();
+		String date = gson.toJson(ddd);
+        
+		return date;
+	}	
+	
+	/**
+	 * @date 创建时间：2018年4月24日 上午11:37:15
+	 * @parameter
+	 * @return 用于支付方式统计
+	 */
+
+	@RequestMapping(value = "/chargeMeth.action", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
+	public @ResponseBody String findChargeMeth(String startDate,String stopDate,String meth,int pageNum,int pageSize) {
+		
+		if(startDate!="" && startDate!=null) {
+			startDate = startDate+" 00:00:00";
+		}else if(stopDate!="" && stopDate!=null) {
+			stopDate = stopDate+" 00:00:00";
+		}
+		System.out.println("开始时间:" + startDate);
+		System.out.println("结束时间:" + stopDate);
+		System.out.println("使用方式:" + meth);
+		System.out.println(pageNum);
+		System.out.println(pageSize);
+
+		// -------------条件查询-----------
+		PageHelper.startPage(pageNum, pageSize);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("startDate", startDate);
+		map.put("stopDate", stopDate);		
+		map.put("meth", meth);
+		
+		List<MoneyDetail> details = DealDetailDao.findChargeMeth(map);
+		System.out.println("返回的数据："+details);
+		PageInfo<MoneyDetail> pageInfo = new PageInfo<MoneyDetail>(details);
+		Gson gson = new Gson();
+		String date = gson.toJson(pageInfo);
+		System.out.println("返回的数据:"+date);
+		return date;
+	}	
 }

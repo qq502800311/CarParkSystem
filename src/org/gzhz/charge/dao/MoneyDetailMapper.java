@@ -24,6 +24,9 @@ public interface MoneyDetailMapper {
 	
 	//查询明细（多条件查询）
 	public List<MoneyDetail> findTodayMoney(Map<String,String> dateMap);
+	
+	//支付方式统计查询
+	public List<MoneyDetail> findChargeMeth(Map<String,String> Map);
 }
 
 

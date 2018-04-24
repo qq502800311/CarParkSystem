@@ -128,7 +128,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 			</td>
 			<td class="myright">
-				<iframe id="if1" src="jsp/doc/doc_search.jsp" frameborder="0" scrolling="auto" width=100% height=90%;></iframe>
+				<iframe id="if1" src="carport/pageToShowDate.action" frameborder="0" scrolling="auto" width=100% height=90%;></iframe>
 			</td>
 		</tr>
 		<tr>

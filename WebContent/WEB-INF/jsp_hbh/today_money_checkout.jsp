@@ -1,96 +1,171 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<!DOCTYPE html>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c"  uri="http://java.sun.com/jsp/jstl/core" %>
+<html lang="en">
 <head>
-<base href="<%=basePath%>">
-<title>收款日结单</title>
 
-<!---------- bootstrap引入 ----------->
-<script type="text/javascript" src="js/jquery-3.3.1.js"></script>
-<script type="text/javascript" src="js/bootstrap.js"></script>
-<link href="css/bootstrap.css" type="text/css" rel="stylesheet">
+	<meta charset="utf-8">
+	<title>收费日结款</title>
+	 <base href="<%=basePath%>">
+	<meta name="description" content="Bootstrap Metro Dashboard">
+	<meta name="author" content="Dennis Ji">
+	<meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
 
-<!------------ 日历引入 -------------->
-<script type="text/javascript" src="js/hbh/dist/js/bootstrap-datepicker.min.js" ></script>
-<script type="text/javascript" src="js/hbh/dist/locales/bootstrap-datepicker.zh-CN.min.js" charset="UTF-8"></script>
-<script type="text/javascript" src="js/hbh/calendar.js" charset="UTF-8"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-<script type="text/javascript" src="js/hbh/today_money_checkout.js" charset="UTF-8"></script>
+	<!-- start: CSS -->
+	<link id="bootstrap-style" href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+	<link id="base-style" href="css/style.css" rel="stylesheet">
+	<link id="base-style-responsive" href="css/style-responsive.css" rel="stylesheet">
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&subset=latin,cyrillic-ext,latin-ext' rel='stylesheet' type='text/css'>
+
+	<script type="text/javascript" charset="UTF-8" src="js/jquery-3.3.1.js" ></script>
+	<script type="text/javascript" charset="UTF-8" src= "js/bootstrap.js"></script>
+	<script src="js/laydate/laydate.js" ></script> <!-- 改成你的路径 -->
+
+	<!------------ 日历引入 -------------->
+	<script type="text/javascript" src="js/hbh/dist/js/bootstrap-datepicker.min.js" ></script>
+	<script type="text/javascript" src="js/hbh/dist/locales/bootstrap-datepicker.zh-CN.min.js" charset="UTF-8"></script>
+	<script type="text/javascript" src="js/hbh/calendar.js" charset="UTF-8"></script>
+	
+	<script type="text/javascript" src="js/hbh/today_money_checkout.js" charset="UTF-8"></script>
 
 
+<style>
+	body{
+		 overflow:hidden;
+		 width:95%;
+		 margin:auto;
+		 height:2000px; //这里要定义本页面最小高度，方便iframe自适应
+	} 
+</style>		
+		
 </head>
-<body>
-<div class="container">
 
-<table>
-	<tr>
-		<td><label>日结款查询:</label></td>
-		<td><select class="form-control" onblur="chooseWorkTime()" id="work_time" style="width: 200px;">
-			<option value="">请选择</option>
-			<option value="早班">早班</option>
-			<option value="中班">中班</option>
-			<option value="晚班">晚班</option>
-			</select>
-		</td>
-		<td><button type="button" onclick="seachMoney()" class="btn btn-default">查 询</button></td>
-		<td><label id="work_time2"></label></td>
-	</tr>
-</table>
-<br>
-<div id="table_div">
-	<table class="table table-striped" id="table" style="font-size:13px;">
-		<tr>
-			<th>编码</th>
-			<th>时间</th>
-			<th>车牌</th>
-			<th>事项</th>
-			<th>金额</th>
-		</tr>
-		<tbody id="mytable"></tbody>
-		<div><label>金额合计:</label><label id="total_money"></label><label> 元</label></div>
-	</table>
-</div>
-<div><a href="javascript:void(0);" onclick="exportExcel('table_div')">导出EXCEL文件</a></div>
+<body>		
+	<!-- start: content -->
+	<div id="content" class="span11">
+		
+		<!-- start: 页头 -->
+<!-- 		<ul class="breadcrumb">
+			<li>
+				<i class="icon-home"></i>
+				<a href="index.html">Home</a> 
+				<i class="icon-angle-right"></i>
+			</li>
+			<li><a href="javascript:void(0)">菜单管理</a></li>
+		</ul> -->
+		<!-- end: 页头 -->
+		
+		<div class="row-fluid sortable">		
+			<div class="box span12">
+			
+				<!-- start: box-header -->
+				<div class="box-header" data-original-title>
+					<h2><i class="halflings-icon white user"></i><span class="break"></span>日结款</h2>
+					<!-- <div class="box-icon">
+						<a href="javascript:void(0)" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
+						<a href="javascript:void(0)" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
+						<a href="javascript:void(0)" class="btn-close"><i class="halflings-icon white remove"></i></a>
+					</div> -->
+				</div>
+				<!-- end: box-header -->
+				
+				<!-- start: box-content -->
+				<div class="box-content" style="display: block;">		
+					<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper" role="grid">
+						<form id="searchMenuForm" method="post">
 
-</div>
+									<span>每页条量：
+										<select name="pageSize" onchange="seachMoney()" size="1" aria-controls="DataTables_Table_0">
+											<option value="10" selected="selected">10</option>
+											<option value="20">20</option>
+											<option value="30">30</option>
+											<option value="50">50</option>
+										</select> 
+									</span>
+									
+									&#8195								
+									<span>选择班次：
+										<select id="work_time" id="firstMenuList" onchange="search()" size="1" aria-controls="DataTables_Table_0">
+											<option value="">--请选择--</option>
+											<option value="早班">早班</option>
+											<option value="中班">中班</option>
+											<option value="晚班">晚班</option>
+										</select> 
+									</span>									
+		
+									&#8195
+									<button class="btn btn-primary" data-toggle="modal" data-target="#myModal1" onclick="seachMoney()">查找</button>	
+									
+									<table>
+									<tr>
+									<td>金额合计： </td>
+									<td><label id="total_money"></label></td>
+									<td>元</td>
+									<td><div><a href="javascript:void(0);" onclick="exportExcel('DataTables_Table_0')">&nbsp;&nbsp;&nbsp;导出EXCEL文件</a></div></td>
+									</tr>
+									</table>
+								
+						</form>	
+						<!-- start: table -->
+						<table class="table table-striped table-bordered bootstrap-datatable datatable dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
+							  <thead>
+								  <tr role="row">
+								  	<th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Username: activate to sort column descending" >编号</th>
+								  	<th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Date registered: activate to sort column ascending" >时间</th>
+								  	<th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Date registered: activate to sort column ascending" >车牌</th>
+								  	<th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Date registered: activate to sort column ascending" >事项</th>
+								  	<th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" >金额</th>
+								  </tr>
+							  </thead>   
+									  
+							  <tbody id="mytable"  role="alert" aria-live="polite" aria-relevant="all">
+							  		<tr class="odd">	
+	
+									</tr>
+								</tbody>
+						</table>
+						<!-- end: table -->
+											
+						<div class="row-fluid">
+							<!-- start: 分页-信息 -->
+							<div class="span12">
+								<div class="dataTables_info" id="DataTables_Table_0_info">Showing 1 to 25 of 
+								
+								<span id="total"></span> entries			
+								</div>
+							</div>
+							<!-- start: 分页-信息 -->
+							
+							<!-- end: 分页-按钮组 -->
+							<div class="span12 center">
+								<div class="dataTables_paginate paging_bootstrap pagination">
+									<ul>
+										<span id="pages" style="display: none"></span>
+										<li class="prev"><a id="lastPage" href="javascript:void(0)" onclick="lastPage()">← Previous</a></li>
+										<li class="active"><a id="pageNum" href="javascript:void(0)">1</a></li>
+										<li class="next"><a id="nextPage" href="javascript:void(0)" onclick="nextPage()">Next → </a></li>
+									</ul>
+								</div>
+							</div>
+							<!-- end: 分页-按钮组 -->
+						</div>
+					</div>
+				</div>
+				<!-- end: box-content -->
+							
+			</div>
+		</div>
 
+	</div>
 </body>
+
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
