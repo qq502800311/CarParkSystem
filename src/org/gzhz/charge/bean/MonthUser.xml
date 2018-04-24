@@ -12,7 +12,7 @@
 	
 	<!-- 查看所有月缴费用户 -->
  	<select id="findAllMonthUser" resultType="org.gzhz.charge.bean.MonthUser">
-		select * from user_tb
+		select * from user_tb 
 	</select>	
 	
 	<!-- 条件查询月缴费用户信息,及对应的套餐信息 -->
@@ -28,13 +28,11 @@
 	<select id="findConditionUser" parameterType="HashMap" resultMap="userMap">
 		select * from user_tb 
 		<where>
-	        <if test="user_id!=''"> and user_id = #{user_id}</if>
-			<if test="car_park_license!=''"> car_park_license = #{car_park_license}</if>
+	        <if test="user_id!='' and user_id!=null"> and user_id like CONCAT(CONCAT('%', #{user_id}), '%')</if>
+			<if test="car_park_license!='' and car_park_license!=null">and car_park_license like CONCAT(CONCAT('%', #{car_park_license}, '%')</if>
 		</where>
 	</select>	
 	
-		
-		
  	<select id="findMeal" resultType="org.gzhz.charge.bean.Meal" parameterType="int">
 		select * from meal_tb where meal_id=#{meal_id}
 	</select>	

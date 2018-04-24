@@ -24,6 +24,16 @@
 
 	</select>	
 	
+	<!-- 支付方式统计查询 -->
+	<select id="findChargeMeth" parameterType="HashMap" resultType="org.gzhz.charge.bean.MoneyDetail">
+		select * from money_detail_tb
+		<where>
+	        <if test="startDate!='' and startDate!=null"> and deal_time &gt;= #{startDate}</if>
+			<if test="stopDate!='' and stopDate!=null"> and deal_time &lt; = #{stopDate}</if> 	
+			<if test="meth!='' and meth!=null"> and deal_method = #{meth}</if> 		
+		</where> 
+
+	</select>		
 	
 </mapper>
 

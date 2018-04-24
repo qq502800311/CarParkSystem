@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -10,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html>
 <head>
 <base href="<%=basePath%>">
-<title>停车场实况查看</title>
+<title>数据展示</title>
 
 <!---------- bootstrap引入 ----------->
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
@@ -21,58 +22,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript" src="js/hbh/dist/js/bootstrap-datepicker.min.js" ></script>
 <script type="text/javascript" src="js/hbh/dist/locales/bootstrap-datepicker.zh-CN.min.js" charset="UTF-8"></script>
 <script type="text/javascript" src="js/hbh/calendar.js" charset="UTF-8"></script>
-
-<script type="text/javascript" src="js/hbh/check_park_msg.js" charset="UTF-8"></script>
+<script type="text/javascript" src="js/hbh/ichart.1.2.min.js"></script>
+<script type="text/javascript" src="js/hbh/show_date.js" charset="UTF-8"></script>
 
 </head>
 <body>
-<div class="container">
-
-	<div class="form-group" style="margin-left: 40%;margin-top: 10%;">
-	<h4><label>车位使用情况：</label></h4><!-- <button class="btn btn-default" type="button" onclick="check_port_msg()">查 看</button> -->
-	<table style="border-collapse:separate;border-spacing:0px 10px;" style="border-collapse:separate;border-spacing:0px 5px;">
-		<tr>
-			<td>已使用车位:</td>
-			<td><label id="using_port"></label></td>
-		</tr>
-		<tr>
-			<td>空余车位:</td>
-			<td><label id="remain_port"></label></td>
-		</tr>	
-	</table>
-	</div>
-</div>
-
+<div id='canvasDiv'></div>
+<div id='canvasDiv2'></div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
