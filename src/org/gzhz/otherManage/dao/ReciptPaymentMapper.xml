@@ -12,7 +12,9 @@
 			<if test="endtime_moneydetail!=null and endtime_moneydetail!=''">
 				and DEAL_TIME &lt; #{endtime_moneydetail}
 			</if>
+			
 		</where>
+		order by DEAL_TIME
 	</select>
 
 	<select id="selectcountmealtb" resultType="java.lang.Integer">

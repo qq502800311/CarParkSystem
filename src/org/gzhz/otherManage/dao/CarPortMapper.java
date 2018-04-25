@@ -31,7 +31,7 @@ public interface CarPortMapper {
 	public int insertcarport(List<CarportTb> list) throws Exception;
 //
 //	// 统计这张表多少个值 返回int值
-//	public int selectcountmealtb();
+	public int selectcountcarportnumByarea(String carport_area);
 //
 //	// //修改计费规则状态（通过主键 修改套餐值）
 //	public void updatemoney(HashMap<String, String> hashMap);

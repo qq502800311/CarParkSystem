@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.gzhz.otherManage.bean.LogTb;
 import org.gzhz.otherManage.bean.MoneyDetailTb;
 import org.gzhz.otherManage.dao.ReciptPaymentMapper;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 
 /**
@@ -34,7 +37,7 @@ public class ReciptPaymentHandler {
 
 	@RequestMapping(value="/searchmoneydetail",  method = RequestMethod.POST, produces = "application/json;charset=utf-8")
 	@ResponseBody
-	public String searchmoneydetail(String endtime_moneydetail, String starttime_moneydetail) {
+	public String searchmoneydetail(String endtime_moneydetail, String starttime_moneydetail, int pageNum, int pageSize) {
 		System.out.println(
 				"starttime_moneydetail=" + starttime_moneydetail + "endtime_moneydetail" + endtime_moneydetail);
 		HashMap<String, String> hashMap = new HashMap<String, String>();
@@ -53,10 +56,16 @@ public class ReciptPaymentHandler {
 		
 		hashMap.put("starttime_moneydetail", starttime);
 		hashMap.put("endtime_moneydetail", endtime);
+		PageHelper.startPage(pageNum, pageSize);
+		
+		
+		
 		List<MoneyDetailTb> detailTbs = reciptpaymentmapper.selectsumlist(hashMap);
 		System.out.println(detailTbs);
+		PageInfo<MoneyDetailTb> pageInfo = new PageInfo<MoneyDetailTb>(detailTbs);
+		
 		Gson gson=new Gson();
-		String detailTbsjson=	gson.toJson(detailTbs);
+		String detailTbsjson=	gson.toJson(pageInfo);
 		System.out.println("detailTbsjson"+detailTbsjson);
 		return detailTbsjson;
 

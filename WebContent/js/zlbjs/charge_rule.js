@@ -132,28 +132,26 @@ $(function() {
 });
 function search() {
 	$("#myShowbody").html("");
-
-	$
-			.post(
-					"chargerule/searchchargerule.action",
-
-					function(data) {
-
+	var msg = $('#charge_from').serialize() + "&pageNum=" + "1";	
+	
+	$.post("chargerule/searchchargerule.action",msg,
+			function(data) {
+						var list = data.list;
 						var tablebadyNode = document
 								.getElementById("myShowbody");
 
 						var tr = "";
-						for (var i = 0; i < data.length; i++) {
+						for (var i = 0; i < list.length; i++) {
 							tr += "<tr>";
 							tr += "<td>" + (i + 1) + "</td>";
-							tr += "<td>" + data[i].charge_rule_1 + "</td>";
-							tr += "<td>" + data[i].charge_rule_2 + "</td>";
-							tr += "<td>" + data[i].charge_rule_3 + "</td>";
-							tr += "<td>" + data[i].charge_rule_4 + "</td>";
-							tr += "<td>" + data[i].charge_rule_5 + "</td>";
-							tr += "<td>" + data[i].charge_status + "</td>";
+							tr += "<td>" + list[i].charge_rule_1 + "</td>";
+							tr += "<td>" + list[i].charge_rule_2 + "</td>";
+							tr += "<td>" + list[i].charge_rule_3 + "</td>";
+							tr += "<td>" + list[i].charge_rule_4 + "</td>";
+							tr += "<td>" + list[i].charge_rule_5 + "</td>";
+							tr += "<td>" + list[i].charge_status + "</td>";
 
-							if (data[i].charge_status == '禁用') {
+							if (list[i].charge_status == '禁用') {
 								tr += "<td><button class='btn btn-primary' value="
 										+ i
 										+ "  onclick='initiatemode(this);' >启用</button>";
@@ -171,22 +169,206 @@ function search() {
 							}
 
 							tr += "<input type='hidden' class='hiddecharge_id'value='"
-									+ data[i].charge_id + "'>";
+									+ list[i].charge_id + "'>";
 							tr += "<input type='hidden' class='hiddecharge_rule_1'value='"
-									+ data[i].charge_rule_1 + "'>";
+									+ list[i].charge_rule_1 + "'>";
 							tr += "<input type='hidden' class='hiddecharge_rule_2'value='"
-									+ data[i].charge_rule_2 + "'>";
+									+ list[i].charge_rule_2 + "'>";
 							tr += "<input type='hidden' class='hiddecharge_rule_3'value='"
-									+ data[i].charge_rule_3 + "'>";
+									+ list[i].charge_rule_3 + "'>";
 							tr += "<input type='hidden' class='hiddecharge_rule_4'value='"
-									+ data[i].charge_rule_4 + "'>";
+									+ list[i].charge_rule_4 + "'>";
 							tr += "<input type='hidden' class='hiddecharge_status'value='"
-									+ data[i].charge_status + "'>";
+									+ list[i].charge_status + "'>";
 							tr += "<input type='hidden' class='hiddecharge_rule_5'value='"
-									+ data[i].charge_rule_5 + "'><td>";
+									+ list[i].charge_rule_5 + "'><td>";
 						}
 						$("#myShowbody").append(tr);
+						//记录分页信息
+						document.getElementById("pages").innerHTML = data.pages;	//总页数
+						document.getElementById("total").innerHTML = data.total;	//查询总数
+						
+						//初始化页数
+						document.getElementById("pageNum").text = 1;	//重置页码
+						document.getElementById("lastPage").style = "color: red";	//上一页置灰
+						//下一页置灰
+						var pages = document.getElementById("pages").innerHTML;
+						if(pages == 1){
+							document.getElementById("nextPage").style = "color: red";
+						}else{
+							document.getElementById("nextPage").style = "";
+						}
 					});
+}
+
+//下一页
+function nextPage(){
+	var pageNum = document.getElementById("pageNum").text;	//当前页数
+	var nextpageNum = Number(pageNum) + 1;	//下一页页数
+	
+	var pages = document.getElementById("pages").innerHTML;	//总页数
+
+	//页数判断
+	if(nextpageNum > pages){
+//		alert("已经是最后一页了");
+	}else{
+		$("#myShowbody").html("");
+		var msg = $('#charge_from').serialize() + "&pageNum=" + nextpageNum;
+		
+		$.post("chargerule/searchchargerule.action",msg,
+
+				function(data) {
+					var list = data.list;
+					var tablebadyNode = document.getElementById("myShowbody");
+
+					var tr = "";
+				
+					for (var i = 0; i < list.length; i++) {
+						tr += "<tr>";
+						tr += "<td>" + (i + 1) + "</td>";
+						tr += "<td>" + list[i].charge_rule_1 + "</td>";
+						tr += "<td>" + list[i].charge_rule_2 + "</td>";
+						tr += "<td>" + list[i].charge_rule_3 + "</td>";
+						tr += "<td>" + list[i].charge_rule_4 + "</td>";
+						tr += "<td>" + list[i].charge_rule_5 + "</td>";
+						tr += "<td>" + list[i].charge_status + "</td>";
+
+						if (list[i].charge_status == '禁用') {
+							tr += "<td><button class='btn btn-primary' value="
+									+ i
+									+ "  onclick='initiatemode(this);' >启用</button>";
+							tr += "<button class='btn btn-primary' value="
+									+ i
+									+ " data-toggle='modal' data-target='#myModal2' onclick='setcharge_rule(this);' >修改</button>";
+							tr += "<button class='btn btn-primary' value="
+									+ i
+									+ "  onclick='deletecharge(this);' >删除</button>";
+						} else {
+							
+							tr += "<td><button class='btn btn-primary' value="
+									+ i
+									+ " data-toggle='modal' data-target='#myModal2' onclick='setcharge_rule(this);' >修改</button>";
+						}
+
+						tr += "<input type='hidden' class='hiddecharge_id'value='"
+								+ list[i].charge_id + "'>";
+						tr += "<input type='hidden' class='hiddecharge_rule_1'value='"
+								+ list[i].charge_rule_1 + "'>";
+						tr += "<input type='hidden' class='hiddecharge_rule_2'value='"
+								+ list[i].charge_rule_2 + "'>";
+						tr += "<input type='hidden' class='hiddecharge_rule_3'value='"
+								+ list[i].charge_rule_3 + "'>";
+						tr += "<input type='hidden' class='hiddecharge_rule_4'value='"
+								+ list[i].charge_rule_4 + "'>";
+						tr += "<input type='hidden' class='hiddecharge_status'value='"
+								+ list[i].charge_status + "'>";
+						tr += "<input type='hidden' class='hiddecharge_rule_5'value='"
+								+ list[i].charge_rule_5 + "'><td>";
+					}
+					$("#myShowbody").append(tr);
+					
+					//赋值新页数
+					document.getElementById("pageNum").text = nextpageNum;
+					
+					//按钮操作（只改变颜色，不会禁用）
+					if(nextpageNum == pages){	// 当前页数 = 总页数 时
+						document.getElementById("nextPage").style = "color: red";
+					}else{
+						document.getElementById("nextPage").style = "";
+					}
+					
+					document.getElementById("lastPage").style = ""; //恢复上一页颜色
+					
+		});
+		
+		
+		
+		
+		
+	}
+}
+
+//上一页
+function lastPage(){
+	var pageNum = document.getElementById("pageNum").text;	//当前页数
+	var nextpageNum = Number(pageNum) - 1;	//下一页页数
+	
+	var pages = document.getElementById("pages").innerHTML;	//总页数
+
+	//页数判断
+	if(nextpageNum == 0){
+//		alert("已经是最后一页了");
+	}else{
+		var msg = $('#charge_from').serialize() + "&pageNum=" + nextpageNum;
+		
+		$("#myShowbody").html("");
+	
+		
+		$.post("chargerule/searchchargerule.action",msg,
+
+				function(data) {
+					var list = data.list;
+					var tablebadyNode = document.getElementById("myShowbody");
+
+					var tr = "";
+				
+					for (var i = 0; i < list.length; i++) {
+						tr += "<tr>";
+						tr += "<td>" + (i + 1) + "</td>";
+						tr += "<td>" + list[i].charge_rule_1 + "</td>";
+						tr += "<td>" + list[i].charge_rule_2 + "</td>";
+						tr += "<td>" + list[i].charge_rule_3 + "</td>";
+						tr += "<td>" + list[i].charge_rule_4 + "</td>";
+						tr += "<td>" + list[i].charge_rule_5 + "</td>";
+						tr += "<td>" + list[i].charge_status + "</td>";
+
+						if (list[i].charge_status == '禁用') {
+							tr += "<td><button class='btn btn-primary' value="
+									+ i
+									+ "  onclick='initiatemode(this);' >启用</button>";
+							tr += "<button class='btn btn-primary' value="
+									+ i
+									+ " data-toggle='modal' data-target='#myModal2' onclick='setcharge_rule(this);' >修改</button>";
+							tr += "<button class='btn btn-primary' value="
+									+ i
+									+ "  onclick='deletecharge(this);' >删除</button>";
+						} else {
+							
+							tr += "<td><button class='btn btn-primary' value="
+									+ i
+									+ " data-toggle='modal' data-target='#myModal2' onclick='setcharge_rule(this);' >修改</button>";
+						}
+
+						tr += "<input type='hidden' class='hiddecharge_id'value='"
+								+ list[i].charge_id + "'>";
+						tr += "<input type='hidden' class='hiddecharge_rule_1'value='"
+								+ list[i].charge_rule_1 + "'>";
+						tr += "<input type='hidden' class='hiddecharge_rule_2'value='"
+								+ list[i].charge_rule_2 + "'>";
+						tr += "<input type='hidden' class='hiddecharge_rule_3'value='"
+								+ list[i].charge_rule_3 + "'>";
+						tr += "<input type='hidden' class='hiddecharge_rule_4'value='"
+								+ list[i].charge_rule_4 + "'>";
+						tr += "<input type='hidden' class='hiddecharge_status'value='"
+								+ list[i].charge_status + "'>";
+						tr += "<input type='hidden' class='hiddecharge_rule_5'value='"
+								+ list[i].charge_rule_5 + "'><td>";
+					}
+					$("#myShowbody").append(tr);
+					//赋值新页数
+					document.getElementById("pageNum").text = nextpageNum;
+					
+					//按钮操作（只改变颜色，不会禁用）
+					if(nextpageNum == 1){	// 当前页数 = 1 时
+						document.getElementById("lastPage").style = "color: red";
+					}else{
+						document.getElementById("lastPage").style = "";
+					}
+					
+					document.getElementById("nextPage").style = ""; //恢复下一页颜色
+					
+		});
+	}
 }
 
 // 启用 或者禁用状态

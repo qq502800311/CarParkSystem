@@ -9,6 +9,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.gzhz.otherManage.bean.LogTb;
 import org.gzhz.otherManage.bean.MealTb;
 import org.gzhz.otherManage.dao.PayMonthMapper;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 
 /**
@@ -67,11 +70,15 @@ public class PayMonthHandler {
 
 	// 套餐查询
 	@RequestMapping(value = "/searchpay", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-	public @ResponseBody String searchpay(HttpServletRequest request) {
+	public @ResponseBody String searchpay(HttpServletRequest request, int pageNum, int pageSize) {
 		System.out.println("----------");
+		PageHelper.startPage(pageNum, pageSize);
+		
+	
 		List<MealTb> list = paymonthmapper.findpaymonth();
+		PageInfo<MealTb> pageInfo = new PageInfo<MealTb>(list);
 		System.out.println("--" + list);
-		String listjson = new Gson().toJson(list);
+		String listjson = new Gson().toJson(pageInfo);
 
 		return listjson;
 	}

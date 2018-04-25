@@ -81,48 +81,43 @@ $(function() {
 });
 function search() {
 	$("#myShowbody").html("");
-
-	$
+	var msg = $('#paymonthly_from').serialize() + "&pageNum=" + "1";	
+	$  
 			.post(
-					"paymonth/searchpay.action",
+					"paymonth/searchpay.action",msg,
 
 					function(data) {
-
+						var list = data.list;
 						var tablebadyNode = document
 								.getElementById("myShowbody");
 
 						var tr = "";
 						var n=1;
 						var k=-1;
-						
-						for (var i = 0; i < data.length; i++) {
-
+						for (var i = 0; i < list.length; i++) {
 							tr += "<tr>";
 							if (i == (n + k)) {
 								tr += "<td rowspan='3'>"+n+"</td>";
 							}
-							
-							
-							
-							tr += "<td>" + data[i].meal_name + "</td>";
-							tr += "<td>" + data[i].meal_money + "</td>";
-							tr += "<td>" + data[i].meal_status + "</td>";
-							tr += "<td>" + data[i].meal_detail + "";
+							tr += "<td>" + list[i].meal_name + "</td>";
+							tr += "<td>" + list[i].meal_money + "</td>";
+							tr += "<td>" + list[i].meal_status + "</td>";
+							tr += "<td>" + list[i].meal_detail + "";
 							// 隐藏标签
 							tr += "<input type='hidden' class='hiddemeal_id'value='"
-									+ data[i].meal_id + "'>";
+									+ list[i].meal_id + "'>";
 							tr += "<input type='hidden' class='hiddemeal_money'value='"
-									+ data[i].meal_money + "'>";
+									+ list[i].meal_money + "'>";
 							tr += "<input type='hidden' class='hiddemeal_name'value='"
-									+ data[i].meal_name + "'>";
+									+ list[i].meal_name + "'>";
 							tr += "<input type='hidden' class='hiddemeal_status'value='"
-									+ data[i].meal_status + "'>";
+									+ list[i].meal_status + "'>";
 							tr += "<input type='hidden' class='hiddemeal_pid'value='"
-									+ data[i].meal_pid + "'></td>";
+									+ list[i].meal_pid + "'></td>";
 							// tr += "<td>" + data[i].charge_rule_5 + "</td>";
 							// tr += "<td>" + data[i].charge_status + "</td>";
 							if (i == (n + k)) {
-								if (data[i].meal_status == '禁用') {
+								if (list[i].meal_status == '禁用') {
 									tr += "<td  rowspan='3'><button class='btn btn-primary' value="
 											+ i
 											+ " onclick='initiatemode(this);' >启用</button>";
@@ -141,16 +136,204 @@ function search() {
 								n += 1;
 								k+=2;
 							}
-							
-							
-							
-
-							
-						
 						}
 						$("#myShowbody").append(tr);
+						//记录分页信息
+						document.getElementById("pages").innerHTML = data.pages;	//总页数
+						document.getElementById("total").innerHTML = data.total;	//查询总数
+						
+						//初始化页数
+						document.getElementById("pageNum").text = 1;	//重置页码
+						document.getElementById("lastPage").style = "color: red";	//上一页置灰
+						//下一页置灰
+						var pages = document.getElementById("pages").innerHTML;
+						if(pages == 1){
+							document.getElementById("nextPage").style = "color: red";
+						}else{
+							document.getElementById("nextPage").style = "";
+						}
 					});
 }
+//下一页
+function nextPage(){
+	var pageNum = document.getElementById("pageNum").text;	//当前页数
+	var nextpageNum = Number(pageNum) + 1;	//下一页页数
+	
+	var pages = document.getElementById("pages").innerHTML;	//总页数
+
+	//页数判断
+	if(nextpageNum > pages){
+//		alert("已经是最后一页了");
+	}else{
+		$("#myShowbody").html("");
+		var msg = $('#paymonthly_from').serialize() + "&pageNum=" + nextpageNum;
+		
+		$  
+		.post(
+				"paymonth/searchpay.action",msg,
+
+				function(data) {
+			var list = data.list;
+			var tablebadyNode = document
+					.getElementById("myShowbody");
+
+			var tr = "";
+			var n=1;
+			var k=-1;
+			for (var i = 0; i < list.length; i++) {
+				tr += "<tr>";
+				if (i == (n + k)) {
+					tr += "<td rowspan='3'>"+n+"</td>";
+				}
+				tr += "<td>" + list[i].meal_name + "</td>";
+				tr += "<td>" + list[i].meal_money + "</td>";
+				tr += "<td>" + list[i].meal_status + "</td>";
+				tr += "<td>" + list[i].meal_detail + "";
+				// 隐藏标签
+				tr += "<input type='hidden' class='hiddemeal_id'value='"
+						+ list[i].meal_id + "'>";
+				tr += "<input type='hidden' class='hiddemeal_money'value='"
+						+ list[i].meal_money + "'>";
+				tr += "<input type='hidden' class='hiddemeal_name'value='"
+						+ list[i].meal_name + "'>";
+				tr += "<input type='hidden' class='hiddemeal_status'value='"
+						+ list[i].meal_status + "'>";
+				tr += "<input type='hidden' class='hiddemeal_pid'value='"
+						+ list[i].meal_pid + "'></td>";
+				// tr += "<td>" + data[i].charge_rule_5 + "</td>";
+				// tr += "<td>" + data[i].charge_status + "</td>";
+				if (i == (n + k)) {
+					if (list[i].meal_status == '禁用') {
+						tr += "<td  rowspan='3'><button class='btn btn-primary' value="
+								+ i
+								+ " onclick='initiatemode(this);' >启用</button>";
+						tr += "<button class='btn btn-primary' value="
+								+ i
+								+ " data-toggle='modal' data-target='#myModal2' onclick='setmealtext(this);' >修改</button> ";
+						tr += "<button class='btn btn-primary' value="
+								+ i
+								+ " onclick='deletecharge(this);' >删除</button>";
+					} else {
+						
+						tr += "<td  rowspan='3'><button class='btn btn-primary'  value="
+								+ i
+								+ "  data-toggle='modal' data-target='#myModal2' onclick='setmealtext(this);' >修改</button>";
+					}
+					n += 1;
+					k+=2;
+				}
+			}
+			$("#myShowbody").append(tr);
+					
+					//赋值新页数
+					document.getElementById("pageNum").text = nextpageNum;
+					
+					//按钮操作（只改变颜色，不会禁用）
+					if(nextpageNum == pages){	// 当前页数 = 总页数 时
+						document.getElementById("nextPage").style = "color: red";
+					}else{
+						document.getElementById("nextPage").style = "";
+					}
+					
+					document.getElementById("lastPage").style = ""; //恢复上一页颜色
+					
+		});
+		
+		
+		
+		
+		
+	}
+}
+
+//上一页
+function lastPage(){
+	var pageNum = document.getElementById("pageNum").text;	//当前页数
+	var nextpageNum = Number(pageNum) - 1;	//下一页页数
+	
+	var pages = document.getElementById("pages").innerHTML;	//总页数
+
+	//页数判断
+	if(nextpageNum == 0){
+//		alert("已经是最后一页了");
+	}else{
+		var msg = $('#paymonthly_from').serialize() + "&pageNum=" + nextpageNum;
+		
+		$("#myShowbody").html("");
+	
+		
+		$  
+		.post(
+				"paymonth/searchpay.action",msg,
+
+				function(data) {
+			var list = data.list;
+			var tablebadyNode = document
+					.getElementById("myShowbody");
+
+			var tr = "";
+			var n=1;
+			var k=-1;
+			for (var i = 0; i < list.length; i++) {
+				tr += "<tr>";
+				if (i == (n + k)) {
+					tr += "<td rowspan='3'>"+n+"</td>";
+				}
+				tr += "<td>" + list[i].meal_name + "</td>";
+				tr += "<td>" + list[i].meal_money + "</td>";
+				tr += "<td>" + list[i].meal_status + "</td>";
+				tr += "<td>" + list[i].meal_detail + "";
+				// 隐藏标签
+				tr += "<input type='hidden' class='hiddemeal_id'value='"
+						+ list[i].meal_id + "'>";
+				tr += "<input type='hidden' class='hiddemeal_money'value='"
+						+ list[i].meal_money + "'>";
+				tr += "<input type='hidden' class='hiddemeal_name'value='"
+						+ list[i].meal_name + "'>";
+				tr += "<input type='hidden' class='hiddemeal_status'value='"
+						+ list[i].meal_status + "'>";
+				tr += "<input type='hidden' class='hiddemeal_pid'value='"
+						+ list[i].meal_pid + "'></td>";
+				// tr += "<td>" + data[i].charge_rule_5 + "</td>";
+				// tr += "<td>" + data[i].charge_status + "</td>";
+				if (i == (n + k)) {
+					if (list[i].meal_status == '禁用') {
+						tr += "<td  rowspan='3'><button class='btn btn-primary' value="
+								+ i
+								+ " onclick='initiatemode(this);' >启用</button>";
+						tr += "<button class='btn btn-primary' value="
+								+ i
+								+ " data-toggle='modal' data-target='#myModal2' onclick='setmealtext(this);' >修改</button> ";
+						tr += "<button class='btn btn-primary' value="
+								+ i
+								+ " onclick='deletecharge(this);' >删除</button>";
+					} else {
+						
+						tr += "<td  rowspan='3'><button class='btn btn-primary'  value="
+								+ i
+								+ "  data-toggle='modal' data-target='#myModal2' onclick='setmealtext(this);' >修改</button>";
+					}
+					n += 1;
+					k+=2;
+				}
+			}
+			$("#myShowbody").append(tr);
+					//赋值新页数
+					document.getElementById("pageNum").text = nextpageNum;
+					
+					//按钮操作（只改变颜色，不会禁用）
+					if(nextpageNum == 1){	// 当前页数 = 1 时
+						document.getElementById("lastPage").style = "color: red";
+					}else{
+						document.getElementById("lastPage").style = "";
+					}
+					
+					document.getElementById("nextPage").style = ""; //恢复下一页颜色
+					
+		});
+	}
+}
+
 
 // 启用 或者禁用状态
 function initiatemode(node) {

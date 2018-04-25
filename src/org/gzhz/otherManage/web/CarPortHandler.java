@@ -10,6 +10,7 @@ import java.util.UUID;
 import javax.annotation.Resource;
 
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.gzhz.otherManage.bean.CarVipTb;
 import org.gzhz.otherManage.bean.CarportTb;
 import org.gzhz.otherManage.bean.MealTb;
 import org.gzhz.otherManage.dao.CarPortMapper;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
@@ -43,15 +46,19 @@ public class CarPortHandler {
 
 	// 套餐查询
 	@RequestMapping(value = "/searchcarport", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-	public @ResponseBody String searchpay(HttpServletRequest request, String carport_num, String carport_status) {
-		System.out.println(carport_status + "----------" + carport_num);
+	public @ResponseBody String searchpay(HttpServletRequest request, String carport_num, String carport_status, int pageNum,int pageSize) {
+		System.out.println(carport_status + "----------" + carport_num+"  "+pageNum+"  "+pageSize);
 		HashMap<String, String> hashMap = new HashMap<String, String>();
 		hashMap.put("carport_num", "%" + carport_num + "%");
 		hashMap.put("carport_status", carport_status);
+		
+		PageHelper.startPage(pageNum, pageSize);
 		List<CarportTb> carportTbs = carportmapper.findCarportByName(hashMap);
+		
+		PageInfo<CarportTb> pageInfo = new PageInfo<CarportTb>(carportTbs);
 		System.out.println("" + carportTbs);
 
-		String listjson = new Gson().toJson(carportTbs);
+		String listjson = new Gson().toJson(pageInfo);
 
 		return listjson;
 	}
@@ -77,18 +84,22 @@ public class CarPortHandler {
 
 	// 车位增加
 	@RequestMapping(value = "/addcarport", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-	public @ResponseBody String addcarport(HttpServletRequest request, String carport_area, String carport_num1,
-			String carport_num2) {
-		System.out.println(carport_area + "----------" + carport_num1 + "----------" + carport_num2);
+	public @ResponseBody String addcarport(HttpServletRequest request, String carport_area, String carport_num1
+		) {
+		System.out.println(carport_area + "----------" + carport_num1 );
 		HashMap<String, String> hashMap = new HashMap<String, String>();
+		
+		//查询现在有多少个
+		//str.toUpperCase() 转换成大写
+		int starnum= carportmapper.selectcountcarportnumByarea(carport_area.toUpperCase());
 		DecimalFormat dFormat = new DecimalFormat("000");
-		int starnum = Integer.parseInt(carport_num1);
-		int endnum = Integer.parseInt(carport_num2);
-		String nowcarport_num1 = dFormat.format(starnum);
-		String nowcarport_num2 = dFormat.format(endnum);
-		System.out.println(nowcarport_num1);
+		int endnum = Integer.parseInt(carport_num1);
+//		int endnum = Integer.parseInt(carport_num2);
+//		String nowcarport_num1 = dFormat.format(starnum);
+//		String nowcarport_num2 = dFormat.format(endnum);
+//		System.out.println(nowcarport_num1);
 		List<CarportTb> carportTbs = new ArrayList<CarportTb>();
-		for (int i = starnum; i < endnum + 1; i++) {
+		for (int i = starnum; i < endnum+starnum + 1; i++) {
 			CarportTb tb = new CarportTb();
 			tb.setCarport_num(carport_area + dFormat.format(i));
 			tb.setCarport_area(carport_area);

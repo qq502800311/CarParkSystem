@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.gzhz.manage.bean.Menu;
 import org.gzhz.otherManage.bean.CarVipTb;
 import org.gzhz.otherManage.dao.CarVipMapper;
 import org.springframework.http.HttpRequest;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 
 /**
@@ -41,7 +44,7 @@ public class CarVipHandler {
 
 	// 查询车牌
 	@RequestMapping(value = "/vipsearch", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-	public @ResponseBody String vipcarinfo(HttpServletRequest request, String car_park_license) {
+	public @ResponseBody String vipcarinfo(HttpServletRequest request, String car_park_license , int pageNum, int pageSize) {
 		// String car_park_license 前端发来数据
 		StringBuffer buffer = null;
 		String carparklicense = null;
@@ -51,13 +54,16 @@ public class CarVipHandler {
 			buffer.append("%");
 			carparklicense = buffer.toString();
 		}
+		PageHelper.startPage(pageNum, pageSize);
 		List<CarVipTb> carVipTbs = carvipmapper.findCarVipByName(carparklicense);
-		System.out.println(carparklicense);
+		PageInfo<CarVipTb> pageInfo = new PageInfo<CarVipTb>(carVipTbs);
+//		System.out.println(carparklicense);
 		System.out.println("vipcarinfo方法被调用了...");
-		System.out.println(carVipTbs);
+//		System.out.println(carVipTbs);
 		Gson gson = new Gson();
 
-		String documentstring = gson.toJson(carVipTbs);
+		String documentstring = gson.toJson(pageInfo);
+//		System.out.println(documentstring);
 		return documentstring;
 	}
 
@@ -166,6 +172,7 @@ public class CarVipHandler {
 		return msginfo;
 
 	}
+	
 	//页面跳转
 	//http://localhost:8080/CarParkSystem/car/pageTocarvip.action
 	@RequestMapping("/pageTocarvip")
