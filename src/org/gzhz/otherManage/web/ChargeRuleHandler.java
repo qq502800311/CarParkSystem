@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 
 import org.gzhz.otherManage.bean.CarVipTb;
 import org.gzhz.otherManage.bean.ChargeRuleTb;
+import org.gzhz.otherManage.bean.LogTb;
 import org.gzhz.otherManage.dao.ChargeRule1Mapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 
 @Controller
@@ -49,10 +52,15 @@ public class ChargeRuleHandler {
 
 	// 查询计费规则
 	@RequestMapping(value = "/searchchargerule", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-	public @ResponseBody String searchchargerule() {
+	public @ResponseBody String searchchargerule(int pageNum, int pageSize) {
+		System.out.println(pageNum+"  "+pageSize);
+		PageHelper.startPage(pageNum, pageSize);
+		
+	
 		List<ChargeRuleTb> chargeRuleTbs = chargerulemapper.findChargerulemeal();
+		PageInfo<ChargeRuleTb> pageInfo = new PageInfo<ChargeRuleTb>(chargeRuleTbs);
 		Gson gson = new Gson();
-		String chargerulegson = gson.toJson(chargeRuleTbs);
+		String chargerulegson = gson.toJson(pageInfo);
 
 		return chargerulegson;
 	}

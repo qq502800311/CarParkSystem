@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="org.gzhz.otherManage.dao.CrewSchedulingMapper">
+
+
+	<!-- 查询EMP_TB列表 -->
+	<select id="selectemplist" resultType="org.gzhz.manage.bean.Emp">
+		select * from EMP_TB where
+		EMP_ID like 'CH%' AND EMP_STATUS='启用'
+	</select>
+
+	<insert id="insertscheduleTb" parameterType="org.gzhz.otherManage.bean.ScheduleTb">
+		<selectKey keyProperty="schedule_id" order="BEFORE"
+			resultType="java.lang.Integer">
+			select SEQUENCE_SCHEDULE_TB.nextval from dual
+
+		</selectKey>
+		insert into
+		SCHEDULE_TB(SCHEDULE_ID,SCHEDULE_DATE,SCHEDULE_SHIFT,EMP_ID)
+		values(#{schedule_id},#{schedule_date},#{schedule_shift},#{emp_id})
+	</insert>
+
+	<select id="selectscheduletblist" resultMap="schedulemap">
+		select * from SCHEDULE_TB Left Join EMP_TB on
+		SCHEDULE_TB.EMP_ID=EMP_TB.EMP_ID
+
+	</select>
+	<select id="selectexistbean" parameterType="org.gzhz.otherManage.bean.ScheduleTb"  resultType="org.gzhz.otherManage.bean.ScheduleTb">
+		select * from SCHEDULE_TB  where
+		SCHEDULE_DATE=#{schedule_date} and EMP_ID=#{emp_id} and SCHEDULE_SHIFT=#{schedule_shift}
+
+	</select>
+	<delete id="deleteschedubletbById" parameterType="java.lang.String">
+		delete FROM SCHEDULE_TB WHERE SCHEDULE_ID=#{schedule_id}
+	</delete>
+
+	<resultMap type="org.gzhz.otherManage.bean.ScheduleTb" id="schedulemap">
+		<id column="schedule_id" property="schedule_id" javaType="java.lang.Integer" />
+		<result column="schedule_date" property="schedule_date"
+			javaType="java.lang.String" />
+		<result column="schedule_shift" property="schedule_shift"
+			javaType="java.lang.String" />
+		<result column="emp_id" property="emp_id" javaType="java.lang.String" />
+		<!-- 多对一的关系 -->
+		<!-- property: 指的是属性的值, javaType：指的是属性的类型 -->
+		<association property="empTb" javaType="org.gzhz.otherManage.bean.EmpTb">
+			<id column="emp_id" property="emp_id" javaType="java.lang.String" />
+			<result column="emp_name" property="emp_name" javaType="java.lang.String" />
+			<result column="emp_pwd" property="emp_pwd" javaType="java.lang.String" />
+			<result column="emp_status" property="emp_status" javaType="java.lang.String" />
+		</association>
+	</resultMap>
+
+
+
+
+
+
+
+
+
+</mapper>

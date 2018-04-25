@@ -2,18 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
  "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
 <mapper namespace="org.gzhz.otherManage.dao.CarPortMapper">
-	<!-- //查询计费规则套餐 -->
+
+	<select id="selectcountcarportnumByarea" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		select count(CARPORT_AREA) from CARPORT_TB where
+		CARPORT_AREA=#{carport_area}
+
+	</select>
 
 
-	<!-- <select id="findCarVipByName" parameterType="java.lang.String" -->
-	<!-- resultMap="findcarportmap"> -->
-	<!-- select * from CARPORT_TB -->
-	<!-- <where> -->
-	<!-- <if test="value!='' and value!=null"> -->
-	<!-- and CARPORT_NUM like #{CARPORT_NUM} -->
-	<!-- </if> -->
-	<!-- </where> -->
-	<!-- </select> -->
 
 	<resultMap type="org.gzhz.otherManage.bean.CarportTb" id="carportmap">
 		<id column="carport_id" property="carport_id" javaType="java.lang.Integer" />
@@ -24,7 +21,8 @@
 		<result column="picture_url" property="picture_url" javaType="java.lang.String" />
 		<!-- 多对一的关系 -->
 		<!-- property: 指的是属性的值, javaType：指的是属性的类型 -->
-		<association property="parameter_tb"  javaType="org.gzhz.otherManage.bean.Parameter_Tb">
+		<association property="parameter_tb"
+			javaType="org.gzhz.otherManage.bean.Parameter_Tb">
 			<id column="parameter_id" property="parameter_id" javaType="java.lang.Integer" />
 			<result column="parameter_pid" property="parameter_pid"
 				javaType="java.lang.Integer" />
@@ -43,7 +41,8 @@
 
 	<select id="findCarportByName" parameterType="java.util.HashMap"
 		resultMap="carportmap">
-		select PARAMETER_TB.*, CARPORT_TB.* from CARPORT_TB, PARAMETER_TB  where
+		select PARAMETER_TB.*, CARPORT_TB.* from CARPORT_TB, PARAMETER_TB
+		where
 		CARPORT_TB.CARPORT_STATUS = PARAMETER_TB.parameter_id
 		<if test="carport_num!='' and carport_num!=null">
 			and CARPORT_NUM like #{carport_num}
@@ -61,32 +60,33 @@
 
 	<!-- 批量增加 -->
 	<insert id="insertcarport" parameterType="java.util.List">
-	INSERT INTO CARPORT_TB
-	(CARPORT_ID,CARPORT_AREA,CARPORT_NUM,CARPORT_STATUS,PICTURE_URL)
-	SELECT
-	SEQUENCE_CARPORT_TB.NEXTVAL meal_id, A.*
-	FROM(
-	<foreach collection="list" item="item" index="index"
-	separator="UNION ALL">
-	SELECT
-	#{item.carport_area,jdbcType=VARCHAR} carport_area,
-	#{item.carport_num,jdbcType=VARCHAR} carport_num,
-	#{item.carport_status,jdbcType=INTEGER} carport_status,
+		INSERT INTO CARPORT_TB
+		(CARPORT_ID,CARPORT_AREA,CARPORT_NUM,CARPORT_STATUS,PICTURE_URL)
+		SELECT
+		SEQUENCE_CARPORT_TB.NEXTVAL meal_id, A.*
+		FROM(
+		<foreach collection="list" item="item" index="index"
+			separator="UNION ALL">
+			SELECT
+			#{item.carport_area,jdbcType=VARCHAR} carport_area,
+			#{item.carport_num,jdbcType=VARCHAR} carport_num,
+			#{item.carport_status,jdbcType=INTEGER} carport_status,
 
-	#{item.picture_url,jdbcType=VARCHAR} picture_url
-	FROM dual
-	</foreach>
-	)A
+			#{item.picture_url,jdbcType=VARCHAR} picture_url
+			FROM dual
+		</foreach>
+		)A
 	</insert>
-	
-	<!--  修改状态 -->
+
+	<!-- 修改状态 -->
 	<update id="updatcarportstatus" parameterType="org.gzhz.otherManage.bean.CarportTb">
-	update CARPORT_TB
+		update CARPORT_TB
 		set
 		CARPORT_STATUS=#{carport_status}
 		where
-		CARPORT_ID =#{carport_id}
-	
+		CARPORT_ID
+		=#{carport_id}
+
 	</update>
 
 

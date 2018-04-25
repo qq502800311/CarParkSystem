@@ -4,17 +4,17 @@
 <mapper namespace="org.gzhz.otherManage.dao.SystemLogMapper">
 	<!-- //查询计费规则套餐 -->
 	<select id="selectlog" parameterType="java.util.HashMap"  resultMap="logmap">
-		select * from LOG_TB ,EMP_TB  
+		select A.*,B.EMP_NAME from LOG_TB A,EMP_TB  B
 		<where>
-		 EMP_TB.EMP_ID=LOG_TB.emp_id
+		 A.EMP_ID=B.emp_id
 			<if test="starttime_systemlog!=null and starttime_systemlog!=''">
-				and LOG_TB.LOG_TIME &gt; #{starttime_systemlog}
+				and A.LOG_TIME &gt; #{starttime_systemlog}
 			</if>
 			<if test="endtime_systemlog!=null and endtime_systemlog!=''">
-				and LOG_TB.LOG_TIME &lt; #{endtime_systemlog}
+				and A.LOG_TIME &lt; #{endtime_systemlog}
 			</if>
 			<if test="emp_name!=null and emp_name!=''">
-				and EMP_TB.EMP_NAME like #{emp_name}
+				and B.EMP_NAME like #{emp_name}
 			</if>
 		</where>
 	</select>

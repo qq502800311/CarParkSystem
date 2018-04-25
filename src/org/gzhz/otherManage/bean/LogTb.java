@@ -24,7 +24,7 @@ public class LogTb {
 	@Override
 	public String toString() {
 		return "LogTb [log_id=" + log_id + ", emp_id=" + emp_id + ", log_even=" + log_even + ", log_time=" + log_time
-				+ "]";
+				+ ", emptb=" + emptb + "]";
 	}
 
 	public LogTb(int log_id, String emp_id, String log_even, String log_time) {

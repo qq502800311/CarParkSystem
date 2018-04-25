@@ -23,4 +23,6 @@ import org.springframework.stereotype.Repository;
 public interface SystemLogMapper {
 	//查找时间 统计  endtime_moneydetail starttime_moneydetail  两参数
 	public List<LogTb> selectlog(HashMap< String , String> hashMap);
+	
+	public List<LogTb> selectlog1();
 }
