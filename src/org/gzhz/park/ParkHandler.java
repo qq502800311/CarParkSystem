@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import org.gzhz.charge.bean.CarOutMsg;
 import org.gzhz.charge.bean.CarPark;
+import org.gzhz.manage.bean.Menu;
 import org.gzhz.park.bean.CarInfo;
 import org.gzhz.park.bean.CarPort;
 import org.gzhz.park.bean.SearchPort;
@@ -35,6 +36,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 
 import bean.User;
@@ -331,11 +334,12 @@ public class ParkHandler {
 	* @return  CarInfo car 
 	*/
 	@RequestMapping(value="/searchCarInfo.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
-	public @ResponseBody String searchCarInfo(SearchPort sp){
+	public @ResponseBody String searchCarInfo(SearchPort sp , int pageNum, int pageSize){
 		System.out.println("要搜索的车牌是："+sp.getSearch_license());
 		System.out.println("要搜索的车辆类型是："+sp.getSearch_carType());
 		System.out.println("要搜索的车辆进入时间是："+"从"+sp.getSearch_date1()+"到"+sp.getSearch_date2());
 		System.out.println("要搜索的车辆所在分区是："+sp.getSearch_area());
+		System.out.println("页数："+pageNum+"pageSize:"+pageSize);
 		//对提交的数据进行处理开始
 		if(sp.getSearch_carType().length()==0){
 			sp.setSearch_carType(null);
@@ -350,9 +354,12 @@ public class ParkHandler {
 			sp.setSearch_area(null);
 		}
 		//对提交的数据进行处理结束
+		PageHelper.startPage(pageNum, pageSize);
+		;
 		List<CarInfo> resultList = iCarInfoDao.searchCar(sp);
+		PageInfo<CarInfo> pageInfo = new PageInfo<CarInfo>(resultList);
 		Gson gson = new Gson();
-		String data = gson.toJson(resultList);
+		String data = gson.toJson(pageInfo);
 		System.out.println(data);
 		return data;
 	}
@@ -384,7 +391,7 @@ public class ParkHandler {
 	* @return  CarPort carport
 	*/
 	@RequestMapping(value="/searchCarPort.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
-	public @ResponseBody String searchCarPort(String carPortID, String carPortArea){
+	public @ResponseBody String searchCarPort(String carPortID, String carPortArea,int pageNum,int pageSize){
 		System.out.println("要搜索的车位编号是：" + carPortID);
 		System.out.println("要搜索的车位区域是：" + carPortArea);
 		//对提交的数据进行处理开始
@@ -398,9 +405,12 @@ public class ParkHandler {
 		map.put("carPortID", carPortID);
 		map.put("carPortArea", carPortArea);
 		//对提交的数据进行处理结束
+		PageHelper.startPage(pageNum, pageSize);
+		
 		List<CarPort> resultList = iCarInfoDao.searchAllCarPort(map);
+		PageInfo<CarPort> pageInfo = new PageInfo<CarPort>(resultList);
 		Gson gson = new Gson();
-		String data = gson.toJson(resultList);
+		String data = gson.toJson(pageInfo);
 		System.out.println(data);
 		return data;
 	}

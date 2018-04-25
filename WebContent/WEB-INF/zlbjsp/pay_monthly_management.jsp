@@ -135,7 +135,7 @@
 										
 									
 							
-									<span>时间开始： <input name="starttime_systemlog" type="text" oninput="search()" aria-controls="DataTables_Table_0"></span>
+									
 <!-- 								</div> -->
 <!-- 							</div> -->
 									

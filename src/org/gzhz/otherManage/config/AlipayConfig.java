@@ -27,10 +27,10 @@ public class AlipayConfig {
 	// 支付宝公钥,查看地址：https://openhome.alipay.com/platform/keyManage.htm 对应APPID下的支付宝公钥。
     public static String alipay_public_key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwbFbCKhsHX1hqZ5yzhz+7gjN72/oF3JYmfMYd6VjMe3dMlMYVIEsWvZQRjfMJcArDCUPcMC9uwUveYXYkwbOu0JqHzQsqnLtU/mkE1BE37EZ0ctWToVS24IjUZi7yJIrxx7NuNFf7FmZa7X0F8CritIfIH2yJhOlhI4U5qEAg64E6/Gq6EgGwicCuFBJpmFR8BaVoX8ho4omJ9jPAzKbs7015NwvV/FJrjz2G7YKKImnUdXgGyXSkHtrAPuKM7bcOio41IdfS7TCGq/qOf0Qisr+0amZEHEbBTLvX/cR5WVydd3TwooirwammrNpwWXjZZZWWNkI0Oq5TjJmjdhFrwIDAQAB";
     		// 服务器异步通知页面路径  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-	public static String notify_url = "http://localhost:8080/alipay.trade.page.pay-JAVA-UTF-8/notify_url.jsp";
+	public static String notify_url = "http://localhost:9090/alipay.trade.page.pay-JAVA-UTF-8/notify_url.jsp";
 
 	// 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-	public static String return_url = "http://localhost:8080/CarParkSystem/zlbjsp/success.jsp";
+	public static String return_url = "http://localhost:9090/CarParkSystem/zlbjsp1/success.jsp";
 
 	// 签名方式
 	public static String sign_type = "RSA2";

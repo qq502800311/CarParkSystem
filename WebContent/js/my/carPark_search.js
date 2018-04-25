@@ -18,104 +18,236 @@ function search() {
 	var import_Date1 = document.getElementById("import_Date1").value;
 	var import_Date2 = document.getElementById("import_Date2").value;
 	var carArea = document.getElementById("carArea").value;
+	var pageSize = document.getElementById("pageSize").value;
 	
 //	alert('获得日期'+testDate);
 //	alert('起始卡ID为：'+cardStart_ID+','+'起始卡ID为：'+cardStart_ID+','+'目标卡状态：'+cardState);
 	
 	$.ajax({
 		type:"POST",
-		url:"searchCarInfo.action",
+		url:"park/searchCarInfo.action",
 		data:"search_license=" + carLisence + "&search_carType=" + carType
 		 + "&search_date1=" + import_Date1 + "&search_date2=" + import_Date2
-		 + "&search_area=" + carArea,
+		 + "&search_area=" + carArea+ "&pageNum=" + "1"+ "&pageSize=" + pageSize,
 		dataType:"json",
 		async:true,	
-		success: function(resultList){
+		success: function(date){
 			//清空表格
-			$("#myShowtab tr:not(:first)").html("");
+			$("#DataTables_Table_0 tr:not(:first)").html("");
 			//写入数据
 //			var list = jQuery.parseJSON(resultList);
-
-			var tabNode = document.getElementById("myShowtab");
+			var list = date.list;
+			var tabNode = document.getElementById("DataTables_Table_0");
 			var a = 1;
-			for(var i=0;i<resultList.length;i++){
+			for(var i=0;i<list.length;i++){
 				var trNode = tabNode.insertRow();
 				for(var j=0;j<6;j++){
 					var tdNode = trNode.insertCell();
 					var carport_num = "暂无";
-					if(resultList[i].carport == null){
+					if(list[i].carport == null){
 						carport_num = "暂无";
-					}else if(resultList[i].carport.carport_num == 0){
+					}else if(list[i].carport.carport_num == 0){
 						carport_num = "已经出库";
 					}else{
-						carport_num = resultList[i].carport.carport_num;
+						carport_num = list[i].carport.carport_num;
 					}
 
 					if(j==0){
 						tdNode.innerHTML = a++;
 					}else if(j==1){
-						tdNode.innerHTML = resultList[i].car_park_license;	//车牌
+						tdNode.innerHTML = list[i].car_park_license;	//车牌
 					}else if(j==2){
-						tdNode.innerHTML = resultList[i].car_in_time;		//车辆入场时间
+						tdNode.innerHTML = list[i].car_in_time;		//车辆入场时间
 					}else if(j==3){
-						tdNode.innerHTML = resultList[i].cartype.parameter_name;		//车辆类型
+						tdNode.innerHTML = list[i].cartype.parameter_name;		//车辆类型
 					}else if(j==4){
 						tdNode.innerHTML = carport_num;		//车辆车位ID
 					}else if(j==5){
-						tdNode.innerHTML = resultList[i].car_park_status;	//车辆缴费状态
+						tdNode.innerHTML = list[i].car_park_status;	//车辆缴费状态
 					}
-//					else if(j==7){
-//						var btnb = document.createElement("input");
-//						btnb.type = "button";
-//						btnb.id = "button"+i;
-//						btnb.value = "查看";
-//						btnb.onclick = function(){
-//							updatemyModal1(this,cardList);
-//							myDelete(this);
-//							
-//						}
-//						//启用禁用按钮
-//						var btnb1 = document.createElement("input");
-//						btnb1.type = "button";
-//						btnb1.id = "button1"+i;
-//						btnb1.value = emp_EnableName2;
-//						btnb1.onclick = function(){
-//							changeEmpEnableApply(this,cardList);
-//							myDelete(this);
-//							
-//						}
-////						<button class="btn btn-primary" data-toggle="modal" data-target="#myModal">查看</button>	
-//						var btnb2 = document.createElement("input");
-//						btnb2.setAttribute('data-toggle',"modal");
-//						btnb2.setAttribute('data-target',"#myModal1");
-//						btnb2.type = "button";
-//						btnb2.id = "button2"+i;
-//						btnb2.value = "备用按钮1";
-//						btnb2.onclick = function(){
-//							deleteEmpPswApply(this,cardList);
-//							myDelete(this);
-//							
-//						}
-//						var btnb3 = document.createElement("input");
-//						btnb3.setAttribute('data-toggle',"modal");
-//						btnb3.setAttribute('data-target',"#myModal1");
-//						btnb3.type = "button";
-//						btnb3.id = "button3"+i;
-//						btnb3.value = "备用按钮2";
-//						btnb3.onclick = function(){
-//							changeEmpPswApply(this,cardList);
-//							myDelete(this);
-//							
-//						}
-//						tdNode.appendChild(btnb);
-//						tdNode.appendChild(btnb1);
-//						tdNode.appendChild(btnb2);
-//						tdNode.appendChild(btnb3);
-//					}
 				}
+			}
+			//记录分页信息
+			document.getElementById("pages").innerHTML = date.pages;	//总页数
+			document.getElementById("total").innerHTML = date.total;	//查询总数
+			
+			//初始化页数
+			document.getElementById("pageNum").text = 1;	//重置页码
+			document.getElementById("lastPage").style = "color: red";	//上一页置灰
+			//下一页置灰
+			var pages = document.getElementById("pages").innerHTML;
+			if(pages == 1){
+				document.getElementById("nextPage").style = "color: red";
+			}else{
+				document.getElementById("nextPage").style = "";
 			}
 		}
 	})
+}
+//下一页
+function nextPage(){
+	var carLisence = document.getElementById("carLisence").value;
+	var carType = document.getElementById("carType").value;
+	var import_Date1 = document.getElementById("import_Date1").value;
+	var import_Date2 = document.getElementById("import_Date2").value;
+	var carArea = document.getElementById("carArea").value;
+	var pageSize = document.getElementById("pageSize").value;
+	
+	
+	var pageNum = document.getElementById("pageNum").text;	//当前页数
+	var nextpageNum = Number(pageNum) + 1;	//下一页页数
+	
+	var pages = document.getElementById("pages").innerHTML;	//总页数
+
+	//页数判断
+	if(nextpageNum > pages){
+//		alert("已经是最后一页了");
+	}else{
+		
+		$.ajax({
+			type:"POST",
+			url:"park/searchCarInfo.action",
+			data: "search_license=" + carLisence + "&search_carType=" + carType
+	         + "&search_date1=" + import_Date1 + "&search_date2=" + import_Date2
+	         + "&search_area=" + carArea+ "&pageNum=" + nextpageNum+ "&pageSize=" + pageSize,
+			dataType:"json",
+			async:true,	
+			success: function(date){
+				//清空表格
+				$("#DataTables_Table_0 tr:not(:first)").html("");
+				
+				//写入数据
+//	          var list = jQuery.parseJSON(resultList);
+	            var list = date.list;
+	            var tabNode = document.getElementById("DataTables_Table_0");
+	            var a = 1;
+				for(var i=0;i<list.length;i++){
+	                var trNode = tabNode.insertRow();
+	                for(var j=0;j<6;j++){
+	                    var tdNode = trNode.insertCell();
+	                    var carport_num = "暂无";
+	                    if(list[i].carport == null){
+	                        carport_num = "暂无";
+	                    }else if(list[i].carport.carport_num == 0){
+	                        carport_num = "已经出库";
+	                    }else{
+	                        carport_num = list[i].carport.carport_num;
+	                    }
+
+	                    if(j==0){
+	                        tdNode.innerHTML = a++;
+	                    }else if(j==1){
+	                        tdNode.innerHTML = list[i].car_park_license;    //车牌
+	                    }else if(j==2){
+	                        tdNode.innerHTML = list[i].car_in_time;     //车辆入场时间
+	                    }else if(j==3){
+	                        tdNode.innerHTML = list[i].cartype.parameter_name;      //车辆类型
+	                    }else if(j==4){
+	                        tdNode.innerHTML = carport_num;     //车辆车位ID
+	                    }else if(j==5){
+	                        tdNode.innerHTML = list[i].car_park_status; //车辆缴费状态
+	                    }
+	                }
+				}
+				//赋值新页数
+				document.getElementById("pageNum").text = nextpageNum;
+				
+				//按钮操作（只改变颜色，不会禁用）
+				if(nextpageNum == pages){	// 当前页数 = 总页数 时
+					document.getElementById("nextPage").style = "color: red";
+				}else{
+					document.getElementById("nextPage").style = "";
+				}
+				
+				document.getElementById("lastPage").style = ""; //恢复上一页颜色
+				
+			}
+		
+		})
+	}
+}
+
+//上一页
+function lastPage(){
+	var carLisence = document.getElementById("carLisence").value;
+	var carType = document.getElementById("carType").value;
+	var import_Date1 = document.getElementById("import_Date1").value;
+	var import_Date2 = document.getElementById("import_Date2").value;
+	var carArea = document.getElementById("carArea").value;
+	var pageSize = document.getElementById("pageSize").value;
+	
+	
+	var pageNum = document.getElementById("pageNum").text;	//当前页数
+	var nextpageNum = Number(pageNum) - 1;	//下一页页数
+	
+	var pages = document.getElementById("pages").innerHTML;	//总页数
+
+	//页数判断
+	if(nextpageNum == 0){
+//		alert("已经是最后一页了");
+	}else{
+		
+		$.ajax({
+			type:"POST",
+			url:"park/searchCarInfo.action",
+			data: "search_license=" + carLisence + "&search_carType=" + carType
+	         + "&search_date1=" + import_Date1 + "&search_date2=" + import_Date2
+	         + "&search_area=" + carArea+ "&pageNum=" + nextpageNum+ "&pageSize=" + pageSize,
+			dataType:"json",
+			async:true,	
+			success: function(date){
+				//清空表格
+				$("#DataTables_Table_0 tr:not(:first)").html("");
+				
+				//写入数据
+//	          var list = jQuery.parseJSON(resultList);
+	            var list = date.list;
+	            var tabNode = document.getElementById("DataTables_Table_0");
+	            var a = 1;
+				for(var i=0;i<list.length;i++){
+	                var trNode = tabNode.insertRow();
+	                for(var j=0;j<6;j++){
+	                    var tdNode = trNode.insertCell();
+	                    var carport_num = "暂无";
+	                    if(list[i].carport == null){
+	                        carport_num = "暂无";
+	                    }else if(list[i].carport.carport_num == 0){
+	                        carport_num = "已经出库";
+	                    }else{
+	                        carport_num = list[i].carport.carport_num;
+	                    }
+
+	                    if(j==0){
+	                        tdNode.innerHTML = a++;
+	                    }else if(j==1){
+	                        tdNode.innerHTML = list[i].car_park_license;    //车牌
+	                    }else if(j==2){
+	                        tdNode.innerHTML = list[i].car_in_time;     //车辆入场时间
+	                    }else if(j==3){
+	                        tdNode.innerHTML = list[i].cartype.parameter_name;      //车辆类型
+	                    }else if(j==4){
+	                        tdNode.innerHTML = carport_num;     //车辆车位ID
+	                    }else if(j==5){
+	                        tdNode.innerHTML = list[i].car_park_status; //车辆缴费状态
+	                    }
+	                }
+				}
+				//赋值新页数
+				document.getElementById("pageNum").text = nextpageNum;
+				
+				//按钮操作（只改变颜色，不会禁用）
+				if(nextpageNum == 1){	// 当前页数 = 1 时
+					document.getElementById("lastPage").style = "color: red";
+				}else{
+					document.getElementById("lastPage").style = "";
+				}
+				
+				document.getElementById("nextPage").style = ""; //恢复下一页颜色
+							
+			}
+		
+		})
+	}
 }
 
 //添加新人员
@@ -361,11 +493,3 @@ function useHelp(){
 	alert('使用帮助：\n 1、三个选择框都不操作，则默认查询所有数据\n 2、起始卡号都填写则按照卡号进行查询\n 3、选择卡状态则按照卡状态查询\n 4、都填写则将按照所有选择条件查询');
 }
 
-//执行一个laydate实例，日期控件用，非常重要
-laydate.render({
-	elem : '#import_Date1' //指定元素
-});
-//同上截止日期
-laydate.render({
-	elem : '#import_Date2' //指定元素
-});
