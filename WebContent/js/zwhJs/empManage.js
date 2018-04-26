@@ -11,15 +11,17 @@ $(function(){
 
 //查询全部角色
 function searchAllRole(){
+	var msg = "pageSize=10000&pageNum=1";
 	$.ajax({
 		type:"POST",
 		url:"role/search.action",
+		data: msg,
 		dataType:"json",
 		async:true,	
 		success: function(roleList){
 			//查询一次
 			staticRoleList = roleList;	//记录一个角色列表为全局变量
-			search(roleList);
+			search();
 			//新增用户模态框中的角色选项
 			var roleNode = document.getElementById("new_role_id");	//角色节点
 			roleNode.options.length = 0; //清空角色选项

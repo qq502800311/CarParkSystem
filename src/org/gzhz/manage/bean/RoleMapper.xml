@@ -7,7 +7,7 @@
 	<select id="searchAll" resultType="org.gzhz.manage.bean.Role">
 		select * from ROLE_TB
 		<where>
-			<if test="role_name!=null and role_name!=''">and role_name=#{role_name}</if>
+			<if test="role_name!=null and role_name!=''">and role_name like CONCAT(CONCAT('%', #{role_name}), '%')</if>
 		</where>	 
 	</select>
 	
