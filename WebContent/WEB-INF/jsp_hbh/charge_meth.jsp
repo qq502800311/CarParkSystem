@@ -64,7 +64,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</ul> -->
 		<!-- end: 页头 -->
 		
-		<div class="row-fluid sortable">		
+		<div class="row-fluid sortable">	
+		
+		
 			<div class="box span12">
 			
 				<!-- start: box-header -->
@@ -79,6 +81,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<!-- end: box-header -->
 				
 				<!-- start: box-content -->
+				<div id='canvas_charge_meth'></div>	
+				<br><br>
 				<div class="box-content" style="display: block;">		
 					<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper" role="grid">
 						<form id="searchMenuForm" method="post">
@@ -167,9 +171,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="row-fluid">
 							<!-- start: 分页-信息 -->
 							<div class="span12">
-								<div class="dataTables_info" id="DataTables_Table_0_info">Showing 1 to 25 of 
+								<div class="dataTables_info" id="DataTables_Table_0_info">总共 
 								
-								<span id="total"></span> entries			
+								<span id="total"></span> 条消息			
 								</div>
 							</div>
 							<!-- start: 分页-信息 -->
@@ -179,9 +183,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<div class="dataTables_paginate paging_bootstrap pagination">
 									<ul>
 										<span id="pages" style="display: none"></span>
-										<li class="prev"><a id="lastPage" href="javascript:void(0)" onclick="lastPage()">← Previous</a></li>
+										<li class="prev"><a id="lastPage" href="javascript:void(0)" onclick="lastPage()">← 上一页</a></li>
 										<li class="active"><a id="pageNum" href="javascript:void(0)">1</a></li>
-										<li class="next"><a id="nextPage" href="javascript:void(0)" onclick="nextPage()">Next → </a></li>
+										<li class="next"><a id="nextPage" href="javascript:void(0)" onclick="nextPage()">下一页 → </a></li>
 									</ul>
 								</div>
 							</div>
@@ -193,7 +197,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<!-- end: box-content -->
 							
 			</div>
-			<div id='canvasDiv'></div>
 		</div>
 
 	</div>

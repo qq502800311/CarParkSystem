@@ -51,14 +51,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="content" class="span11">
 		
 		<!-- start: 页头 -->
-		<ul class="breadcrumb">
+<!-- 		<ul class="breadcrumb">
 			<li>
 				<i class="icon-home"></i>
 				<a href="index.html">Home</a> 
 				<i class="icon-angle-right"></i>
 			</li>
 			<li><a href="javascript:void(0)">菜单管理</a></li>
-		</ul>
+		</ul> -->
 		<!-- end: 页头 -->
 		
 		<div class="row-fluid sortable">		
@@ -66,12 +66,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 				<!-- start: box-header -->
 				<div class="box-header" data-original-title>
-					<h2><i class="halflings-icon white user"></i><span class="break"></span>Members</h2>
-					<div class="box-icon">
+					<h2><i class="halflings-icon white user"></i><span class="break"></span>退费与充值</h2>
+<!-- 					<div class="box-icon">
 						<a href="javascript:void(0)" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
 						<a href="javascript:void(0)" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
 						<a href="javascript:void(0)" class="btn-close"><i class="halflings-icon white remove"></i></a>
-					</div>
+					</div> -->
 				</div>
 				<!-- end: box-header -->
 				
@@ -130,9 +130,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="row-fluid">
 							<!-- start: 分页-信息 -->
 							<div class="span12">
-								<div class="dataTables_info" id="DataTables_Table_0_info">Showing 1 to 25 of 
+								<div class="dataTables_info" id="DataTables_Table_0_info">总共 
 								
-								<span id="total"></span> entries			
+								<span id="total"></span> 条消息			
 								</div>
 							</div>
 							<!-- start: 分页-信息 -->
@@ -142,9 +142,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<div class="dataTables_paginate paging_bootstrap pagination">
 									<ul>
 										<span id="pages" style="display: none"></span>
-										<li class="prev"><a id="lastPage" href="javascript:void(0)" onclick="lastPage()">← Previous</a></li>
+										<li class="prev"><a id="lastPage" href="javascript:void(0)" onclick="lastPage()">← 上一页</a></li>
 										<li class="active"><a id="pageNum" href="javascript:void(0)">1</a></li>
-										<li class="next"><a id="nextPage" href="javascript:void(0)" onclick="nextPage()">Next → </a></li>
+										<li class="next"><a id="nextPage" href="javascript:void(0)" onclick="nextPage()">下一页 → </a></li>
 									</ul>
 								</div>
 							</div>
@@ -165,6 +165,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <!----------------- 退款信息显示 -------------->
 <div id="back_money">
+	<!--startprint-->
     <table style="margin-top: 5%;margin-left: 10%;">
          <tr>
         	<td><label>当前时间:</label></td>
@@ -189,14 +190,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
          <tr>
         	<td><label>退款金额:</label></td>
         	<td><label id="re_money"></label></td>
-        </tr>            
-
+        </tr>
+        </table>  
+        <div>注：退款扣除余额30%手续费！</div>     
+        <!--endprint-->
+        <table> 
         <tr>
         	<td><button type="button" onclick="returnSure()" class="btn btn-default">退 款</button></td>
         	<td><button type="button" onclick="closeBackMoney()" class="btn btn-default">返 回</button></td>
         </tr>                         
     </table><br>
-    <div>注：退款扣除余额30%手续费！</div>
     <div id="userid_hidden" style="visibility:hidden;"></div>
     <div id="license_hidden" style="visibility:hidden;"></div>
 </div>

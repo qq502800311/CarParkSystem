@@ -69,7 +69,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 				<!-- start: box-header -->
 				<div class="box-header" data-original-title>
-					<h2><i class="halflings-icon white user"></i><span class="break"></span>日结款</h2>
+					<h2><i class="halflings-icon white user"></i><span class="break"></span>套餐查看</h2>
 					<!-- <div class="box-icon">
 						<a href="javascript:void(0)" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
 						<a href="javascript:void(0)" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
@@ -80,19 +80,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 				<!-- start: box-content -->
 				<div class="box-content" style="display: block;">		
-					<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper" role="grid">
-						<form id="searchMenuForm" method="post">
+					<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper" role="grid" style="height: 450px;">
 
-									<span>每页条量：
-										<select name="pageSize" onchange="seachMoney()" size="1" aria-controls="DataTables_Table_0">
-											<option value="10" selected="selected">10</option>
-											<option value="20">20</option>
-											<option value="30">30</option>
-											<option value="50">50</option>
-										</select> 
-									</span>
-								
-						</form>	
 						<!-- start: table -->
 						<table class="table table-striped table-bordered bootstrap-datatable datatable dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
 							  <thead>
@@ -114,25 +103,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											
 						<div class="row-fluid">
 							<!-- start: 分页-信息 -->
-							<div class="span12">
-								<div class="dataTables_info" id="DataTables_Table_0_info">Showing 1 to 25 of 
-								
-								<span id="total"></span> entries			
-								</div>
-							</div>
 							<!-- start: 分页-信息 -->
 							
 							<!-- end: 分页-按钮组 -->
-							<div class="span12 center">
-								<div class="dataTables_paginate paging_bootstrap pagination">
-									<ul>
-										<span id="pages" style="display: none"></span>
-										<li class="prev"><a id="lastPage" href="javascript:void(0)" onclick="lastPage()">← Previous</a></li>
-										<li class="active"><a id="pageNum" href="javascript:void(0)">1</a></li>
-										<li class="next"><a id="nextPage" href="javascript:void(0)" onclick="nextPage()">Next → </a></li>
-									</ul>
-								</div>
-							</div>
+
 							<!-- end: 分页-按钮组 -->
 						</div>
 					</div>
