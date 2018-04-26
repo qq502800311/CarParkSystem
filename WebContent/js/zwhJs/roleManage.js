@@ -4,12 +4,12 @@
 
 
 $(function(){
-	searchAllRole();
+	search();
 });
 
 //查询
-function searchAllRole(){
-	var msg = $('#searchRoleForm').serialize();
+function search(){
+	var msg = $('#searchRoleForm').serialize() + "&pageNum=" + "1";
 	$.ajax({
 		type:"POST",
 		url:"role/search.action",
@@ -18,11 +18,11 @@ function searchAllRole(){
 		async:true,	
 		success: function(date){
 			//清空表格
-			$("#tab tr:not(:first)").html("");
+			$("#DataTables_Table_0 tr:not(:first)").html("");
 			
 			//写入数据
-			var list = date;
-			var tabNode = document.getElementById("tab");
+			var list = date.list;
+			var tabNode = document.getElementById("DataTables_Table_0");
 			var a = 1;
 			for(var i=0;i<list.length;i++){
 				var trNode = tabNode.insertRow();
@@ -30,8 +30,6 @@ function searchAllRole(){
 					var tdNode = trNode.insertCell();
 					if(j==0){
 						tdNode.innerHTML = a++;
-//					}else if(j==1){
-//						tdNode.innerHTML = list[i].role_id;
 					}else if(j==1){
 						tdNode.innerHTML = list[i].role_name;
 					}else if(j==2){
@@ -57,8 +55,22 @@ function searchAllRole(){
 						tdNode.appendChild(btnc);
 					}
 				}
-				}			
 			}
+			//记录分页信息
+			document.getElementById("pages").innerHTML = date.pages;	//总页数
+			document.getElementById("total").innerHTML = date.total;	//查询总数
+			
+			//初始化页数
+			document.getElementById("pageNum").text = 1;	//重置页码
+			document.getElementById("lastPage").style = "color: red";	//上一页置灰
+			//下一页置灰
+			var pages = document.getElementById("pages").innerHTML;
+			if(pages == 1){
+				document.getElementById("nextPage").style = "color: red";
+			}else{
+				document.getElementById("nextPage").style = "";
+			}
+		}
 	})
 
 }
@@ -83,7 +95,7 @@ function updateRoleSubmit(){
 		async:true,	
 		success: function(date){
 			alert(date);
-			searchAllRole();
+			search();
 		}
 	})
 }
@@ -99,7 +111,7 @@ function addRole(){
 		async:true,	
 		success: function(date){
 			alert(date);
-			searchAllRole();
+			search();
 		}
 	})
 }
@@ -114,6 +126,160 @@ function updateMenu(node, list){
 	//生成角色对应的菜单树
 	getAllMenu();	//ztree
 }
+
+//下一页
+function nextPage(){
+	var pageNum = document.getElementById("pageNum").text;	//当前页数
+	var nextpageNum = Number(pageNum) + 1;	//下一页页数
+	
+	var pages = document.getElementById("pages").innerHTML;	//总页数
+
+	//页数判断
+	if(nextpageNum > pages){
+//		alert("已经是最后一页了");
+	}else{
+		var msg = $('#searchRoleForm').serialize() + "&pageNum=" + nextpageNum;
+		$.ajax({
+			type:"POST",
+			url:"role/search.action",
+			data: msg,
+			dataType:"json",
+			async:true,	
+			success: function(date){
+				//清空表格
+				$("#DataTables_Table_0 tr:not(:first)").html("");
+				
+				//写入数据
+				var list = date.list;
+				var tabNode = document.getElementById("DataTables_Table_0");
+				var a = 1;
+				for(var i=0;i<list.length;i++){
+					var trNode = tabNode.insertRow();
+					for(var j=0;j<3;j++){
+						var tdNode = trNode.insertCell();
+						if(j==0){
+							tdNode.innerHTML = a++;
+						}else if(j==1){
+							tdNode.innerHTML = list[i].role_name;
+						}else if(j==2){
+							var btnb = document.createElement("input");
+							btnb.type = "button";
+							btnb.value = "修改名称";
+							btnb.setAttribute('data-toggle', 'modal');
+							btnb.setAttribute('data-target', '#myModal2');	
+							btnb.onclick = function(){
+								updateRole(this, list);
+							}						
+							
+							var btnc = document.createElement("input");
+							btnc.type = "button";
+							btnc.value = "修改菜单";
+							btnc.setAttribute('data-toggle', 'modal');
+							btnc.setAttribute('data-target', '#myModal3');	
+							btnc.onclick = function(){
+								updateMenu(this, list);
+							}
+							
+							tdNode.appendChild(btnb);
+							tdNode.appendChild(btnc);
+						}
+					}
+				}
+				//赋值新页数
+				document.getElementById("pageNum").text = nextpageNum;
+				
+				//按钮操作（只改变颜色，不会禁用）
+				if(nextpageNum == pages){	// 当前页数 = 总页数 时
+					document.getElementById("nextPage").style = "color: red";
+				}else{
+					document.getElementById("nextPage").style = "";
+				}
+				
+				document.getElementById("lastPage").style = ""; //恢复上一页颜色
+				
+			}
+		
+		})
+	}
+}
+
+//上一页
+function lastPage(){
+	var pageNum = document.getElementById("pageNum").text;	//当前页数
+	var nextpageNum = Number(pageNum) - 1;	//下一页页数
+	
+	var pages = document.getElementById("pages").innerHTML;	//总页数
+
+	//页数判断
+	if(nextpageNum == 0){
+//		alert("已经是最后一页了");
+	}else{
+		var msg = $('#searchRoleForm').serialize() + "&pageNum=" + nextpageNum;
+		$.ajax({
+			type:"POST",
+			url:"role/search.action",
+			data: msg,
+			dataType:"json",
+			async:true,	
+			success: function(date){
+				//清空表格
+				$("#DataTables_Table_0 tr:not(:first)").html("");
+				
+				//写入数据
+				var list = date.list;
+				var tabNode = document.getElementById("DataTables_Table_0");
+				var a = 1;
+				for(var i=0;i<list.length;i++){
+					var trNode = tabNode.insertRow();
+					for(var j=0;j<3;j++){
+						var tdNode = trNode.insertCell();
+						if(j==0){
+							tdNode.innerHTML = a++;
+						}else if(j==1){
+							tdNode.innerHTML = list[i].role_name;
+						}else if(j==2){
+							var btnb = document.createElement("input");
+							btnb.type = "button";
+							btnb.value = "修改名称";
+							btnb.setAttribute('data-toggle', 'modal');
+							btnb.setAttribute('data-target', '#myModal2');	
+							btnb.onclick = function(){
+								updateRole(this, list);
+							}						
+							
+							var btnc = document.createElement("input");
+							btnc.type = "button";
+							btnc.value = "修改菜单";
+							btnc.setAttribute('data-toggle', 'modal');
+							btnc.setAttribute('data-target', '#myModal3');	
+							btnc.onclick = function(){
+								updateMenu(this, list);
+							}
+							
+							tdNode.appendChild(btnb);
+							tdNode.appendChild(btnc);
+						}
+					}
+				}
+				//赋值新页数
+				document.getElementById("pageNum").text = nextpageNum;
+				
+				//按钮操作（只改变颜色，不会禁用）
+				if(nextpageNum == 1){	// 当前页数 = 1 时
+					document.getElementById("lastPage").style = "color: red";
+				}else{
+					document.getElementById("lastPage").style = "";
+				}
+				
+				document.getElementById("nextPage").style = ""; //恢复下一页颜色
+							
+			}
+		
+		})
+	}
+}
+
+
 
 
 
@@ -244,3 +410,5 @@ function submit(){
 	
 	
 }
+
+

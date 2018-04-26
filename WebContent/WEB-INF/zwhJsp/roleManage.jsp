@@ -39,6 +39,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!-- laydate控件方式,layDate 采用原生 JavaScript 编写，不依赖任何第三方库，兼容所有浏览器（IE6/7除外） -->
 	<script src="js/laydate/laydate.js" ></script> <!-- 改成你的路径 -->
 	<script type="text/javascript" src="js/zwhJs/roleManage.js" ></script> 
+	
+	<link rel="stylesheet" type="text/css" href="css/zwhCss/zTreeStyle.css" > 
+	<!-- <script type="text/javascript" charset="UTF-8" src= "js/zwhJs/jquery-1.4.4.min.js"></script> -->
+	<script type="text/javascript" charset="UTF-8" src= "js/zwhJs/jquery.ztree.core.js"></script>
+	<script type="text/javascript" charset="UTF-8" src= "js/zwhJs/jquery.ztree.excheck.js"></script>
 	 <!-- end:自己的包 -->
 
 	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -61,7 +66,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		 overflow:hidden;
 		 width:95%;
 		 margin:auto;
-		 height:2000px; //这里要定义本页面最小高度，方便iframe自适应
+		 height:1000px; //这里要定义本页面最小高度，方便iframe自适应
 	} 
 </style>		
 		
@@ -101,7 +106,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper" role="grid">
 					
 					<!-- start: 搜索表单 -->
-					<form id="searchMenuForm" method="post">
+					<form id="searchRoleForm" method="post">
 						<!-- start: box-工具栏 -->
 <!-- 						<div class="row-fluid"> -->
 							<!-- start: box-页数 -->
@@ -126,15 +131,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- 							<div class="span6"> -->
 <!-- 								<div id="DataTables_Table_0_filter"> -->
 									&#8195
-									<span>菜单名称： <input name="menu_name" type="text" oninput="search()" aria-controls="DataTables_Table_0"></span>
+									<span>角色名： <input name="role_name" type="text" oninput="search()" aria-controls="DataTables_Table_0"></span>
 <!-- 								</div> -->
 <!-- 							</div> -->
-									&#8195								
-									<span>一级菜单：
-										<select name="menu_pid" id="firstMenuList" onchange="search()" size="1" aria-controls="DataTables_Table_0">
-											<option value="-1" selected="selected">--请选择--</option>
-										</select> 
-									</span>
+
 							<!-- end: box-搜索-->
 							
 									&#8195
@@ -156,9 +156,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							  <thead>
 								  <tr role="row">
 								  	<th class="sorting_asc" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-sort="ascending" aria-label="Username: activate to sort column descending" style="width: 50px;">序号</th>
-								  	<th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Date registered: activate to sort column ascending" style="width: 50px;">菜单名称</th>
-								  	<th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Date registered: activate to sort column ascending" style="width: 50px;">URL</th>
-								  	<th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Date registered: activate to sort column ascending" style="width: 50px;">上级菜单</th>
+								  	<th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Date registered: activate to sort column ascending" style="width: 50px;">角色名</th>
 								  	<th class="sorting" role="columnheader" tabindex="0" aria-controls="DataTables_Table_0" rowspan="1" colspan="1" aria-label="Actions: activate to sort column ascending" style="width: 500px;">操作</th>
 								  </tr>
 							  </thead>   
@@ -225,7 +223,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 </body>
 
-<!-- 				新增菜单模态框开始 -->
+<!-- 				新增角色模态框开始 -->
 				
 				<!-- 模态框（Modal） -->
 				<div class="modal fade" id="myModal1" tabindex="-1" role="dialog"
@@ -239,27 +237,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</div>
 							<div class="modal-body" align="center">
 <!-- 								模态框中表单开始 -->
-								<form id="addMenuForm" method="post">	
-									<!-- 				要增加的菜单名 -->
+								<form id="addRoleForm" method="post">	
+									<!-- 				要增加的角色名 -->
 									<div >
-										<label >菜单名称：</label>
-										<input id="add_menu_name" name="menu_name">
+										<label >角色名：</label>
+										<input id="add_role_name" name="role_name">
 									</div>
-									<br></br>
-									<!-- 				上级菜单 -->
-									<div >
-										<label >上级菜单：</label>
-										<select value="" name="menu_pid" id="add_menu_pid">
-											<option value="0">根菜单</option>
-										</select>
-									</div>
-									<br></br>
-									<!-- 				URL单 -->
-									<div >
-										<label >URL：</label>
-										<input id="add_menu_url" name="menu_url">
-									</div>
-									<br></br>										
+									<br></br>								
 								</form>	
 <!-- 								模态框中表单结束 -->
 							</div>
@@ -267,7 +251,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<div class="col-sm-offset-2 col-sm-10">
 <!-- 									<button type="submit" class="btn btn-primary">入库</button> -->
 <!-- 									<button type="button" onclick="" class="btn btn-primary">审核通过</button> -->
-									<button type="button" class="btn btn-primary" onclick="addMenu()" data-dismiss="modal">提交</button>		
+									<button type="button" class="btn btn-primary" onclick="addRole()" data-dismiss="modal">提交</button>		
 									<button type="button" class="btn btn-default"
 										data-dismiss="modal">返回</button>
 								</div>
@@ -277,12 +261,64 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<!-- /.modal -->
 				</div>
-<!-- 				新增菜单模态框结束 -->
+<!-- 				新增角色模态框结束 -->
+
+<!-- 				修改角色名模态框开始 -->
+				
+				<!-- 模态框（Modal） -->
+				<div class="modal fade" id="myModal2" tabindex="-1" role="dialog"
+					aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal"
+									aria-hidden="true"></button>
+								<h4 class="modal-title" id="myModalLabel">修改名称</h4>
+							</div>
+							<div class="modal-body" align="center">
+<!-- 								模态框中表单开始 -->
+								<form id="updateRoleForm" method="post">
+										<!-- 				旧角色名 -->
+										<div >
+											<label style="display:none">角色ID：</label>
+											<input style="display:none" id="update_role_id" name="role_id"></input>
+										</div>
+										<br></br>
+										<div >
+											<label >旧角色名：</label>
+											<label id="update_role_name" ></label>
+										</div>
+										<br></br>
+										<!-- 				新角色名 -->
+										<div >
+											<label >新角色名：</label>
+											<input name="role_name">
+										</div>
+										<br></br>
+								</form>
+									
+<!-- 								模态框中表单结束 -->
+							</div>
+							<div class="modal-footer">
+								<div class="col-sm-offset-2 col-sm-10">
+<!-- 									<button type="submit" class="btn btn-primary">入库</button> -->
+<!-- 									<button type="button" onclick="" class="btn btn-primary">审核通过</button> -->
+									<button type="button" class="btn btn-primary" onclick="updateRoleSubmit()" data-dismiss="modal">提交</button>		
+									<button type="button" class="btn btn-default"
+										data-dismiss="modal">返回</button>
+								</div>
+							</div>
+						</div>
+						<!-- /.modal-content -->
+					</div>
+					<!-- /.modal -->
+				</div>
+<!-- 			修改角色名模态框结束 -->
 
 <!-- 				修改菜单名模态框开始 -->
 				
 				<!-- 模态框（Modal） -->
-				<div class="modal fade" id="myModal2" tabindex="-1" role="dialog"
+				<div class="modal fade" id="myModal3" tabindex="-1" role="dialog"
 					aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 						<div class="modal-content">
@@ -293,42 +329,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</div>
 							<div class="modal-body" align="center">
 <!-- 								模态框中表单开始 -->
-								<form id="updateMenuForm" method="post">
-										<!-- 				要修改的菜单ID -->
-									<div >
-										<label style="display:none">菜单ID：</label>
-										<input style="display:none" id="update_menu_id" name="menu_id">
-									</div>
-									<br></br>
-										<!-- 				要修改的菜单名 -->
-									<div >
-										<label >菜单名称：</label>
-										<input id="update_menu_name" name="menu_name">
-									</div>
-									<br></br>
-									<!-- 				上级菜单 -->
-									<div >
-										<label >上级菜单：</label>
-										<select value="" name="menu_pid" id="update_menu_pid">
-											<option value="0">根菜单</option>
-										</select>
-									</div>
-									<br></br>
-									<!-- 				URL单 -->
-									<div >
-										<label >URL：</label>
-										<input id="update_menu_url" name="menu_url">
-									</div>
-									<br></br>			
-								</form>
+									<form id="ztreeForm" method="post">
+										<div >
+											<label style="display:none">角色ID：</label>
+											<input style="display:none" id="ztree_role_id" name="role_id"></input>
+										</div>
+										
+										<ul id="cityTree" class="ztree"></ul>
 									
+									</form>
 <!-- 								模态框中表单结束 -->
 							</div>
 							<div class="modal-footer">
 								<div class="col-sm-offset-2 col-sm-10">
 <!-- 									<button type="submit" class="btn btn-primary">入库</button> -->
 <!-- 									<button type="button" onclick="" class="btn btn-primary">审核通过</button> -->
-									<button type="button" class="btn btn-primary" onclick="updateMenuSubmit()" data-dismiss="modal">提交</button>		
+									<button type="button" class="btn btn-primary" onclick="submit()" data-dismiss="modal">提交</button>		
 									<button type="button" class="btn btn-default"
 										data-dismiss="modal">返回</button>
 								</div>
@@ -338,6 +354,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<!-- /.modal -->
 				</div>
-<!-- 			修改菜单模态框结束 -->
+<!-- 			修改菜单名模态框结束 -->
 
 </html>

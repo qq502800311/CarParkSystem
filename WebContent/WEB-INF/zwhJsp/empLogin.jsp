@@ -21,6 +21,10 @@
 <link rel="stylesheet" href="css/zlb/supersized.css">
 <link rel="stylesheet" href="css/zlb/style.css">
 
+<!-- 自己的包-->
+<script type="text/javascript" charset="UTF-8" src="js/jquery-3.3.1.js" ></script>
+<script type="text/javascript" charset="UTF-8" src="js/zwhJs/empLogin.js"></script>
+
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
             <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -32,7 +36,10 @@
             <h1>Login</h1>
             <form action="emp/login.action" method="post">
                 <input type="text" id="inputEmail3" name="emp_id" class="username" placeholder="Username">
+                <span style="color:red" >${errorMsg}</span>
+                
                 <input type="password" id="inputPassword3" name="emp_pwd" class="password" placeholder="Password">
+                
                 <input id="code" name="code" type="text" size="5" placeholder="验证码"/>&#8195
 						<img src="emp/createCode.action" alt="验证码" title="点击更换" id="codeImg"/>
                 <button type="submit">Sign me in</button>

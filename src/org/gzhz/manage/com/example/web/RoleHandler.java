@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.gzhz.manage.bean.Parameter;
 import org.gzhz.manage.bean.Role;
 import org.gzhz.manage.dao.RoleMapper;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 
 /** 
@@ -57,10 +60,14 @@ public class RoleHandler {
 	* @return  	角色表信息
 	*/
 	@RequestMapping(value="/search.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
-	public @ResponseBody String search(String role_name){
+	public @ResponseBody String search(String role_name, int pageNum, int pageSize){
+		
+		PageHelper.startPage(pageNum, pageSize);
 		List<Role> roleList = roleMapper.searchAll(role_name);
+		PageInfo<Role> pageInfo = new PageInfo<Role>(roleList);
+		
 		Gson gson = new Gson();
-		String date = gson.toJson(roleList);
+		String date = gson.toJson(pageInfo);
 		System.out.println("返回全部角色信息:" + date);
 		return date;
 	}
