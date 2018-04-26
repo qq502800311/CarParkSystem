@@ -100,4 +100,8 @@
 		update CAR_PARK_INFO_TB set
 		CARPORT_ID=#{carport_id} where CAR_PARK_LICENSE=#{car_park_license}
 	</update>
+<!-- 	直接查询车位和车辆左连接视图得到当前所有信息 -->	
+	<select id="getAllCarPortAndCarInfo" resultType="org.gzhz.park.bean.CarPortAndCarView">
+		select * from CARPORT_VIEW order by CARPORT_NUM  
+	</select>
 </mapper>

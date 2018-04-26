@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 
 import org.bytedeco.javacpp.opencv_imgcodecs;
+import org.apache.commons.lang3.StringUtils;
 import org.bytedeco.javacpp.opencv_core.Mat;
 import org.gzhz.park.PlateRecognition;
 import org.gzhz.park.bean.CarInfo;
@@ -162,7 +163,8 @@ public class CarParkUnitl {
 			//对文件进行重新命名,用当前时间命名
 			String date = myDateUnitl.getNowDate();
 			System.out.println("当前日期是：" + date);
-			String newFilename=date.replaceAll("[\\pP\\p{Punct}]","");//清除所有符号,只留下字母 数字  汉字  共3类.  
+			String newFilename=date.replaceAll("[\\pP\\p{Punct}]","");//清除所有符号,只留下字母 数字  汉字  共3类. 
+			newFilename = newFilename.replace(" ", "");		//去掉中间的空格
 			newFilename = newFilename + ".jpg";
 	        System.out.println("新文件名是：" + newFilename); 
 	        System.out.println("处理前的路径是：" + path); 
@@ -176,6 +178,7 @@ public class CarParkUnitl {
 				e.printStackTrace();
 			}
 			filePath = path + "/" +newFilename;//将写入的图片地址传入返回值
+			
 		}
 		return filePath;
 	}

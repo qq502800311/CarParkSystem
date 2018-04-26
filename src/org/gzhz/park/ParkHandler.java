@@ -14,11 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.gzhz.charge.bean.CarOutMsg;
 import org.gzhz.charge.bean.CarPark;
 import org.gzhz.manage.bean.Menu;
 import org.gzhz.park.bean.CarInfo;
 import org.gzhz.park.bean.CarPort;
+import org.gzhz.park.bean.CarPortAndCarView;
 import org.gzhz.park.bean.SearchPort;
 import org.gzhz.park.dao.ICarInfoDao;
 import org.gzhz.tool.CarChargeUnitl;
@@ -68,6 +70,7 @@ public class ParkHandler {
 	* @parameter  无
 	* @return  跳转到停车入口页面
 	*/
+	//http://localhost:8080/CarParkSystem/park/entrance.action
 	@RequestMapping("/entrance.action")
 	public ModelAndView pageToEntrance(){
 		System.out.println("显示停车场入口页面");
@@ -81,8 +84,9 @@ public class ParkHandler {
 	* @date 创建时间：2018年4月18日 下午08:21:49 
 	* @version 1.0 
 	* @parameter  无
-	* @return  跳转到停车入口页面
+	* @return  跳转到车库停放页面 
 	*/
+	//http://localhost:8080/CarParkSystem/park/carPort.action
 	@RequestMapping("/carPort.action")
 	public ModelAndView pageToCarPort(){
 		System.out.println("显示停车场车库界面");
@@ -103,6 +107,22 @@ public class ParkHandler {
 		System.out.println("显示停车场出口页面");
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("/carParkJsp/outCar");
+		return mav;
+	}
+	
+	/** 
+	* @author  作者 E-mail: 郭智雄
+	* @date 创建时间：2018年4月12日 下午08:21:49 
+	* @version 1.0 
+	* @parameter  无
+	* @return  跳转到停车场鸟瞰图页面
+	*/
+	//http://localhost:8080/CarParkSystem/park/onview.action
+	@RequestMapping("/onview.action")
+	public ModelAndView pageToOnView(){
+		System.out.println("显示停车场鸟瞰图页面");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("/carParkJsp/carPortView");
 		return mav;
 	}
 	
@@ -221,8 +241,11 @@ public class ParkHandler {
 		ServletContext servletContext = request.getServletContext();
 		String str = carParkUnitl.getImage(file, servletContext, "入库");	//得到图片的存储路径
 		String carLicense = carParkUnitl.recognitionCarImage(str);			//根据路径找到图片并识别车牌
+		//对图片的文件路径进行处理
+		String test = StringUtils.substringAfterLast(str,"CarParkSystem/");
+        System.out.println("截取的字符串后结果:" + test);
 		//根据图片路径和车库编号构建一个车库类
-		CarPort cp = new CarPort(carPort_num, str);
+		CarPort cp = new CarPort(carPort_num, test);
 		//查询参数表中车位使用中的参数对应ID,更新到车库类中
 		int i = iCarInfoDao.updateCarPortTB(cp);
 		if(i == 1){
@@ -317,7 +340,7 @@ public class ParkHandler {
 	//http://localhost:8080/CarParkSystem/park/pageToSearchCarInfo.action
 	@RequestMapping("/pageToSearchCarInfo.action")
 	public ModelAndView pageToSearchCarInfo(){
-		System.out.println("显示停车场查询页面");
+		System.out.println("显示停车场车辆查询页面");
 		ModelAndView mav = new ModelAndView();
 //		mav.setViewName("/zwhJsp/empLogin");
 		mav.setViewName("/carParkJsp/carPark_search");
@@ -374,7 +397,7 @@ public class ParkHandler {
 	//http://localhost:8080/CarParkSystem/park/pageToSearchCarPort.action
 	@RequestMapping("/pageToSearchCarPort.action")
 	public ModelAndView pageToSearchCarPort(){
-		System.out.println("显示停车场查询页面");
+		System.out.println("显示停车场车位查询页面");
 		ModelAndView mav = new ModelAndView();
 //		mav.setViewName("/zwhJsp/empLogin");
 		mav.setViewName("/carParkJsp/carPort_search");
@@ -411,6 +434,25 @@ public class ParkHandler {
 		PageInfo<CarPort> pageInfo = new PageInfo<CarPort>(resultList);
 		Gson gson = new Gson();
 		String data = gson.toJson(pageInfo);
+		System.out.println(data);
+		return data;
+	}
+	
+	/** 
+	* @author  作者 E-mail: 郭智雄
+	* @date 创建时间：2018年4月24日 下午08:45:49 
+	* @version 1.0 
+	* @parameter  无
+	* @description 查询所有车位与停放的车辆总视图信息————停车场鸟瞰图使用
+	* @return  List<CarPortAndCarView>
+	*/
+	@RequestMapping(value="/searchAllCarParkAndCarInfo.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
+	public @ResponseBody String searchAllCarParkAndCarInfo(){	
+		List<CarPortAndCarView> resultList = iCarInfoDao.getAllCarPortAndCarInfo();
+				
+		//对提交的数据进行处理结束
+		Gson gson = new Gson();
+		String data = gson.toJson(resultList);
 		System.out.println(data);
 		return data;
 	}

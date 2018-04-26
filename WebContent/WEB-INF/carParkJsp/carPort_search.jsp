@@ -101,7 +101,7 @@ body {
 				<!-- start: box-header -->
 				<div class="box-header" data-original-title>
 					<h2>
-						<i class="halflings-icon white user"></i><span class="break"></span>Members
+						<i class="halflings-icon white user"></i><span class="break"></span>停车场车位查询
 					</h2>
 					<div class="box-icon">
 						<a href="javascript:void(0)" class="btn-setting"><i
@@ -217,7 +217,7 @@ body {
 							<!-- start: 分页-信息 -->
 							<div class="span12">
 								<div class="dataTables_info" id="DataTables_Table_0_info">
-									Showing 1 to 25 of <span id="total"></span> entries
+									显示 1 to 25 of <span id="total"></span> 条信息
 								</div>
 							</div>
 							<!-- start: 分页-信息 -->
@@ -228,12 +228,12 @@ body {
 									<ul>
 										<span id="pages" style="display: none"></span>
 										<li class="prev"><a id="lastPage"
-											href="javascript:void(0)" onclick="lastPage()">← Previous</a></li>
+											href="javascript:void(0)" onclick="lastPage()">← 上一页</a></li>
 										<li class="active"><a id="pageNum"
 											href="javascript:void(0)">1</a></li>
 										<!-- 										<li id="" ><a href="#">2</a></li> -->
 										<li class="next"><a id="nextPage"
-											href="javascript:void(0)" onclick="nextPage()">Next → </a></li>
+											href="javascript:void(0)" onclick="nextPage()">下一页 → </a></li>
 									</ul>
 								</div>
 							</div>

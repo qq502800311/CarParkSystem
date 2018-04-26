@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.gzhz.park.bean.CarInfo;
 import org.gzhz.park.bean.CarPort;
+import org.gzhz.park.bean.CarPortAndCarView;
 import org.gzhz.park.bean.SearchPort;
 import org.springframework.stereotype.Repository;
 
@@ -38,5 +39,7 @@ public interface ICarInfoDao {
 	public CarPort searchCarPortID(CarPort carPort);
 	//根据车牌号将停车位ID更新到停车场车辆数据表中
 	public int updateCarParkTB(CarInfo car);
+	//直接查询当前停车场所有车位及停车状态信息
+	public List<CarPortAndCarView> getAllCarPortAndCarInfo();
 
 }
