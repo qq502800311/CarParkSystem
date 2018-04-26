@@ -10,6 +10,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Random;
 
+import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -96,9 +97,9 @@ public class CodeUtil {
 //        ImageIO.write(buffImg, "jpeg", sos);
 //        sos.close();
         ServletOutputStream out = resp.getOutputStream();
-        JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(out);
-        encoder.encode(buffImg);
+        ImageIO.write(buffImg, "jpg", out);  
         out.flush();
+
     }
 
 //--------------------验证码部分函数结束-----------------------------//

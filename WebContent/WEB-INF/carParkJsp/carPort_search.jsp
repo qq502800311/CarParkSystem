@@ -217,7 +217,7 @@ body {
 							<!-- start: 分页-信息 -->
 							<div class="span12">
 								<div class="dataTables_info" id="DataTables_Table_0_info">
-									显示 1 to 25 of <span id="total"></span> 条信息
+									总共 <span id="total"></span> 条信息
 								</div>
 							</div>
 							<!-- start: 分页-信息 -->

@@ -20,10 +20,11 @@ public class CarPort {
 	}
 	
 
-	public CarPort(String carport_num, String picture_url) {
+	public CarPort(String carport_num, String picture_url,Integer carport_status) {
 		super();
 		this.carport_num = carport_num;
 		this.picture_url = picture_url;
+		this.carport_status = carport_status;
 	}
 
 

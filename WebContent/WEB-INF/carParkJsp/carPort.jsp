@@ -6,7 +6,9 @@
 	String path = request.getContextPath();
 	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-
+<!-- -- -->
+<!-- 原本的车辆入库页面 -->
+<!-- -- -->
 <html>
 <head >
 <base href="<%=basePath%>">

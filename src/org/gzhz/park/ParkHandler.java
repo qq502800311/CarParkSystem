@@ -91,7 +91,8 @@ public class ParkHandler {
 	public ModelAndView pageToCarPort(){
 		System.out.println("显示停车场车库界面");
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/carParkJsp/carPort");
+//		mav.setViewName("/carParkJsp/carPort");
+		mav.setViewName("/carParkJsp/carPort2");
 		return mav;
 	}
 	
@@ -235,17 +236,19 @@ public class ParkHandler {
 	*/
 //	, produces="application/json;charset=utf-8"
 	@RequestMapping(value = "/carPortUploadIn.action", method = RequestMethod.POST)
-    public @ResponseBody CarInfo carPortUploadIn(HttpServletRequest request, @RequestParam("file") MultipartFile file, String carPort_num) {
+    public @ResponseBody CarInfo carPortUploadIn(HttpServletRequest request, @RequestParam("file") MultipartFile file, String inCarPort_num) {
         CarInfo car = null;
-        System.out.println(carPort_num);
+        System.out.println(inCarPort_num);
 		ServletContext servletContext = request.getServletContext();
 		String str = carParkUnitl.getImage(file, servletContext, "入库");	//得到图片的存储路径
 		String carLicense = carParkUnitl.recognitionCarImage(str);			//根据路径找到图片并识别车牌
 		//对图片的文件路径进行处理
 		String test = StringUtils.substringAfterLast(str,"CarParkSystem/");
         System.out.println("截取的字符串后结果:" + test);
+        //查询参数表中车位使用中的ID
+        Integer pid = iCarInfoDao.searchParameterIDByName("使用中");
 		//根据图片路径和车库编号构建一个车库类
-		CarPort cp = new CarPort(carPort_num, test);
+		CarPort cp = new CarPort(inCarPort_num, test,pid);
 		//查询参数表中车位使用中的参数对应ID,更新到车库类中
 		int i = iCarInfoDao.updateCarPortTB(cp);
 		if(i == 1){
@@ -278,14 +281,16 @@ public class ParkHandler {
 	*/
 //	, produces="application/json;charset=utf-8"
 	@RequestMapping(value = "/carPortUploadOut.action", method = RequestMethod.POST)
-    public @ResponseBody CarInfo carPortUploadOut(HttpServletRequest request, @RequestParam("file") MultipartFile file, String carPort_num) {
+    public @ResponseBody CarInfo carPortUploadOut(HttpServletRequest request, @RequestParam("file") MultipartFile file, String outCarPort_num) {
         CarInfo car = null;
-        System.out.println(carPort_num);
+        System.out.println(outCarPort_num);
 		ServletContext servletContext = request.getServletContext();
 		String str = carParkUnitl.getImage(file, servletContext, "出库");	//得到图片的存储路径
 		String carLicense = carParkUnitl.recognitionCarImage(str);			//根据路径找到图片并识别车牌
+		//查询参数表中车位使用中的ID
+        Integer pid = iCarInfoDao.searchParameterIDByName("未使用");
 		//根据图片路径和车库编号构建一个车库类
-		CarPort cp = new CarPort(carPort_num, "无");
+		CarPort cp = new CarPort(outCarPort_num, "无",pid);
 		//查询参数表中车位使用中的参数对应ID,更新到车库类中
 		int i = iCarInfoDao.updateCarPortTB(cp);
 		if(i == 1){

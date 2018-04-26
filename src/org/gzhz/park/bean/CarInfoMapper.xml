@@ -88,7 +88,7 @@
 <!-- 	根据车库编号和车辆入库图片，对停车位数据库进行更新 -->	
 	<update id="updateCarPortTB" parameterType="org.gzhz.park.bean.CarPort">
 		update CARPORT_TB set
-		PICTURE_URL=#{picture_url} where CARPORT_NUM=#{carport_num}
+		PICTURE_URL=#{picture_url},CARPORT_STATUS=#{carport_status} where CARPORT_NUM=#{carport_num}
 	</update>
 <!-- 	根据车库编号查询车库ID -->	
 	<select id="searchCarPortID" parameterType="org.gzhz.park.bean.CarPort"

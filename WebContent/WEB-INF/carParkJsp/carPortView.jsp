@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>当前停车场车辆查询页面</title>
+<title>当前停车场鸟瞰图页面</title>
 
 <link rel="stylesheet" type="text/css" href=<%=basepath+"/css/bootstrap.css"%> >
 <script type="text/javascript" charset="UTF-8" src=<%=basepath+"/js/jquery-3.3.1.js"%>></script>
