@@ -29,7 +29,7 @@ function checkLicense() {
 
 /*数据库查找停车信息*/
 function searchParkingCar(){
-	closeParkingCharge();
+//	closeParkingCharge();
 	var license = $("#out_license").val();    
 	var nowTime = getNowDate();                 //系统当前时间
 	var str = '{"car_park_license":"'+license+'"}';
@@ -101,7 +101,7 @@ function dateNumber(stop_date,now_date){
 function openDoor(){
 	var license = $("#car_license").html();              //车牌号码---删除停车信息表单条数据，车辆日志列表
 	var money   = $("#total_money").html();              //车辆停车费用--用于车辆日志列表
-	var money2 = -money;
+	var money2 = money;
 	var in_time = $("#in_date").html();                  //车辆进场时间--用于车辆日志列表
 	var out_time =$("#out_date").html();                 //车辆出场时间--用于车辆日志列表
 	//暂时发车牌号过去，用于删除停车信息表
@@ -114,12 +114,22 @@ function openDoor(){
 		data: str,
 		success: function(date){
 			alert(date);
-			
+			MoneyChargePrint();
 		}
 	});	
 }	
 
-
-
+//---------打印收费信息--------
+function MoneyChargePrint() { 
+	if(confirm('是否打印收款单?')){
+	    bdhtml=window.document.body.innerHTML;   
+	    sprnstr="<!--startprint-->";   
+	    eprnstr="<!--endprint-->";   
+	    prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);   
+	    prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));   
+	    window.document.body.innerHTML=prnhtml;  
+	    window.print();
+	}
+}
 
 

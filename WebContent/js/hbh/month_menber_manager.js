@@ -84,74 +84,6 @@ function search(){
 	})
 }
 
-
-
-/*查找数据库月缴费用户*/
-//function searchUser(){
-//	
-//	var user_id = $("#userid").val();
-//	var license = $("#license").val();
-//	var msg = $('#searchMenuForm').serialize()+"&pageNum=" + "1"+"&user_id=" +user_id+"&license="+license;
-//		$.ajax({
-//			url: "carport/searchUser.action",
-////			contentType : "application/json;charset=utf-8",  //如果采用requestbody那么一定要加
-//			type: "POST",
-//			dataType: "json",
-//			data: str,
-//			success: function(date){
-//				$("#mytable tr:not(:first)").html("");
-//				var typelist = date.list;
-//				var tableNode = document.getElementById("mytable");
-////				var tabNode = document.getElementById("DataTables_Table_0");
-//				for (var i = 0; i < typelist.length; i++) {
-//					var trNode = tableNode.insertRow();
-//					for(var j=0;j<10;j++){
-//						var tdNode = trNode.insertCell();
-//						switch (j) {
-//						case 0:
-//							tdNode.innerHTML = typelist[i].user_name;
-//							break;
-//						case 1:
-//							tdNode.innerHTML = typelist[i].user_id;
-//							break;
-//						case 2:
-//							tdNode.innerHTML = typelist[i].car_park_license;
-//							break;						
-//						case 3:
-//							tdNode.innerHTML =typelist[i].user_phone;
-//							break;	
-//						case 4:
-//							tdNode.innerHTML = typelist[i].meal.meal_name;
-//							break;
-//						case 5:
-//							tdNode.innerHTML = typelist[i].user_register_date;
-//							break;
-//						case 6:
-//							tdNode.innerHTML = typelist[i].user_timeout_date;
-//							break;
-//						case 7:
-//							tdNode.innerHTML = typelist[i].meal.meal_money;
-//							break;	
-//						case 8:
-//							tdNode.innerHTML = typelist[i].user_status;
-//							break;								
-//						case 9:
-//							if(typelist[i].user_status=="启用"){
-//								tdNode.innerHTML = '<button type="button" onclick="moneyback(this)">退款</button>'
-//							} else {
-//								tdNode.innerHTML = '<button type="button" onclick="recharge_open(this)">充值</button>'
-//							}
-//							
-//							break;								
-//						default:
-//							break;
-//						}
-//					}
-//				}
-//			}
-//		});	
-//};
-
 /*界面显示退款信息*/
 function moneyback(node){
 	var nowtime = getNowFormatDate();
@@ -254,10 +186,11 @@ function returnSure(){
 			dataType: "json",
 			data: str,
 			success: function(date){
+				alert(date);
+				returnMoneyPrint();
 				$("#mytable").html("");
 				closeBackMoney();
 				alert(date);
-
 				search();
 			}
 		});	
@@ -492,6 +425,20 @@ function lastPage(){
 				document.getElementById("nextPage").style = ""; //恢复下一页颜色
 			}
 		})
+	}
+}
+
+
+//---------打印退款信息--------
+function returnMoneyPrint() { 
+	if(confirm('是否打印退款单?')){
+	    bdhtml=window.document.body.innerHTML;   
+	    sprnstr="<!--startprint-->";   
+	    eprnstr="<!--endprint-->";   
+	    prnhtml=bdhtml.substr(bdhtml.indexOf(sprnstr)+17);   
+	    prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));   
+	    window.document.body.innerHTML=prnhtml;  
+	    window.print();
 	}
 }
 
