@@ -163,6 +163,16 @@ public class CarportHandler {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("jsp_hbh/money_detail");
 		return mav;
+	}	
+	
+	//http://localhost:8080/CarParkSystem/carport/pageToSearchUSer.action
+	//----------明细数据--------
+	@RequestMapping("/pageToSearchUSer.action")
+	public ModelAndView pageToSearchUSer(){
+		System.out.println("用户查找页面");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("jsp_hbh/search_user");
+		return mav;
 	}		
 	
 	/**
@@ -752,12 +762,44 @@ public class CarportHandler {
 		String end_time3 = "2018-04-01 00:00:00";
 		//4月
 		String start_time4 = "2018-04-01 00:00:00";
-		String end_time4 = "2018-05-01 00:00:00";	
+		String end_time4 = "2018-05-01 00:00:00";
+		//5月
+		String start_time5 = "2018-05-01 00:00:00";
+		String end_time5 = "2018-06-01 00:00:00";
+		//6月
+		String start_time6 = "2018-06-01 00:00:00";
+		String end_time6 = "2018-07-01 00:00:00";
+		//7月
+		String start_time7 = "2018-07-01 00:00:00";
+		String end_time7 = "2018-08-01 00:00:00";
+		//8月
+		String start_time8 = "2018-08-01 00:00:00";
+		String end_time8 = "2018-09-01 00:00:00";
+		//9月
+		String start_time9 = "2018-09-01 00:00:00";
+		String end_time9 = "2018-10-01 00:00:00";
+		//10月
+		String start_time10 = "2018-10-01 00:00:00";
+		String end_time10 = "2018-11-01 00:00:00";
+		//11月
+		String start_time11 = "2018-11-01 00:00:00";
+		String end_time11 = "2018-12-01 00:00:00";
+		//12月
+		String start_time12 = "2018-12-01 00:00:00";
+		String end_time12 = "2019-01-01 00:00:00";
 
 		Map<String, String> map1 = new HashMap<String, String>();
 		Map<String, String> map2 = new HashMap<String, String>();
 		Map<String, String> map3 = new HashMap<String, String>();
 		Map<String, String> map4 = new HashMap<String, String>();
+		Map<String, String> map5 = new HashMap<String, String>();
+		Map<String, String> map6 = new HashMap<String, String>();
+		Map<String, String> map7 = new HashMap<String, String>();
+		Map<String, String> map8 = new HashMap<String, String>();
+		Map<String, String> map9 = new HashMap<String, String>();
+		Map<String, String> map10 = new HashMap<String, String>();
+		Map<String, String> map11 = new HashMap<String, String>();
+		Map<String, String> map12 = new HashMap<String, String>();
 		map1.put("start_time", start_time1);
 		map1.put("end_time", end_time1);
 		map2.put("start_time", start_time2);
@@ -766,44 +808,188 @@ public class CarportHandler {
 		map3.put("end_time", end_time3);
 		map4.put("start_time", start_time4);
 		map4.put("end_time", end_time4);
+		map5.put("start_time", start_time5);
+		map5.put("end_time", end_time5);
+		map6.put("start_time", start_time6);
+		map6.put("end_time", end_time6);
+		map7.put("start_time", start_time7);
+		map7.put("end_time", end_time7);
+		map8.put("start_time", start_time8);
+		map8.put("end_time", end_time8);
+		map9.put("start_time", start_time9);
+		map9.put("end_time", end_time9);
+		map10.put("start_time", start_time10);
+		map10.put("end_time", end_time10);
+		map11.put("start_time", start_time11);
+		map11.put("end_time", end_time11);
+		map12.put("start_time", start_time12);
+		map12.put("end_time", end_time12);
 		
-		int total_jan = 0;
+		int total_jan = 0;  //同于没有月收入支出
 		int total_feb = 0;
 		int total_mar = 0;
 		int total_apr = 0;
+		int total_may = 0;
+		int total_jun = 0;
+		int total_jul = 0;
+		int total_aug = 0;
+		int total_sep = 0;
+		int total_oct = 0;
+		int total_nov = 0;
+		int total_dep = 0;
+		
+		int num_fou = 0;     //用与统计每个月车流量
+		int num_fiv = 0;
+		int num_six = 0;
+		int num_sev = 0;
+		int num_aug = 0;
+		int num_sep = 0;
+		int num_oct = 0;
+		int num_nov = 0;
+		int num_dep = 0;
+		
 		List<MoneyDetail> details = DealDetailDao.findTodayMoney(map1);
-		System.out.println("获取的一月数据:"+details);		
-		for(MoneyDetail m:details) {
-			total_jan += m.getDeal_money();
+		System.out.println("获取的一月数据:"+details);	
+		if(details.size()!=0) {
+			for(MoneyDetail m:details) {
+				total_jan += m.getDeal_money();
+				
+			}
 		}
+		
 		List<MoneyDetail> detail2s = DealDetailDao.findTodayMoney(map2);
 		System.out.println("获取的er月数据:"+detail2s);		
-		for(MoneyDetail m:detail2s) {
-			total_feb += m.getDeal_money();
-		}		
-		List<MoneyDetail> detail3s = DealDetailDao.findTodayMoney(map3);
-		System.out.println("获取的san月数据:"+detail3s);		
-		for(MoneyDetail m:detail3s) {
-			total_mar += m.getDeal_money();
-		}		
-		List<MoneyDetail> detail4s = DealDetailDao.findTodayMoney(map4);
-		System.out.println("获取的san月数据:"+detail4s);		
-		for(MoneyDetail m:detail4s) {
-			total_apr += m.getDeal_money();
+		if(detail2s.size()!=0) {
+			for(MoneyDetail m:detail2s) {
+				total_feb += m.getDeal_money();
+			}
 		}
+		List<MoneyDetail> detail3s = DealDetailDao.findTodayMoney(map3);
+		System.out.println("获取的san月数据:"+detail3s);
+		if(detail3s.size()!=0) {
+			for(MoneyDetail m:detail3s) {
+				total_mar += m.getDeal_money();
+			}
+		}
+		
+		List<MoneyDetail> detail4s = DealDetailDao.findTodayMoney(map4);
+		System.out.println("获取的4月数据:"+detail4s);		
+		if(detail4s.size()!=0) {
+			for(MoneyDetail m:detail4s) {
+				total_apr += m.getDeal_money();
+				if(m.getDeal_matter().equals("停车收费")) {
+					num_fou++;
+				}
+			}
+		}
+		System.out.println("四月车流量:"+num_fou);
+		List<MoneyDetail> detail5s = DealDetailDao.findTodayMoney(map5);
+		System.out.println("获取的san月数据:"+detail5s);			
+		if(detail5s.size()!=0) {
+			for(MoneyDetail m:detail4s) {
+				total_may += m.getDeal_money();
+				if(m.getDeal_matter().equals("停车收费")) {
+					num_fiv++;
+				}
+			}
+		}
+		
+		List<MoneyDetail> detail6s = DealDetailDao.findTodayMoney(map6);
+		System.out.println("获取的san月数据:"+detail6s);		
+		if(detail6s.size()!=0) {
+			for(MoneyDetail m:detail6s) {
+				total_jun += m.getDeal_money();
+				if(m.getDeal_matter().equals("停车收费")) {
+					num_six++;
+				}
+			}
+		}
+		List<MoneyDetail> detail7s = DealDetailDao.findTodayMoney(map7);
+		System.out.println("获取的7月数据:"+detail7s);		
+		if(detail7s.size()!=0) {
+			for(MoneyDetail m:detail7s) {
+				total_jul += m.getDeal_money();
+				if(m.getDeal_matter().equals("停车收费")) {
+					num_sev++;
+				}
+			}
+		}
+		List<MoneyDetail> detail8s = DealDetailDao.findTodayMoney(map8);
+		System.out.println("获取的8月数据:"+detail8s);		
+		if(detail8s.size()!=0) {
+			for(MoneyDetail m:detail8s) {
+				total_aug += m.getDeal_money();
+				if(m.getDeal_matter().equals("停车收费")) {
+					num_aug++;
+				}
+			}
+		}
+		List<MoneyDetail> detail9s = DealDetailDao.findTodayMoney(map9);
+		System.out.println("获取的san月数据:"+detail9s);		
+		if(detail9s.size()!=0) {
+			for(MoneyDetail m:detail9s) {
+				total_sep += m.getDeal_money();
+				if(m.getDeal_matter().equals("停车收费")) {
+					num_sep++;
+				}
+			}
+		}
+		List<MoneyDetail> detail10s = DealDetailDao.findTodayMoney(map10);
+		System.out.println("获取的10月数据:"+detail10s);		
+		if(detail10s.size()!=0) {
+			for(MoneyDetail m:detail10s) {
+				total_oct += m.getDeal_money();
+				if(m.getDeal_matter().equals("停车收费")) {
+					num_oct++;
+				}
+			}
+		}
+		List<MoneyDetail> detail11s = DealDetailDao.findTodayMoney(map11);
+		System.out.println("获取的san月数据:"+detail11s);		
+		if(detail11s.size()!=0) {
+			for(MoneyDetail m:detail11s) {
+				total_nov += m.getDeal_money();
+				if(m.getDeal_matter()=="停车收费") {
+					num_nov++;
+				}
+			}
+		}
+		List<MoneyDetail> detail12s = DealDetailDao.findTodayMoney(map12);
+		System.out.println("获取的12月数据:"+detail12s);		
+		if(detail12s.size()!=0) {
+			for(MoneyDetail m:detail12s) {
+				total_dep += m.getDeal_money();
+				if(m.getDeal_matter()=="停车收费") {
+					num_dep++;
+				}
+			}
+		}
+		
 
         DecimalFormat df = new DecimalFormat("0.00");
         String jan = df.format((float)total_jan/10000);
         String feb = df.format((float)total_feb/10000);
         String mar = df.format((float)total_mar/10000);
         String apr = df.format((float)total_apr/10000);
+        String may = df.format((float)total_may/10000);
+        String jun = df.format((float)total_jun/10000);
+        String jul = df.format((float)total_jul/10000);
+        String aug = df.format((float)total_aug/10000);
+        String sep = df.format((float)total_sep/10000);
+        String oct = df.format((float)total_oct/10000);
+        String nov = df.format((float)total_nov/10000);
+        String dep = df.format((float)total_dep/10000);
+        
 		
         System.out.println("一月现金:"+jan);
         System.out.println("二月现金:"+feb);
         System.out.println("三月现金:"+mar);
-        System.out.println("四月现金:"+apr);        
+        System.out.println("四月现金:"+apr);   
+        System.out.println("五月现金:"+apr);     
         
-        String ddd = jan+":"+feb+":"+mar+":"+apr;
+        String ddd = jan+":"+feb+":"+mar+":"+apr+":"+may+":"+jun+":"+jul+":"+aug+":"+sep+":"+
+        oct+":"+nov+":"+dep+":"+num_fou+":"+num_fiv+":"+num_six+":"+num_sev+":"+num_aug+":"+num_sep+
+        ":"+num_oct+":"+num_nov+":"+num_dep;
 		Gson gson = new Gson();
 		String date = gson.toJson(ddd);
         
