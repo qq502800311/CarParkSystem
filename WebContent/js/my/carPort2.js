@@ -17,6 +17,22 @@ $(function() {//此处方法为全部加载完成，能保证全部ID、标签�
 	test();
 });
 
+function testTurn(){
+	var carJpg;
+	var objects = canvas.getObjects();
+		for (var i = 0; i <= (objects.length - 1); i++) {
+		      var object = objects[i];
+		    	  if(object.id=="imgB003"){
+					carJpg=object;
+		    	  }
+		}
+	carJpg.animate('top', 200, {
+	  onChange: canvas.renderAll.bind(canvas),
+	  duration: 1000,//动画持续时间
+	  easing: fabric.util.ease.around
+	});//延时动画
+}
+
 //清空画布
 function cleanCanvas(){
 	//遍历当前画布上所有对象
@@ -110,7 +126,8 @@ function baseControl(){
 			  }
 			  //如果车位是有车位
 			  else if(options.target.fill == "red"){
-				  updatemyModal1(options.target.id);
+				  testTurn();
+//				  updatemyModal1(options.target.id);
 			  }//如果车位是维护车位
 			  else if(options.target.fill == "yellow"){
 				  alert("车位正在维护中!请更换车位!");

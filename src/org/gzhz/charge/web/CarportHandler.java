@@ -136,7 +136,7 @@ public class CarportHandler {
 	}
 	
 	//http://localhost:8080/CarParkSystem/carport/pageToShowDate.action
-	//----------停车收费界面、车辆放行--------
+	//----------统计图表展示界面--------
 	@RequestMapping("/pageToShowDate.action")
 	public ModelAndView pageToShowDate(){
 		System.out.println("调用显示界面图表");
@@ -154,6 +154,16 @@ public class CarportHandler {
 		mav.setViewName("jsp_hbh/charge_meth");
 		return mav;
 	}	
+	
+	//http://localhost:8080/CarParkSystem/carport/pageToMoneyDetail.action
+	//----------明细数据--------
+	@RequestMapping("/pageToMoneyDetail.action")
+	public ModelAndView pageToMoneyDetail(){
+		System.out.println("调用明细查询页面");
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("jsp_hbh/money_detail");
+		return mav;
+	}		
 	
 	/**
 	 * @date 创建时间：2018年4月12日 下午14:28:13
@@ -252,7 +262,7 @@ public class CarportHandler {
 		MoneyDetail moneyDetail = new MoneyDetail();
 		moneyDetail.setCar_park_license(user.getCar_park_license());   //用户车牌
 		moneyDetail.setDeal_matter(meal_name);                         //操作事项（套餐名）
-		moneyDetail.setDeal_method("待定");                             //支付方式
+		moneyDetail.setDeal_method("现金");                             //支付方式
 		moneyDetail.setDeal_money(meal_money);                         //支付金额
 		moneyDetail.setDeal_time(now_time);                            //支付时间
 		int t = DealDetailDao.addMoneyDetail(moneyDetail);
@@ -372,7 +382,7 @@ public class CarportHandler {
 		MoneyDetail moneyDetail = new MoneyDetail();
 		moneyDetail.setCar_park_license(user.getCar_park_license());   //用户车牌
 		moneyDetail.setDeal_matter("退款");                         //操作事项（套餐名）
-		moneyDetail.setDeal_method("待定");                             //支付方式
+		moneyDetail.setDeal_method("现金");                             //支付方式
 		moneyDetail.setDeal_money(-user.getMeal_id());                  //支付金额
 		moneyDetail.setDeal_time(now_time);                            //支付时间
 		int t = DealDetailDao.addMoneyDetail(moneyDetail);
@@ -454,7 +464,7 @@ public class CarportHandler {
 		MoneyDetail moneyDetail = new MoneyDetail();
 		moneyDetail.setCar_park_license(user.getCar_park_license());   //用户车牌
 		moneyDetail.setDeal_matter(meal_name);                         //操作事项（套餐名）
-		moneyDetail.setDeal_method("待定");                             //支付方式
+		moneyDetail.setDeal_method("现金");                             //支付方式
 		moneyDetail.setDeal_money(meal_money);                         //支付金额
 		moneyDetail.setDeal_time(now_time);                            //支付时间
 		int t = DealDetailDao.addMoneyDetail(moneyDetail);
@@ -590,7 +600,7 @@ public class CarportHandler {
 		Gson gson = new Gson();
 		//----------收费信息插入明细表--------
 		detail.setDeal_matter("停车收费");
-		detail.setDeal_method("待定");
+		detail.setDeal_method("现金");
 		int t = DealDetailDao.addMoneyDetail(detail);
 		if(t>0) {
 			System.out.println("明细表添加成功");

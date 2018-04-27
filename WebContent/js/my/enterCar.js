@@ -16,7 +16,8 @@ function clickBtn2() {
 			"carLisence" : carLisence
 		},
 		success : function(res) {
-			$(" font[ id='displayboard' ] ").text("欢迎!" + res.car_park_license + "的车主");
+			$(" font[ id='displayboard' ] ").text(
+					"欢迎!" + res.car_park_license + "的车主");
 		}
 	});
 }

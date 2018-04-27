@@ -75,7 +75,8 @@ public class ParkHandler {
 	public ModelAndView pageToEntrance(){
 		System.out.println("显示停车场入口页面");
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/carParkJsp/enterCar");
+//		mav.setViewName("/carParkJsp/enterCar");
+		mav.setViewName("/carParkJsp/doorCar");
 		return mav;
 	}
 	

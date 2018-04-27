@@ -101,7 +101,7 @@ body {
 				<!-- start: box-header -->
 				<div class="box-header" data-original-title>
 					<h2>
-						<i class="halflings-icon white user"></i><span class="break"></span>停车场车位查询
+						<i class="halflings-icon white user"></i><span class="break"></span>Members
 					</h2>
 					<div class="box-icon">
 						<a href="javascript:void(0)" class="btn-setting"><i
@@ -217,7 +217,11 @@ body {
 							<!-- start: 分页-信息 -->
 							<div class="span12">
 								<div class="dataTables_info" id="DataTables_Table_0_info">
+<<<<<<< HEAD
 									总共 <span id="total"></span> 条信息
+=======
+									总共 <span id="total"></span> 条消息
+>>>>>>> branch 'newModel' of https://github.com/CHINAPANDAGZX/CarParkSystem.git
 								</div>
 							</div>
 							<!-- start: 分页-信息 -->

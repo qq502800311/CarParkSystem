@@ -242,10 +242,10 @@ function getProductPre(str1,str2,str3){
 
 	
 	var chart = new iChart.Pie2D({
-		render : 'canvasDiv',
+		render : 'canvas_charge_meth',
 		data: data,
 		title : {
-			text : '2018年4月传一智能停车场收入占比',
+			text : '传一智能停车场缴费方式收入占比',
 			color : '#3e576f'
 		},
 		footnote : {

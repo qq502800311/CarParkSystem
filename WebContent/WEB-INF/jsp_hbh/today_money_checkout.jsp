@@ -138,9 +138,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="row-fluid">
 							<!-- start: 分页-信息 -->
 							<div class="span12">
-								<div class="dataTables_info" id="DataTables_Table_0_info">Showing 1 to 25 of 
+								<div class="dataTables_info" id="DataTables_Table_0_info">总共 
 								
-								<span id="total"></span> entries			
+								<span id="total"></span> 条消息			
 								</div>
 							</div>
 							<!-- start: 分页-信息 -->
@@ -150,9 +150,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<div class="dataTables_paginate paging_bootstrap pagination">
 									<ul>
 										<span id="pages" style="display: none"></span>
-										<li class="prev"><a id="lastPage" href="javascript:void(0)" onclick="lastPage()">← Previous</a></li>
+										<li class="prev"><a id="lastPage" href="javascript:void(0)" onclick="lastPage()">← 上一页</a></li>
 										<li class="active"><a id="pageNum" href="javascript:void(0)">1</a></li>
-										<li class="next"><a id="nextPage" href="javascript:void(0)" onclick="nextPage()">Next → </a></li>
+										<li class="next"><a id="nextPage" href="javascript:void(0)" onclick="nextPage()">下一页 → </a></li>
 									</ul>
 								</div>
 							</div>
