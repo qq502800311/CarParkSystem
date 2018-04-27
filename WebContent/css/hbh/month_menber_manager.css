@@ -7,7 +7,7 @@
 	left: 30%;
 	width: 35%;
 	text-align: center;
-	height: 47%;
+	height: 350PX;
 	padding: 20px;
 	background-color: white;
 	z-index: 1002;
@@ -18,10 +18,10 @@
 	display: none;
 	position: absolute;
 	top: 5%;
-	left: 25%;
-	width: 40%;
+	left: 30%;
+	width: 35%;
 	text-align: center;
-	height: 82%;
+	height: 350px;
 	padding: 20px;
 	background-color: white;
 	z-index: 1002;
