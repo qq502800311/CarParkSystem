@@ -62,12 +62,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</a>
-				<a class="brand" href="index.html"><span>JANUX</span></a>
+				<a class="brand" href="index.html"><span>传一智能停车</span></a>
 								
 				<!-- start: Header Menu -->
 				<div class="nav-no-collapse header-nav">
 					<ul class="nav pull-right">
-						<li class="dropdown hidden-phone">
+	<!-- 					<li class="dropdown hidden-phone">
 							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 								<i class="icon-bell"></i>
 								<span class="badge red">
@@ -153,7 +153,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</li>	
 							</ul>
 						</li>
-						<!-- start: Notifications Dropdown -->
+						start: Notifications Dropdown
 						<li class="dropdown hidden-phone">
 							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 								<i class="icon-calendar"></i>
@@ -215,8 +215,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								</li>	
 							</ul>
 						</li>
-						<!-- end: Notifications Dropdown -->
-						<!-- start: Message Dropdown -->
+						end: Notifications Dropdown
+						start: Message Dropdown
 						<li class="dropdown hidden-phone">
 							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 								<i class="icon-envelope"></i>
@@ -312,7 +312,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             		<a class="dropdown-menu-sub-footer">View all messages</a>
 								</li>	
 							</ul>
-						</li>
+						</li> -->
 						
 						<!-- start: User Dropdown -->
 						<li class="dropdown">
@@ -321,11 +321,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">
-								<li class="dropdown-menu-title">
- 									<span>Account Settings</span>
-								</li>
-								<li><a href="#"><i class="halflings-icon user"></i> Profile</a></li>
-								<li><a href="login.html"><i class="halflings-icon off"></i> Logout</a></li>
+								<li><a href="/"><i class="halflings-icon off"></i> 注销</a></li>
 							</ul>
 						</li>
 						<!-- end: User Dropdown -->
@@ -409,7 +405,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				};
 			</script>	
 			
-			<iframe name="view_window" width=100% style="min-height: 700px;"  frameborder="0" scrolling="no" id="external-frame" onload="setIframeHeight(this)"></iframe>
+			<iframe name="view_window" src="carport/pageToShowDate.action" width=100% style="min-height: 700px;"  frameborder="0" scrolling="no" id="external-frame" onload="setIframeHeight(this)"></iframe>
 			<script>
 
 // 			window.onload = function () {
