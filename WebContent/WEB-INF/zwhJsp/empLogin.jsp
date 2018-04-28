@@ -33,27 +33,21 @@
 </head>
 <body>
       <div class="page-container">
-            <h1>Login</h1>
+            <h1>登录</h1>
             <form action="emp/login.action" method="post">
-                <input type="text" id="inputEmail3" name="emp_id" class="username" placeholder="Username">
+                <input type="text" id="inputEmail3" name="emp_id" class="username" placeholder="用户名">
                 <span style="color:red" >${errorMsg}</span>
                 
-                <input type="password" id="inputPassword3" name="emp_pwd" class="password" placeholder="Password">
+                <input type="password" id="inputPassword3" name="emp_pwd" class="password" placeholder="密码">
                 
                 <input id="code" name="code" type="text" size="5" placeholder="验证码"/>&#8195
 						<img src="emp/createCode.action" alt="验证码" title="点击更换" id="codeImg"/>
-                <button type="submit">Sign me in</button>
+                <button type="submit">登录</button>
                 <div class="error"><span>+</span></div>
             </form>
-            <div class="connect">
-                <p>Or connect with:</p>
-                <p>
-                    <a class="facebook" href=""></a>
-                    <a class="twitter" href=""></a>
-                </p>
-            </div>
+            
         </div>
-        <div align="center">Collect from <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">首页</a></div>
+        
 
         <!-- Javascript -->
         <script src="js/zlbjs/assets/jquery-1.8.2.min.js"></script>

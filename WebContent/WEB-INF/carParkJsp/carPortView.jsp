@@ -38,7 +38,7 @@
 
 
 
-<!-- 				修改人员模态框开始 -->
+<!-- 				查看车位信息模态框开始 -->
 				
 				<!-- 模态框（Modal） -->
 				<div class="modal fade" id="myModal2" tabindex="-1" role="dialog"
@@ -94,6 +94,6 @@
 					</div>
 					<!-- /.modal -->
 				</div>
-<!-- 			修改人员模态框结束 -->
+<!-- 			查看车位信息模态框结束 -->
 </body>
 </html>

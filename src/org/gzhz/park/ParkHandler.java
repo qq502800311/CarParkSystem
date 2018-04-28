@@ -124,7 +124,8 @@ public class ParkHandler {
 	public ModelAndView pageToOnView(){
 		System.out.println("显示停车场鸟瞰图页面");
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/carParkJsp/carPortView");
+//		mav.setViewName("/carParkJsp/carPortView");
+		mav.setViewName("/carParkJsp/carPortView2");
 		return mav;
 	}
 	

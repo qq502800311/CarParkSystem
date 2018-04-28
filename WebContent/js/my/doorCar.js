@@ -6,10 +6,10 @@ $(function() {//此处方法为全部加载完成，能保证全部ID、标签�
 	drawRoadgate();
 	baseControl();
 	carWelcome();
-//	getCurDate();
-//	setInterval("getCurDate()", 100);//控制页面时间跳动
+	getCurDate();
+	setInterval("getCurDate()", 100);//控制页面时间跳动
 })
-
+//
 //入口显示欢迎标语，并查询显示当前车库状态
 function carWelcome() {
 	$.ajax({
@@ -80,12 +80,12 @@ function baseControl(){
 	//开启模块选中
 	canvas.on('mouse:down', function(options) {
 		  if (options.target) {
-		    console.log('an object was clicked! ', options.target.type);
+		    console.log('an object was clicked! ', options.target.type,options.target.id);
 //		    alert("选中内容的坐标:" + options.target.id);
 //		    alert("选中内容的坐标:" + options.target.left + "," + options.target.top);
 		    if(options.target.id == "inRoadgateBaseCamera"){ 
 //		    	inRoadgateRiseAndDown("up");
-//		    	updatemyModal1();
+		    	updatemyModal1();
 		    }else if(options.target.id == "outRoadgateBaseCamera"){ 
 //		    	outRoadgateRiseAndDown("up");
 		    	updatemyModal2();
@@ -248,8 +248,8 @@ function drawRoadgate(){
 	  	canvas.add(oImg);
 	});
 	//绘制出口摄像头
-	fabric.Image.fromURL('Image/摄像头.png', function(oImg) {
-		oImg.set('left' , 600),
+	fabric.Image.fromURL('Image/摄像头2.png', function(oImg) {
+		oImg.set('left' , 580),
 		oImg.set('top' , 170),
 		oImg.set('id' , 'outRoadgateBaseCamera'),
 		oImg.set('evented' , true),//禁止选中
@@ -270,48 +270,48 @@ function drawRoadgate(){
 }
 
 // -------------------LED显示效果JS开始 -------------------//
-//function getCurDate(){
-//	var d = new Date();
-//	var week;
-//	switch (d.getDay()) {
-//	case 1:
-//		week = "星期一";
-//		break;
-//	case 2:
-//		week = "星期二";
-//		break;
-//	case 3:
-//		week = "星期三";
-//		break;
-//	case 4:
-//		week = "星期四";
-//		break;
-//	case 5:
-//		week = "星期五";
-//		break;
-//	case 6:
-//		week = "星期六";
-//		break;
-//	default:
-//		week = "星期天";
-//	}
-//	var years = d.getFullYear();
-//	var month = add_zero(d.getMonth() + 1);
-//	var days = add_zero(d.getDate());
-//	var hours = add_zero(d.getHours());
-//	var minutes = add_zero(d.getMinutes());
-//	var seconds = add_zero(d.getSeconds());
-//	var ndate = years + "年" + month + "月" + days + "日 " + hours + ":" + minutes
-//			+ ":" + seconds + " " + week;
-//	var divT = document.getElementById("systimeshow");
-//	divT.innerHTML = ndate;
-//}
-//
-//function add_zero(temp) {
-//	if (temp < 10)
-//		return "0" + temp;
-//	else
-//		return temp;
-//}
+function getCurDate(){
+	var d = new Date();
+	var week;
+	switch (d.getDay()) {
+	case 1:
+		week = "星期一";
+		break;
+	case 2:
+		week = "星期二";
+		break;
+	case 3:
+		week = "星期三";
+		break;
+	case 4:
+		week = "星期四";
+		break;
+	case 5:
+		week = "星期五";
+		break;
+	case 6:
+		week = "星期六";
+		break;
+	default:
+		week = "星期天";
+	}
+	var years = d.getFullYear();
+	var month = add_zero(d.getMonth() + 1);
+	var days = add_zero(d.getDate());
+	var hours = add_zero(d.getHours());
+	var minutes = add_zero(d.getMinutes());
+	var seconds = add_zero(d.getSeconds());
+	var ndate = years + "年" + month + "月" + days + "日 " + hours + ":" + minutes
+			+ ":" + seconds + " " + week;
+	var divT = document.getElementById("systimeshow");
+	divT.innerHTML = ndate;
+}
+
+function add_zero(temp) {
+	if (temp < 10)
+		return "0" + temp;
+	else
+		return temp;
+}
 
 //-------------------LED显示效果JS结束 -------------------//

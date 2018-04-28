@@ -38,7 +38,7 @@
             style="FILTER: glow(color=red); LINE-HEIGHT: 60px; WIDTH: 100%; FONT-FAMILY: '黑体','黑体_GB2312','黑体';
 			 COLOR: #ffff00; FONT-SIZE: 50px; text-shadow: #ff0000 1px 1px 0px" 
             scrollAmount=8><B><FONT  id="displayboard" name="displayboard"
-            face=Verdana>欢迎光临!</FONT></B>
+            face=Verdana>欢迎光临!欢迎光临2!欢迎光临3!欢迎光临4!欢迎光临5!欢迎光临6!欢迎光临7!欢迎光临8!欢迎光临9!</FONT></B>
 			</MARQUEE>
 		  </TD>
 		</TR>

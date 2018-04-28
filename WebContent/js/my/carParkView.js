@@ -132,7 +132,7 @@ function baseControl(){
 function searchPort() {
 	$.ajax({
 		type:"POST",
-		url:"searchAllCarParkAndCarInfo.action",
+		url:"park/searchAllCarParkAndCarInfo.action",
 		data:{},
 		dataType:"json",
 		async:true,	

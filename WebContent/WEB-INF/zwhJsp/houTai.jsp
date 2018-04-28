@@ -406,6 +406,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</script>	
 			
 			<iframe name="view_window" src="carport/pageToShowDate.action" width=100% style="min-height: 700px;"  frameborder="0" scrolling="no" id="external-frame" onload="setIframeHeight(this)"></iframe>
+	
 			<script>
 
 // 			window.onload = function () {

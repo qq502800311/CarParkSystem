@@ -126,8 +126,8 @@ function baseControl(){
 			  }
 			  //如果车位是有车位
 			  else if(options.target.fill == "red"){
-				  testTurn();
-//				  updatemyModal1(options.target.id);
+//				  testTurn();
+				  updatemyModal1(options.target.id);
 			  }//如果车位是维护车位
 			  else if(options.target.fill == "yellow"){
 				  alert("车位正在维护中!请更换车位!");
