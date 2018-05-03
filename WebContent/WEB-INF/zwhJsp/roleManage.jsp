@@ -77,14 +77,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div id="content" class="span11">
 		
 		<!-- start: 页头 -->
-		<ul class="breadcrumb">
-			<li>
-				<i class="icon-home"></i>
-				<a href="index.html">Home</a> 
-				<i class="icon-angle-right"></i>
-			</li>
-			<li><a href="javascript:void(0)">角色管理</a></li>
-		</ul>
+<!-- 		<ul class="breadcrumb"> -->
+<!-- 			<li> -->
+<!-- 				<i class="icon-home"></i> -->
+<!-- 				<a href="index.html">Home</a>  -->
+<!-- 				<i class="icon-angle-right"></i> -->
+<!-- 			</li> -->
+<!-- 			<li><a href="javascript:void(0)">角色管理</a></li> -->
+<!-- 		</ul> -->
 		<!-- end: 页头 -->
 		
 		<div class="row-fluid sortable">		
@@ -93,11 +93,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<!-- start: box-header -->
 				<div class="box-header" data-original-title>
 					<h2><i class="halflings-icon white user"></i><span class="break"></span>角色管理</h2>
-					<div class="box-icon">
-						<a href="javascript:void(0)" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
-						<a href="javascript:void(0)" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-						<a href="javascript:void(0)" class="btn-close"><i class="halflings-icon white remove"></i></a>
-					</div>
+<!-- 					<div class="box-icon"> -->
+<!-- 						<a href="javascript:void(0)" class="btn-setting"><i class="halflings-icon white wrench"></i></a> -->
+<!-- 						<a href="javascript:void(0)" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a> -->
+<!-- 						<a href="javascript:void(0)" class="btn-close"><i class="halflings-icon white remove"></i></a> -->
+<!-- 					</div> -->
 				</div>
 				<!-- end: box-header -->
 				

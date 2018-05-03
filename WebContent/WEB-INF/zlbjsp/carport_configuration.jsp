@@ -35,7 +35,7 @@
 <!-- end: CSS -->
 
 <!-- start:自己的包 -->
-<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+
 <script type="text/javascript" charset="UTF-8" src="js/jquery-3.3.1.js"></script>
 <script type="text/javascript" charset="UTF-8" src="js/bootstrap.js"></script>
 <!-- laydate控件方式,layDate 采用原生 JavaScript 编写，不依赖任何第三方库，兼容所有浏览器（IE6/7除外） -->
@@ -75,28 +75,28 @@
      <!-- start: content -->
 	<div id="content" class="span11">
 		
-		<!-- start: 页头 -->
-		<ul class="breadcrumb">
-			<li>
-				<i class="icon-home"></i>
-				<a href="index.html">Home</a> 
-				<i class="icon-angle-right"></i>
-			</li>
-			<li><a href="javascript:void(0)">车位配置管理</a></li>
-		</ul>
-		<!-- end: 页头 -->
+<!-- 		<!-- start: 页头 --> 
+<!-- 		<ul class="breadcrumb"> -->
+<!-- 			<li> -->
+<!-- 				<i class="icon-home"></i> -->
+<!-- 				<a href="index.html">Home</a>  -->
+<!-- 				<i class="icon-angle-right"></i> -->
+<!-- 			</li> -->
+<!-- 			<li><a href="javascript:void(0)">车位配置管理</a></li> -->
+<!-- 		</ul> -->
+<!-- 		<!-- end: 页头 --> 
 		
 		<div class="row-fluid sortable">		
 			<div class="box span12">
 			
 				<!-- start: box-header -->
 				<div class="box-header" data-original-title>
-					<h2><i class="halflings-icon white user"></i><span class="break"></span>Members</h2>
-					<div class="box-icon">
-						<a href="javascript:void(0)" class="btn-setting"><i class="halflings-icon white wrench"></i></a>
-						<a href="javascript:void(0)" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a>
-						<a href="javascript:void(0)" class="btn-close"><i class="halflings-icon white remove"></i></a>
-					</div>
+					<h2><i class="halflings-icon white user"></i><span class="break"></span>车位配置管理</h2>
+<!-- 					<div class="box-icon"> -->
+<!-- 						<a href="javascript:void(0)" class="btn-setting"><i class="halflings-icon white wrench"></i></a> -->
+<!-- 						<a href="javascript:void(0)" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a> -->
+<!-- 						<a href="javascript:void(0)" class="btn-close"><i class="halflings-icon white remove"></i></a> -->
+<!-- 					</div> -->
 				</div>
 				<!-- end: box-header -->
 				
@@ -188,9 +188,10 @@
 						<div class="row-fluid">
 							<!-- start: 分页-信息 -->
 							<div class="span12">
-								<div class="dataTables_info" id="DataTables_Table_0_info">Showing 1 to 25 of 
+								<div class="dataTables_info" id="DataTables_Table_0_info">查询到 
 								
-								<span id="total"></span> entries			
+								<span id="total"></span> 条结果，共
+								<span id="pages"></span> 页
 								</div>
 							</div>
 							<!-- start: 分页-信息 -->
@@ -199,11 +200,10 @@
 							<div class="span12 center">
 								<div class="dataTables_paginate paging_bootstrap pagination">
 									<ul>
-										<span id="pages" style="display: none"></span>
-										<li class="prev"><a id="lastPage" href="javascript:void(0)" onclick="lastPage()">← Previous</a></li>
+										<li class="prev"><a id="lastPage" href="javascript:void(0)" onclick="lastPage()">← 上一页</a></li>
 										<li class="active"><a id="pageNum" href="javascript:void(0)">1</a></li>
 <!-- 										<li id="" ><a href="#">2</a></li> -->
-										<li class="next"><a id="nextPage" href="javascript:void(0)" onclick="nextPage()">Next → </a></li>
+										<li class="next"><a id="nextPage" href="javascript:void(0)" onclick="nextPage()">下一页 → </a></li>
 									</ul>
 								</div>
 							</div>
