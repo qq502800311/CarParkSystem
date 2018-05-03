@@ -3,6 +3,7 @@ package org.gzhz.otherManage.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import org.gzhz.charge.bean.CarPark;
 import org.gzhz.otherManage.bean.CarportTb;
 import org.gzhz.otherManage.bean.ChargeRuleTb;
 import org.gzhz.otherManage.bean.MealTb;
@@ -44,4 +45,7 @@ public interface CarPortMapper {
 //
 //	// 删除计费规则（通过主键 ID来参数 ）
 //	public void deletemealtbById(String pid);
+	
+	//查找车场全部信息
+	public List<CarportTb> zwhFindAllCar();
 }

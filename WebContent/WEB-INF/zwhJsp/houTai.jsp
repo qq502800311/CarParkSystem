@@ -317,11 +317,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<!-- start: User Dropdown -->
 						<li class="dropdown">
 							<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-								<i class="halflings-icon white user"></i> Dennis Ji
+							<%
+								HttpSession s = request.getSession(); 
+							%>
+								<i class="halflings-icon white user"></i><span><%=s.getAttribute("emp_name")%></span>
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">
-								<li><a href="/"><i class="halflings-icon off"></i> 注销</a></li>
+								<li><a href="emp/pageLogin.action"><i class="halflings-icon off"></i> 注销</a></li>
 							</ul>
 						</li>
 						<!-- end: User Dropdown -->
@@ -406,7 +409,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</script>	
 			
 			<iframe name="view_window" src="carport/pageToShowDate.action" width=100% style="min-height: 700px;"  frameborder="0" scrolling="no" id="external-frame" onload="setIframeHeight(this)"></iframe>
-	
 			<script>
 
 // 			window.onload = function () {

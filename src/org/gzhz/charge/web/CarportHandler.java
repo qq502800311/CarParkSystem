@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.gzhz.otherManage.dao.CarPortMapper;
 import org.gzhz.charge.bean.CarLog;
 import org.gzhz.charge.bean.CarOutMsg;
 import org.gzhz.charge.bean.CarPark;
@@ -30,6 +31,8 @@ import org.gzhz.charge.dao.MealMapper;
 import org.gzhz.charge.dao.MoneyDetailMapper;
 import org.gzhz.charge.dao.MonthUserMapper;
 import org.gzhz.manage.bean.Menu;
+import org.gzhz.otherManage.bean.CarportTb;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -72,7 +75,9 @@ public class CarportHandler {
 	private MoneyDetailMapper DealDetailDao;
 	@Resource
 	private ChargeRuleMapper chargeRule;
-	
+	//zwh 
+	@Resource
+	private CarPortMapper carPortMapper;
 	
 
 	//http://localhost:8080/CarParkSystem/carport/pageToParkMsgCheck.action
@@ -167,7 +172,7 @@ public class CarportHandler {
 	
 	//http://localhost:8080/CarParkSystem/carport/pageToSearchUSer.action
 	//----------明细数据--------
-	@RequestMapping("/pageToSearchUSer.action")
+	@RequestMapping("/pageToSearchUser.action")
 	public ModelAndView pageToSearchUSer(){
 		System.out.println("用户查找页面");
 		ModelAndView mav = new ModelAndView();
@@ -734,7 +739,6 @@ public class CarportHandler {
         System.out.println("半年占比占比:"+halfyearPer);
         
         String ddd = carPer+":"+monthPer+":"+seasonPer+":"+halfyearPer;
-        
 		Gson gson = new Gson();
 		String date = gson.toJson(ddd);
         
@@ -743,7 +747,7 @@ public class CarportHandler {
 	
 	/**
 	 * @date 创建时间：2018年4月22日 上午午09:21:15
-	 * @parameter
+	 * @parameterreturnMoney.action
 	 * @return 返回月个月收入占比
 	 */
 	@RequestMapping(value = "/getMonthPre.action", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
@@ -1031,4 +1035,85 @@ public class CarportHandler {
 		System.out.println("返回的数据:"+date);
 		return date;
 	}	
+	
+	/**
+	 * @date 创建时间：2018年5月2日 上午11:37:15
+	 * @parameter
+	 * @return 定时器，用于定时检测月缴费用户套餐是否到期
+	 */	
+	
+	@Scheduled(cron = "0 0 0 * * ?")     //每天0点触发
+	public void updateUserStatus() {
+        //--------------判断月缴费用户是否过期----------------
+		System.out.println("00:00:00定时器启动！");
+		//----获取今日0点时间------
+		SimpleDateFormat ss = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar c = Calendar.getInstance();
+		String tm = ss.format(c.getTime()); // 获取系统的当前时间	        
+        String end_time = tm+" 00:00:00";
+        System.out.println("今日时间："+end_time);
+        
+        //----查出过期用户----
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("start_time", "");
+		map.put("end_time", end_time);       
+		List<MonthUser> users = monthdao.getTodayMoney(map);
+		
+		//----过期用户更改状态----
+		MonthUser user = new MonthUser();
+        user.setUser_timeout_date(end_time);
+        user.setUser_status("套餐过期");
+        if(users.size()>0) {
+        	int back = monthdao.userMealDate(user);
+        	System.out.println("过期用户状态更改成功！");
+        }
+        
+        
+
+	}
+	
+
+	/** 查询车场信息
+	 *  用于反向寻车
+	 * @date 创建时间：2018年4月27日 上午11:37:15
+	 * @parameter	
+	 * @return 单个车辆信息+车场全部信息
+	 */
+	@RequestMapping(value="/findCar.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
+	public @ResponseBody String findCar(String car_park_license){
+		String str = "";
+		//显示查询条件
+		System.out.println(car_park_license);
+		//查询符合条件的车辆信息
+		List<CarPark> car = carParkDao.zwhFindCar(car_park_license);
+		if(car.size() != 0) {
+			//全部车辆信息
+			List<CarportTb> carIDList = carPortMapper.zwhFindAllCar();
+			//拼接所需数据字符串   （查询车位id + 车位为空id）（1-1,2,3,4,5）
+			int car_park_id = car.get(0).getCarport_id();	//所查询车位
+			String car_park_List = "";
+			//占用车位字符串
+			for(int i=0;i<carIDList.size();i++) {
+				if(car_park_List.equals("")) {
+					car_park_List = car_park_List + carIDList.get(i).getCarport_id();
+				}else {
+					car_park_List = car_park_List + "," + carIDList.get(i).getCarport_id();
+				}
+			}
+			//全部字符串
+			str = car_park_id + "-" + car_park_List;
+		}else {
+			str = "车辆不存在";
+		}
+		
+		Gson gson = new Gson();
+		String date = gson.toJson(str);
+		System.out.println("返回：" + date);
+		return date;
+	}
 }
+
+
+
+
+

@@ -20,13 +20,13 @@ function searchAllRole(){
 		async:true,	
 		success: function(roleList){
 			//查询一次
-			staticRoleList = roleList;	//记录一个角色列表为全局变量
+			staticRoleList = roleList.list;	//记录一个角色列表为全局变量
 			search();
 			//新增用户模态框中的角色选项
 			var roleNode = document.getElementById("new_role_id");	//角色节点
 			roleNode.options.length = 0; //清空角色选项
-			for(var i=0; i<roleList.length; i++){
-				roleNode.options.add(new Option(roleList[i].role_name, roleList[i].role_id));
+			for(var i=0; i<staticRoleList.length; i++){
+				roleNode.options.add(new Option(staticRoleList[i].role_name, staticRoleList[i].role_id));
 			}
 		}
 	})

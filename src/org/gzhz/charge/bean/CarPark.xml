@@ -22,6 +22,11 @@
 		delete from car_park_info_tb where car_park_license=#{car_park_license}
 	</delete>
 	
+	<!-- zwh单量车信息 -->
+	<select id="zwhFindCar" parameterType="java.lang.String" resultType="org.gzhz.charge.bean.CarPark">
+		select * from car_park_info_tb where car_park_license = #{car_park_license} and car_park_id is not null
+	</select>
+	
 </mapper>
 
 

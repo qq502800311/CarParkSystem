@@ -56,4 +56,9 @@
 		meal_id=#{meal_id} where car_park_license=#{car_park_license}
 	</update>	
 	
+		<!-- 用户套餐是否到期判断 -->
+	<update id="userMealDate" parameterType="org.gzhz.charge.bean.MonthUser">
+		update user_tb set
+		user_status=#{user_status} where user_timeout_date &lt; = #{user_timeout_date}
+	</update>
 </mapper>

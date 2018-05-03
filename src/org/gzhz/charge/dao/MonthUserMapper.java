@@ -35,6 +35,9 @@ public interface MonthUserMapper {
 	
 	//查找今日的月缴费总金额
 	public List<MonthUser> getTodayMoney(Map<String,String> dateMap);
+	
+	//判断用户套餐是否到期
+	public int userMealDate(MonthUser user);
 }
 
 

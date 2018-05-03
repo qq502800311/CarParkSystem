@@ -89,7 +89,10 @@
 
 	</update>
 
-
+	<!-- zwh全部车信息 -->
+	<select id="zwhFindAllCar" resultType="org.gzhz.otherManage.bean.CarportTb">
+		select * from carport_tb where carport_status = 6
+	</select>		
 
 
 

@@ -22,13 +22,8 @@ public interface CarParkMapper {
 	
 	//车辆出场--删除停车信息
 	public int deleteCarParkMsg(CarPark carpark);
+	
+	//查找单辆车信息
+	public List<CarPark> zwhFindCar(String car_park_license);
+	
 }
-
-
-
-
-
-
-
-
-
