@@ -106,7 +106,7 @@ public class CharsIdentify {
 
     public void loadModel(String s) {
        ann.clear();
-       s = s.substring(1);
+       s = s.substring(1);//本来是为了去掉JAVA的路径前面的/，但是部署到服务器要注释掉
        ann=ANN_MLP.loadANN_MLP(s, "ann");
     }
 
@@ -124,7 +124,8 @@ public class CharsIdentify {
     private ANN_MLP ann=ANN_MLP.create();
 
 //    private String path = this.getClass().getResource("/").getPath() + "/res/model/ann.xml";
-    private String path = (this.getClass().getResource("").getPath() + "ANN/ann.xml");
+//    private String path = (this.getClass().getResource("").getPath() + "ANN/ann.xml");//电脑端用
+    private String path = ( "/home/ubuntu/apache-tomcat-8.5.29/webapps/CarParkSystem/WEB-INF/classes/org/gzhz/park/core/ANN/ann.xml");//服务器端用
 //    private String path = "F:/ChuanYiJava/UTF8Mode/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/CarParkSystem/WEB-INF/classes/org/gzhz/park/core/ANN/ann.xml";
 
     private int predictSize = 10;

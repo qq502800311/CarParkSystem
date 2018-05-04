@@ -29,7 +29,7 @@ public class PlateJudge {
 
     public void loadModel(String s) {
         svm.clear();
-        s = s.substring(1);
+//        s = s.substring(1);//本来是为了去掉JAVA的路径前面的/，但是部署到服务器要注释掉
         svm=SVM.loadSVM(s, "svm");
     }
     
@@ -100,7 +100,8 @@ public class PlateJudge {
      * 模型存储路径
      */
 //    private String path = this.getClass().getResource("/").getPath() + "/res/model/svm.xml";
-    private String path = (this.getClass().getResource("").getPath() + "SVM/svm.xml");
+//    private String path = (this.getClass().getResource("").getPath() + "SVM/svm.xml");//电脑端用
+  private String path = ("/home/ubuntu/apache-tomcat-8.5.29/webapps/CarParkSystem/WEB-INF/classes/org/gzhz/park/core/SVM/svm.xml");//部署服务器用
 //    private String path = "F:/ChuanYiJava/UTF8Mode/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/CarParkSystem/WEB-INF/classes/org/gzhz/park/core/SVM/svm.xml";
     
 }
