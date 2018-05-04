@@ -54,7 +54,7 @@
               <a class="nav-link js-scroll-trigger" href="emp/pageLogin.action">员工登录</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="pageShift.action?req=admin_login">自助服务</a>
+              <a class="nav-link js-scroll-trigger" href="zlbjsp1/selfhelp.jsp">自助服务</a>
             </li>
             <li class="nav-item">
               <a class="nav-link js-scroll-trigger" href="demo8/index.jsp">反向寻车</a>

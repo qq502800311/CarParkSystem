@@ -36,13 +36,14 @@
 				<div class="bottom_text">输入新绑定的车牌</div>
 
 				<div class="car_input">
-					<input type="text" name="car_name" id="car_name" value="输入车牌"
+					<input type="text" name="car_name" id="car_name" value="输入车牌" onchange="changecarname();"
 						maxlength="7" />
 				</div>
 				<%--//付款金额，必填   WIDtotal_amount --%>
-				<div class="bottom_text" >输入金额</div>
+				<div class="bottom_text" >停车费用:<label   maxlength="7"  id="feiyong" /> </label> </div>
 				<div class="car_input">
-					<input type="text" id="car_name" maxlength="7"  id="WIDtotal_amount" name="WIDtotal_amount"/>
+					<input type="hidden"  maxlength="7"  id="WIDtotal_amount" name="WIDtotal_amount"/>
+				
 				</div>
 				<div class="next_step">下一步</div>
 			</div>
