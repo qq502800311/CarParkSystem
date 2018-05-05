@@ -43,9 +43,9 @@
     <div class="webgl-content">
       <div id="gameContainer" style="width: 1280px; height: 760px"></div>
       <div class="footer">
-        <div class="webgl-logo"></div>
+<!--         <div class="webgl-logo"></div> -->
         <div class="fullscreen" onclick="gameInstance.SetFullscreen(1)"></div>
-        <div class="title">ParkingLotScene</div>
+<!--         <div class="title">ParkingLotScene</div> -->
       </div>
     </div>
   </body>

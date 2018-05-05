@@ -34,5 +34,11 @@ public interface EmpMapper {
 	//重置用户密码
 	public int updatePwd(@Param("emp_id")String emp_id);
 	
+	//查询目前员工ID最大的员工信息
+	public Emp searchEmp();
+	
+	//增加员工
+	public int add(Emp emp);
+	
 	
 }

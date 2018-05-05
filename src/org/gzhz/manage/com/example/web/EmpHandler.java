@@ -243,5 +243,54 @@ public class EmpHandler {
 		String date = gson.toJson(str);
 		System.out.println("返回：" + date);
 		return date;
-	}	
+	}
+	
+	/** 
+	* 增加员工
+	* @author  作者 E-mail: 郑伟豪
+	* @date 创建时间：2018年5月5日 上午8:21:09 
+	* @version 1.0 
+	* @parameter  用户名、角色ID
+	* @since  
+	* @return  	String("新增成功"/"新增失败")
+	*/
+	@RequestMapping(value="/add.action", method=RequestMethod.POST, produces="application/json;charset=utf-8")
+	public @ResponseBody String add(String emp_name, String role_id){
+		String str = "新增失败";
+		//显示查询条件
+		System.out.println(emp_name);
+		System.out.println(role_id);
+		//查询ID最大的的用户
+		String newEmpID = "";
+		Emp emp = empMapper.searchEmp();		
+		if(emp != null) {
+			//计算新增用户ID
+			String maxID = emp.getEmp_id();
+			String newID = maxID.substring(3);
+			String num = "" + (Integer.parseInt(newID) + 1);
+			while(num.length()<4) {
+				num = "0" + num;
+			}			
+			newEmpID = "EM" + num;			
+		}else {
+			newEmpID = "EM0001";
+		}
+		
+		//新增用户信息
+		Emp newEmp = new Emp(newEmpID, emp_name, "123456", "启用");
+		int update = empMapper.add(newEmp);
+		if(update > 0) {
+			//新增角色信息
+			EmpRole empRole = new EmpRole(0, newEmpID, Integer.parseInt(role_id));
+			int a = empRoleMapper.add(empRole);
+			if(a > 0) {
+				str = "新增成功";
+			}
+		}
+		
+		Gson gson = new Gson();
+		String date = gson.toJson(str);
+		System.out.println("返回：" + date);
+		return date;
+	}
 }

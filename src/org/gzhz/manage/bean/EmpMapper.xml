@@ -82,4 +82,14 @@
 		update EMP_TB set emp_pwd='123456' where emp_id=#{emp_id}			
 	</update>	
 
+	<!-- 查询目前员工ID最大的员工信息  -->
+	<select id="searchEmp" resultType="org.gzhz.manage.bean.Emp">
+		select * from (select * from EMP_TB ORDER BY emp_id desc) where rownum = 1	
+	</select>
+	
+	<!-- 新增员工 -->
+	<insert id="add"  parameterType="org.gzhz.manage.bean.Emp">	
+		insert into EMP_TB values(#{emp_id},#{emp_name},#{emp_pwd},#{emp_status})
+	</insert>
+
 </mapper>
