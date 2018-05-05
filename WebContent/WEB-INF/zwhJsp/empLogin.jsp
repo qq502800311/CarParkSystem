@@ -35,7 +35,7 @@
       <div class="page-container">
             <h1>登录</h1>
             <form action="emp/login.action" method="post">
-                <input type="text" id="inputEmail3" name="emp_id" class="username" placeholder="用户名">
+                <input type="text" id="inputEmail3" name="emp_id" class="username" placeholder="用户名" value="${emp_id}">
                 <span style="color:red" >${errorMsg}</span>
                 
                 <input type="password" id="inputPassword3" name="emp_pwd" class="password" placeholder="密码">

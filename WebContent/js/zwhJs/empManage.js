@@ -515,3 +515,19 @@ function lastPage(){
 		})
 	}
 }
+
+//增加员工
+function addNewEmp(){
+	var msg = $('#addEmpForm').serialize();
+	$.ajax({
+		type:"POST",
+		url:"emp/add.action",
+		data: msg,
+		dataType:"json",
+		async:true,	
+		success: function(date){
+			alert(date);
+			search();
+		}
+	})
+}
