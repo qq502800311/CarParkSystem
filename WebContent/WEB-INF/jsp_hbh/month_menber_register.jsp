@@ -98,13 +98,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</tr>
 	<tr>
 		<td><label>选择套餐:</label></td>
-		<td><select class="form-control" name="meal_id" onblur="selectMeal()" id="selectMeal" style="width: 200px;">
+		
+		<td>
+		<select class="form-control" name="meal_id" onblur="selectMeal()" id="selectMeal" style="width: 200px;">
 				<option value="">请选择</option>
-				<option value="1">月套餐</option>
-				<option value="2">季套餐</option>
-				<option value="3">半年套餐</option>
-			</select>
+				<c:forEach var="i" items="${meals}" varStatus="vrolemenus">
+					<option value="${i.meal_id}">${i.meal_name}</option>
+				</c:forEach>
+		</select>		
 		</td>
+		
+		
 		<td><label id="meal2"></label></td>
 	</tr>
 	<tr>
