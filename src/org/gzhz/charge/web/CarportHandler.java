@@ -45,6 +45,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
+import com.sun.xml.internal.ws.api.policy.PolicyResolver.ServerContext;
 
 import dao.UserMapper;
 
@@ -274,6 +275,8 @@ public class CarportHandler {
 				meal_money = m.getMeal_money();
 			}
 		}
+     	System.out.println("测试:"+meal_name);
+     	
 		MoneyDetail moneyDetail = new MoneyDetail();
 		moneyDetail.setCar_park_license(user.getCar_park_license());   //用户车牌
 		moneyDetail.setDeal_matter(meal_name);                         //操作事项（套餐名）
@@ -692,8 +695,15 @@ public class CarportHandler {
 		return date;
 	}
 	
+
+	/**
+	 * @date 创建时间：2018年4月16日 上午10:02:13
+	 * @parameter
+	 * @since
+	 * @return 停车收费，查找停车信息,计算停车费用
+	 */	
 	@RequestMapping(value = "/getProductPre.action", method = RequestMethod.POST, produces = "application/json;charset=utf-8")
-	public @ResponseBody String getFouthDateMoney(String msg) {	
+	public @ResponseBody String getFouthDateMoney(String msg,HttpSession httpSession) {	
 		System.out.println("来自ajax的指令:" + msg);
 		
 		//拉取四月收费数据
@@ -741,7 +751,13 @@ public class CarportHandler {
         String ddd = carPer+":"+monthPer+":"+seasonPer+":"+halfyearPer;
 		Gson gson = new Gson();
 		String date = gson.toJson(ddd);
-        
+		
+		//查找套餐
+		List<Meal> meals = meal_mapper.findAllMeal();				
+		httpSession.setAttribute("meals", meals);
+		
+		
+		
 		return date;
 	}
 	
