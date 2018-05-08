@@ -25,10 +25,6 @@
 <script type="text/javascript" charset="UTF-8" src="js/jquery-3.3.1.js" ></script>
 <script type="text/javascript" charset="UTF-8" src="js/zwhJs/empLogin.js"></script>
 
-<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
-<!--[if lt IE 9]>
-            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
 <title>用户登录</title>
 </head>
 <body>

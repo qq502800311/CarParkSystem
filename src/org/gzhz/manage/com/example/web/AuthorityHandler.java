@@ -141,15 +141,7 @@ public class AuthorityHandler {
 				
 				//备用
 				roleMenuMapper.updateRoleMenu1(roleMenu);
-				//
-				
-//				System.out.println(Integer.parseInt(role_id));
-//				System.out.println(Integer.parseInt(str.split(",")[i]));
-//				roleMenuList.add(roleMenu);
-//			}
-//			int update1 = roleMenuMapper.updateRoleMenu(roleMenuList);
-//			if(update1 == roleMenuList.size()) {
-//				msg = "修改成功";
+
 				//----------------------提交事务-------------------------------//
 			}
 			msg = "修改成功";
@@ -158,28 +150,7 @@ public class AuthorityHandler {
 			//----------------------回滚-------------------------------//
 		}
 		
-//------------------------------------备份  结束------------------------------//	
 
-//		//删除
-//		int update = roleMenuMapper.deleteRoleMenu(role_id);
-//		//判断删除条数是否正确
-//		if(update == list.size()) {
-//		
-//			try {	
-//				for(int i=0;i<str.split(",").length;i++) {
-//					RoleMenu roleMenu = new RoleMenu();
-//					roleMenu.setRole_id(Integer.parseInt(role_id));
-//					roleMenu.setMenu_id(Integer.parseInt(str.split(",")[i]));
-//					
-//					msg = "修改成功";
-//					roleMenuMapper.updateRoleMenu1(roleMenu);
-//				}
-//			}catch(Exception e){
-//				//
-//			}
-//		}else {
-//			
-//		}
 		
 		Gson gson = new Gson();
 		String date = gson.toJson(msg);

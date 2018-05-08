@@ -40,16 +40,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script src="js/laydate/laydate.js" ></script> <!-- 改成你的路径 -->
 	<script type="text/javascript" src="js/zwhJs/menuManage.js" ></script> 
 	 <!-- end:自己的包 -->
-
-	<!-- The HTML5 shim, for IE6-8 support of HTML5 elements -->
-	<!--[if lt IE 9]>
-	  	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<link id="ie-style" href="css/ie.css" rel="stylesheet">
-	<![endif]-->
-	
-	<!--[if IE 9]>
-		<link id="ie9style" href="css/ie9.css" rel="stylesheet">
-	<![endif]-->
 		
 	<!-- start: Favicon -->
 	<link rel="shortcut icon" href="img/favicon.ico">
@@ -71,16 +61,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!-- start: content -->
 	<div id="content" class="span11">
 		
-		<!-- start: 页头 -->
-<!-- 		<ul class="breadcrumb"> -->
-<!-- 			<li> -->
-<!-- 				<i class="icon-home"></i> -->
-<!-- 				<a href="index.html">Home</a>  -->
-<!-- 				<i class="icon-angle-right"></i> -->
-<!-- 			</li> -->
-<!-- 			<li><a href="javascript:void(0)">菜单管理</a></li> -->
-<!-- 		</ul> -->
-		<!-- end: 页头 -->
 		
 		<div class="row-fluid sortable">		
 			<div class="box span12">
@@ -88,11 +68,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<!-- start: box-header -->
 				<div class="box-header" data-original-title>
 					<h2><i class="halflings-icon white user"></i><span class="break"></span>菜单管理</h2>
-<!-- 					<div class="box-icon"> -->
-<!-- 						<a href="javascript:void(0)" class="btn-setting"><i class="halflings-icon white wrench"></i></a> -->
-<!-- 						<a href="javascript:void(0)" class="btn-minimize"><i class="halflings-icon white chevron-up"></i></a> -->
-<!-- 						<a href="javascript:void(0)" class="btn-close"><i class="halflings-icon white remove"></i></a> -->
-<!-- 					</div> -->
 				</div>
 				<!-- end: box-header -->
 				
@@ -103,11 +78,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<!-- start: 搜索表单 -->
 					<form id="searchMenuForm" method="post">
 						<!-- start: box-工具栏 -->
-<!-- 						<div class="row-fluid"> -->
-							<!-- start: box-页数 -->
-<!-- 							<div class="span6"> -->
-							<!-- class="dataTables_length"  class="dataTables_filter"  -->
-<!-- 								<div id="DataTables_Table_0_length"> -->
 									<span>每页条量：
 										<select name="pageSize" onchange="search()" size="1" aria-controls="DataTables_Table_0">
 											<option value="10" selected="selected">10</option>
@@ -116,19 +86,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<option value="50">50</option>
 										</select> 
 									</span>
-<!-- 								</div> -->
-<!-- 							</div> -->
 							<!-- end: box-页数-->
 							
 							
 							
 							<!-- start: box-搜索-->
-<!-- 							<div class="span6"> -->
-<!-- 								<div id="DataTables_Table_0_filter"> -->
 									&#8195
 									<span>菜单名称： <input name="menu_name" type="text" oninput="search()" aria-controls="DataTables_Table_0"></span>
-<!-- 								</div> -->
-<!-- 							</div> -->
 									&#8195								
 									<span>一级菜单：
 										<select name="menu_pid" id="firstMenuList" onchange="search()" size="1" aria-controls="DataTables_Table_0">
@@ -139,17 +103,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							
 									&#8195
 									<button class="btn btn-primary" data-toggle="modal" data-target="#myModal1">增加</button>	
-<!-- 						</div> -->
 						<!-- end: box-工具栏 -->
 					</form>	
 					<!-- end: 搜索表单 -->
-					
-					<!-- start: 翻页条件记录 -->
-<!-- 					<form id="pageRecondForm" method="post"> -->
-<!-- 						<span id="pageSizeRecond" name="pageSize"></span> -->
-						
-<!-- 					</form>	 -->
-					<!-- end: 搜索条件记录 -->
 					
 						<!-- start: table -->
 						<table class="table table-striped table-bordered bootstrap-datatable datatable dataTable" id="DataTables_Table_0" aria-describedby="DataTables_Table_0_info">
@@ -165,23 +121,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									  
 							  <tbody role="alert" aria-live="polite" aria-relevant="all">
 							  		<tr class="odd">	
-<!-- 										<td class="  sorting_1">Dennis Ji</td> -->
-<!-- 										<td class="center ">2012/01/01</td> -->
-<!-- 										<td class="center ">Member</td> -->
-<!-- 										<td class="center "> -->
-<!-- 											<span class="label label-success">Active</span> -->
-<!-- 										</td> -->
-<!-- 										<td class="center "> -->
-<!-- 											<a class="btn btn-success" href="#"> -->
-<!-- 												<i class="halflings-icon white zoom-in"></i>   -->
-<!-- 											</a> -->
-<!-- 											<a class="btn btn-info" href="#"> -->
-<!-- 												<i class="halflings-icon white edit"></i>   -->
-<!-- 											</a> -->
-<!-- 											<a class="btn btn-danger" href="#"> -->
-<!-- 												<i class="halflings-icon white trash"></i>  -->
-<!-- 											</a> -->
-<!-- 										</td> -->
+
 									</tr>
 								</tbody>
 						</table>
@@ -204,7 +144,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<ul>
 										<li class="prev"><a id="lastPage" href="javascript:void(0)" onclick="lastPage()">← 上一页</a></li>
 										<li class="active"><a id="pageNum" href="javascript:void(0)">1</a></li>
-<!-- 										<li id="" ><a href="#">2</a></li> -->
 										<li class="next"><a id="nextPage" href="javascript:void(0)" onclick="nextPage()">下一页 → </a></li>
 									</ul>
 								</div>
@@ -265,8 +204,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</div>
 							<div class="modal-footer">
 								<div class="col-sm-offset-2 col-sm-10">
-<!-- 									<button type="submit" class="btn btn-primary">入库</button> -->
-<!-- 									<button type="button" onclick="" class="btn btn-primary">审核通过</button> -->
 									<button type="button" class="btn btn-primary" onclick="addMenu()" data-dismiss="modal">提交</button>		
 									<button type="button" class="btn btn-default"
 										data-dismiss="modal">返回</button>
@@ -326,8 +263,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</div>
 							<div class="modal-footer">
 								<div class="col-sm-offset-2 col-sm-10">
-<!-- 									<button type="submit" class="btn btn-primary">入库</button> -->
-<!-- 									<button type="button" onclick="" class="btn btn-primary">审核通过</button> -->
 									<button type="button" class="btn btn-primary" onclick="updateMenuSubmit()" data-dismiss="modal">提交</button>		
 									<button type="button" class="btn btn-default"
 										data-dismiss="modal">返回</button>

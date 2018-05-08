@@ -12,36 +12,6 @@
     <delete id="deleteRoleMenu" parameterType="java.lang.String">
         delete from ROLE_MENU_TB where role_id=#{role_id}
     </delete>
-	
-	<!-- 批量增加角色-菜单对应关系 -->
-<!-- 	<insert id="updateRoleMenu" parameterType="java.util.List">  		 -->
-<!-- 	    insert into ROLE_MENU_TB (role_menu_id, role_id, menu_id) -->
-<!-- 	    select SEQUENCE_ROLE_MENU_TB.nextval role_menu_id, A.* from(      -->
-<!-- 	    <foreach collection="list" item="item" index="index" separator="union all" >   -->
-<!-- 	        select -->
-<!-- 	        #{item.role_id,jdbcType=INTEGER} role_id, -->
-<!-- 	        #{item.menu_id,jdbcType=INTEGER} menu_id -->
-<!-- 	        from dual -->
-<!-- 	    </foreach>  -->
-<!-- 	    ) A	  -->
-<!-- 	</insert> -->
-
-<!-- 	<insert id="updateRoleMenu" parameterType="java.util.List"> -->
-<!-- 		INSERT INTO ROLE_MENU_TB -->
-<!-- 		(ROLE_MENU_ID, ROLE_ID, MENU_ID) -->
-<!-- 		SELECT -->
-<!-- 		SEQUENCE_ROLE_MENU_TB.NEXTVAL role_menu_id, A.* -->
-<!-- 		FROM( -->
-<!-- 		<foreach collection="list" item="item" index="index" -->
-<!-- 			separator="UNION ALL"> -->
-<!-- 			SELECT -->
-<!-- 			#{item.role_id,jdbcType=INTEGER} role_id, -->
-<!-- 			#{item.menu_id,jdbcType=INTEGER} menu_id -->
-			
-<!-- 			FROM dual -->
-<!-- 		</foreach> -->
-<!-- 		)A -->
-<!-- 	</insert> -->
 		
 		<!-- 批量增加角色-菜单对应关系  备份-->
 		<insert id="updateRoleMenu1" parameterType="org.gzhz.manage.bean.RoleMenu">
